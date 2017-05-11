@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cango.palmcartreasure.customview.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="400px"
+    android:layout_marginTop="32px"
+    android:layout_marginLeft="40px"
+    android:layout_marginRight="40px"
+    app:cardCornerRadius="3dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/white">
+
+        <TextView
+            android:id="@+id/tv_task_item_id"
+            style="@style/baseTvStyle"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="26px"
+            android:text="@string/app_name"
+            android:textColor="@color/trailer_text_color"
+            android:textSize="52px" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="26px"
+            android:background="@drawable/task_item_tag_bg"
+            android:gravity="center"
+            android:paddingBottom="10px"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:paddingTop="10px">
+
+            <ImageView
+                android:layout_width="19px"
+                android:layout_height="27px"
+                android:src="@drawable/trailer_task_item_juli" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="1000km"
+                android:textColor="@color/task_tv"
+                android:textSize="37px" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_task_item_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_task_item_id"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="8px"
+            android:text="@string/app_name"
+            android:textColor="@color/mtd27d00"
+            android:textSize="52px" />
+
+        <TextView
+            android:id="@+id/tv_task_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_task_item_type"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="17px"
+            android:text="@string/app_name"
+            android:textSize="43px" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_task_item_plate"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="5"
+                android:textColor="@color/mtd27d00"
+                android:textSize="168px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="%"
+                android:textColor="@color/mtd27d00"
+                android:textSize="46px" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_task_item_plate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_task_item_name"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="5px"
+            android:text="@string/app_name"
+            android:textSize="43px" />
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_task_item_tag"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/tv_task_item_plate"-->
+        <!--android:layout_marginLeft="40px"-->
+        <!--android:layout_marginRight="40px"-->
+        <!--android:layout_marginTop="5px">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_task_two"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="53px"-->
+        <!--android:background="@drawable/yellow_tag_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:text="电拖"-->
+        <!--android:textSize="30px" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_task_four"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="53px"-->
+        <!--android:layout_marginLeft="10px"-->
+        <!--android:layout_toRightOf="@+id/tv_task_two"-->
+        <!--android:background="@drawable/yellow_tag_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:text="皖新租赁"-->
+        <!--android:textSize="30px" />-->
+        <!--</RelativeLayout>-->
+        <ImageView
+            android:id="@+id/iv_bottom_top_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/tv_task_item_plate"
+            android:layout_marginTop="4px"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:id="@+id/ll_task_item_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="117px"
+            android:layout_below="@+id/iv_bottom_top_line"
+            android:layout_marginTop="1px">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40px"
+                    android:src="@drawable/time" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:text="36个月"
+                    android:textColor="@color/task_tv"
+                    android:textSize="37px" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8px"
+                android:layout_marginTop="8px"
+                android:background="@color/e0e0e0" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.6"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40px"
+                    android:src="@drawable/money" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:text="71984.00元"
+                    android:textColor="@color/task_tv"
+                    android:textSize="37px" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/weikanguo" />
+    </RelativeLayout>
+</com.cango.palmcartreasure.customview.AutoCardView>

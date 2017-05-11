@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mtf6f6f6"
+            android:paddingBottom="11dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="11dp"
+            android:text="@string/all_task_type"
+            android:textColor="@color/mt666666"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mteaeaea" />
+
+        <TextView
+            android:id="@+id/tv_proceed_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="11dp"
+            android:paddingLeft="17dp"
+            android:paddingTop="11dp"
+            android:text="@string/for_task"
+            android:textColor="@color/mt3b3b3b"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mteaeaea" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="11dp"
+            android:paddingLeft="17dp"
+            android:paddingTop="11dp"
+            android:text="@string/new_task"
+            android:textColor="@color/mt3b3b3b"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mteaeaea" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="11dp"
+            android:paddingLeft="17dp"
+            android:paddingTop="11dp"
+            android:text="@string/complete_task"
+            android:textColor="@color/mt3b3b3b"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mteaeaea" />
+    </LinearLayout>
+
+</LinearLayout>

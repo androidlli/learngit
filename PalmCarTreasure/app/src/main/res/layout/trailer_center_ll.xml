@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/ll_start_task"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_start_task"
+            android:layout_width="127px"
+            android:layout_height="127px"
+            android:src="@drawable/start_task" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26px"
+            android:text="@string/start_task"
+            android:textColor="@color/mt363636"
+            android:textSize="36px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_trailer_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="127px"
+            android:layout_height="127px"
+            android:src="@drawable/trailer_navigation" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26px"
+            android:text="@string/traialer_navigation"
+            android:textColor="@color/mt363636"
+            android:textSize="36px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_dot_trailer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="127px"
+            android:layout_height="127px"
+            android:src="@drawable/dot_trailer" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26px"
+            android:text="@string/trailer_dot"
+            android:textColor="@color/mt363636"
+            android:textSize="36px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_send_car_library"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="127px"
+            android:layout_height="127px"
+            android:src="@drawable/send_car_library" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26px"
+            android:text="@string/send_car_library"
+            android:textColor="@color/mt363636"
+            android:textSize="36px" />
+    </LinearLayout>
+</LinearLayout>

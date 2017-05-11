@@ -1,0 +1,167 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.cango.palmcartreasure.sms.SMSFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_sms"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/toolbar_bg"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sms_title"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_sms"
+        android:paddingLeft="67px"
+        android:paddingRight="67px"
+        android:paddingTop="80px">
+
+        <TextView
+            android:id="@+id/tv_sms_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="37px"
+            android:textColor="@color/mt646464"
+            android:text="@string/sms_prompt"/>
+        <LinearLayout
+            android:id="@+id/ll_sms_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_sms_prompt"
+            android:gravity="center"
+            android:layout_marginTop="32px">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="37px"
+                android:textColor="@color/mt363636"
+                android:text="请拨打客服电话："/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="37px"
+                android:textColor="@color/mt363636"
+                android:text="400-888-8888"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rl_sms_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/ll_sms_prompt"
+            android:layout_marginTop="80px"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120px"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingBottom="23px">
+
+                <ImageView
+                    android:layout_width="58px"
+                    android:layout_height="45px"
+                    android:src="@drawable/sms_code" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25px"
+                    android:background="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:hint="@string/plase_input_sms_code"
+                    android:textColorHint="@color/etHint"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="138px"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingBottom="23px">
+
+                <ImageView
+                    android:layout_width="58px"
+                    android:layout_height="46px"
+                    android:src="@drawable/password" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25px"
+                    android:background="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:hint="@string/plase_setting_account_password"
+                    android:textColorHint="@color/etHint"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_sms_complete"
+            android:layout_width="600px"
+            android:layout_height="107px"
+            android:layout_below="@+id/rl_sms_edit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200px"
+            android:background="@drawable/button_press_bg"
+            android:gravity="center"
+            android:text="@string/complete"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="52px"
+        android:text="@string/company_name"
+        android:textColor="@color/mt646464"
+        android:textSize="12sp" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/colorPrimary"
+        app:indicatorName="BallPulseIndicator" />
+</RelativeLayout>

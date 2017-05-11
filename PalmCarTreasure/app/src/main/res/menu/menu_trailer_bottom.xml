@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/trailer_task"
+        android:title="@string/trailer_task" />
+    <item
+        android:icon="@drawable/trailer_customer"
+        android:title="@string/trailer_customer" />
+    <item
+        android:icon="@drawable/trailer_my"
+        android:title="@string/trailer_my" />
+</menu>

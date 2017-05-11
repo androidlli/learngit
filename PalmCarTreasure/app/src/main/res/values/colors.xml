@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#d19d56</color>
+    <color name="colorPrimaryDark">#cc8729</color>
+    <color name="colorAccent">#cc8729</color>
+    <color name="navigationBarColor">@android:color/black</color>
+    <color name="windowBackground">@android:color/white</color>
+    
+    <color name="mtBlack">#131313</color>
+    <color name="mtgray">#474747</color>
+    <color name="line">#e3e3e3</color>
+    <color name="yellow_line">#efb876</color>
+    <color name="deep_line">#a5a5a5</color>
+    <color name="etHint">#a8a8a8</color>
+    <color name="fg_bg">#f6f6f6</color>
+    <color name="trailer_text_color">#3b3b3b</color>
+    <color name="mt3c3c3c">#3c3c3c</color>
+    <color name="mtBlue">#2196F3</color>
+    <color name="task_tv">#848484</color>
+    <color name="e0e0e0">#e0e0e0</color>
+    <color name="mt363636">#363636</color>
+    <color name="mt303030">#303030</color>
+    <color name="mt646464">#646464</color>
+    <color name="mtf7f7f7">#f7f7f7</color>
+    <color name="mtf6f6f6">#f6f6f6</color>
+    <color name="mtc6c6c6">#c6c6c6</color>
+    <color name="mt9f9b92">#9f9b92</color>
+    <color name="mt666666">#666666</color>
+    <color name="mteaeaea">#eaeaea</color>
+    <color name="mt3b3b3b">#3b3b3b</color>
+    <color name="mtb3ffffff">#b3ffffff</color>
+    <color name="mt434947">#434947</color>
+    <color name="mt777777">#777777</color>
+    <color name="mt525252">#525252</color>
+    <color name="mt606060">#606060</color>
+    <color name="mtce9c5e">#ce9c5e</color>
+    <color name="mtf0b365">#f0b365</color>
+    <color name="mtfff2df">#fff2df</color>
+    <color name="mtd27d00">#d27d00</color>
+    <color name="mt9c9c9c">#9c9c9c</color>
+    <color name="mtedae62">#edae62</color>
+    <color name="mt848484">#848484</color>
+    <color name="mtff7800">#ff7800</color>
+    <color name="mt7fd48c">#7fd48c</color>
+    <color name="mtdcdcdc">#dcdcdc</color>
+    <color name="mtc5c5c5">#c5c5c5</color>
+</resources>

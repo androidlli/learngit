@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/task_bg"
+    android:paddingLeft="50px"
+    android:paddingRight="50px"
+    android:orientation="vertical">
+
+    <!--android:background="@drawable/trailer_banner_bg"-->
+
+    <TextView
+        android:id="@+id/tv_vp_item_id"
+        style="@style/baseTvStyle"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="36px"
+        android:textSize="42px" />
+
+    <TextView
+        android:id="@+id/tv_vp_item_plate"
+        style="@style/baseTvStyle"
+        android:layout_alignBottom="@+id/tv_vp_item_id"
+        android:layout_marginLeft="32px"
+        android:layout_toRightOf="@+id/tv_vp_item_id"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="42px" />
+    <TextView
+        android:id="@+id/tv_vp_item_name"
+        style="@style/baseTvStyle"
+        android:layout_below="@+id/tv_vp_item_id"
+        android:layout_marginTop="30px"
+        android:textColor="@android:color/white"
+        android:text="@string/app_name"
+        android:textSize="54px" />
+    <TextView
+        android:id="@+id/tv_vp_item_monthpayments"
+        style="@style/baseTvStyle"
+        android:layout_below="@+id/tv_vp_item_name"
+        android:layout_marginTop="30px"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="42px" />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/ll_vp_tag_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vp_item_tag_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20px"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:paddingTop="5px"
+        android:paddingBottom="5px"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="27px"
+            android:layout_height="19px"
+            android:src="@drawable/vp_tag_circle_location"/>
+        <TextView
+            style="@style/baseTvStyle"
+            android:text="1000km"
+            android:textSize="32px"
+            android:textColor="@android:color/white"
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <TextView
+        android:id="@+id/tv_vp_item_tag"
+        style="@style/baseTvStyle"
+        android:background="@drawable/vp_item_tag_bg"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:paddingTop="5px"
+        android:paddingBottom="5px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20px"
+        android:gravity="center_vertical"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="32px" />
+    <TextView
+        android:layout_width="177px"
+        android:layout_height="113px"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="54px"
+        android:textSize="42px"
+        android:text="@string/on_going"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:background="@drawable/new_distribution"/>
+</com.zhy.autolayout.AutoRelativeLayout>

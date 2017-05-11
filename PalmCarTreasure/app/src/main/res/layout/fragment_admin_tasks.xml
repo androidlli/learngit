@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mtf6f6f6">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_admin"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:id="@+id/ll_admin_drop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_admin_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/task_query"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_toolbar_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/mt777777"
+            android:text="@string/check_all"
+            android:layout_marginRight="12dp"/>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout_task"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="134px"
+        android:layout_below="@+id/toolbar_admin">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_task"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_admin_task_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="134px"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@android:color/holo_red_dark"
+        android:text="@string/query"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_admin_task_unabsorbed"
+        android:layout_width="match_parent"
+        android:layout_height="134px"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@drawable/button_press_bg">
+        <TextView
+            android:id="@+id/tv_give_up"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/give_up"
+            android:background="#717171"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center"
+            android:text="任务分配"
+            android:background="@android:color/holo_red_dark"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,236 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MatchMatch.Vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_trailer"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/toolbar_bg"
+        app:contentInsetStart="0dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="灿谷拖车"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/bnv_trailer_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="147px"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <include layout="@layout/trailer_bottom" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bnv_trailer_bottom"
+        android:layout_below="@+id/toolbar_trailer"
+        android:background="@color/fg_bg">
+        <LinearLayout
+            android:id="@+id/ll_trailer_tophalf"
+            android:layout_width="match_parent"
+            android:layout_height="735px"
+            android:paddingTop="25px"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_trailer"
+                android:layout_width="match_parent"
+                android:layout_height="424px" />
+            <LinearLayout
+                android:id="@+id/ll_vp_point"
+                android:layout_width="match_parent"
+                android:layout_height="18px"
+                android:layout_marginTop="16px"
+                android:layout_below="@+id/vp_trailer"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <com.rd.PageIndicatorView
+                    android:id="@+id/pageIndicatorView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    app:piv_animationType="worm"
+                    app:piv_dynamicCount="true"
+                    app:piv_interactiveAnimation="true"
+                    app:piv_radius="2dp"
+                    app:piv_selectedColor="@color/colorPrimaryDark"
+                    app:piv_unselectedColor="@color/deep_line"
+                    app:piv_viewPager="@id/vp_trailer" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_trailer_center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="36px"
+                android:background="@android:color/white">
+                <include layout="@layout/trailer_center_ll" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.cango.palmcartreasure.customview.AutoCardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ll_trailer_tophalf"
+            android:layout_marginLeft="19px"
+            android:layout_marginRight="19px"
+            android:layout_marginTop="30px"
+            android:layout_marginBottom="20px"
+            app:cardCornerRadius="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ll_for_task"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="30px">
+
+                        <ImageView
+                            android:layout_width="186px"
+                            android:layout_height="168px"
+                            android:src="@drawable/for_task" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18px"
+                            android:text="@string/for_task"
+                            android:textColor="@color/trailer_text_color"
+                            android:textSize="36px" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="51px"
+                        android:layout_marginTop="42px"
+                        android:background="@color/line" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="30px">
+
+                        <ImageView
+                            android:layout_width="186px"
+                            android:layout_height="168px"
+                            android:src="@drawable/new_task" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18px"
+                            android:text="@string/new_task"
+                            android:textColor="@color/trailer_text_color"
+                            android:textSize="36px" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="43px"
+                        android:layout_marginRight="82px"
+                        android:layout_weight="1"
+                        android:background="@color/line" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="82px"
+                        android:layout_marginRight="43px"
+                        android:layout_weight="1"
+                        android:background="@color/line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="30px">
+
+                        <ImageView
+                            android:layout_width="186px"
+                            android:layout_height="168px"
+                            android:src="@drawable/complete_task" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18px"
+                            android:text="@string/complete_task"
+                            android:textColor="@color/trailer_text_color"
+                            android:textSize="36px" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="51px"
+                        android:layout_marginTop="42px"
+                        android:background="@color/line" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="30px">
+
+                        <ImageView
+                            android:layout_width="186px"
+                            android:layout_height="168px"
+                            android:src="@drawable/other_task" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18px"
+                            android:text="@string/other_task"
+                            android:textColor="@color/trailer_text_color"
+                            android:textSize="36px" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.cango.palmcartreasure.customview.AutoCardView>
+    </RelativeLayout>
+</RelativeLayout>

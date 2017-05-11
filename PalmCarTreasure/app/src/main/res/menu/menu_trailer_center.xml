@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/telephone_urged"
+        android:title="@string/telephone_urged" />
+    <item
+        android:icon="@drawable/family_visit"
+        android:title="@string/family_visit" />
+    <item
+        android:icon="@drawable/trailer_information"
+        android:title="@string/trailer_information" />
+    <item
+        android:icon="@drawable/case_information"
+        android:title="@string/case_information" />
+    <item
+        android:icon="@drawable/customer_information"
+        android:title="@string/customer_information" />
+</menu>
