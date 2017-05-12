@@ -31,10 +31,11 @@ public class GroupActivity extends BaseActivity {
             if (GroupFragment.ADD.equals(type)){
                 groupFragment = GroupFragment.newInstance(type);
             }else if (GroupFragment.UPDATE.equals(type)){
+                int groupId = getIntent().getIntExtra("groupId",-1);
                 String groupName = getIntent().getStringExtra("groupName");
                 Member memberLeader = getIntent().getParcelableExtra("memberLeader");
                 ArrayList<Member> currentMembers = getIntent().getParcelableArrayListExtra("currentMembers");
-                groupFragment=groupFragment.newInstance(type,groupName, memberLeader,currentMembers);
+                groupFragment=groupFragment.newInstance(type,groupId,groupName, memberLeader,currentMembers);
             }else {
 
             }

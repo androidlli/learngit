@@ -1,7 +1,9 @@
 package com.cango.palmcartreasure.trailer.admin;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cango.palmcartreasure.R;
@@ -31,6 +33,7 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
 
     @Override
     protected void convert(BaseHolder holder, GroupList.DataBean.GroupListBean data) {
+        LinearLayout llBG = holder.getView(R.id.ll_bg);
         TextView tvGroupName = holder.getView(R.id.tv_staiff_group_name);
         TextView tvCrewSize = holder.getView(R.id.tv_crew_size);
         TextView tvLeadName=holder.getView(R.id.tv_lead_name);
@@ -40,6 +43,12 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
         TextView tvCrew4 = holder.getView(R.id.tv_crew4);
         TextView tvCrew5 = holder.getView(R.id.tv_crew5);
         TextView tvCrew6 = holder.getView(R.id.tv_crew6);
+
+        if (data.isSelected()){
+            llBG.setBackgroundResource(R.drawable.button_border_red_bg);
+        }else{
+            llBG.setBackgroundResource(R.color.windowBackground);
+        }
 
         tvGroupName.setText(data.getGroupName());
         tvCrewSize.setText(data.getUserList().size()+"");

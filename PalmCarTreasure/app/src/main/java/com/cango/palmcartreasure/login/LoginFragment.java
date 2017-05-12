@@ -24,6 +24,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.autonavi.rtbt.IFrameForRTBT;
 import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.api.Api;
@@ -34,6 +35,7 @@ import com.cango.palmcartreasure.trailer.main.TrailerActivity;
 import com.cango.palmcartreasure.util.BarUtil;
 import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.PhoneUtils;
+import com.cango.palmcartreasure.util.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -56,7 +58,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 public class LoginFragment extends BaseFragment implements LoginContract.View ,EasyPermissions.PermissionCallbacks{
 
-    private static final int REQUEST_READ_PHONE_STATE = 100;
+    private static final int REQUEST_READ_PHONE_STATE_AND_LOCATION = 100;
     @BindView(R.id.toolbar_login)
     Toolbar mToolbar;
     @BindView(R.id.avl_login_indicator)
@@ -100,9 +102,17 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     private AMapLocationClient mLocationClient;
     private AMapLocationListener mLoactionListener;
     private float mLat, mLon;
+    private boolean isFromLogout;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
+        return fragment;
+    }
+    public static LoginFragment newInstance(boolean isFromLogout) {
+        LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("isFromLogout",isFromLogout);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -125,6 +135,10 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
 
     @Override
     protected void initData() {
+        if (!CommUtil.checkIsNull(getArguments())){
+            isFromLogout = getArguments().getBoolean("isFromLogout",false);
+            Logger.d(isFromLogout);
+        }
         mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
         mLoactionListener = new AMapLocationListener() {
             @Override
@@ -152,6 +166,14 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (isFromLogout){
+            MtApplication.clearExceptLastActivitys();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (mLocationClient != null) {
@@ -166,16 +188,22 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @AfterPermissionGranted(REQUEST_READ_PHONE_STATE)
+    @AfterPermissionGranted(REQUEST_READ_PHONE_STATE_AND_LOCATION)
     private void doLogin() {
-        String[] perms={Manifest.permission.READ_PHONE_STATE};
+        String[] perms={Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,};
         if (EasyPermissions.hasPermissions(getContext(), perms)) {
             if (mLocationClient.isStarted()){
                 AMapLocation lastKnownLocation = mLocationClient.getLastKnownLocation();
-                BigDecimal latBD = new BigDecimal(String.valueOf(lastKnownLocation.getLatitude()));
-                mLat = latBD.floatValue();
-                BigDecimal lonBD = new BigDecimal(String.valueOf(lastKnownLocation.getLongitude()));
-                mLon = lonBD.floatValue();
+                if (lastKnownLocation!=null){
+                    if (!CommUtil.checkIsNull(lastKnownLocation.getLatitude())){
+                        BigDecimal latBD = new BigDecimal(String.valueOf(lastKnownLocation.getLatitude()));
+                        mLat = latBD.floatValue();
+                    }
+                    if (!CommUtil.checkIsNull(lastKnownLocation.getLongitude())){
+                        BigDecimal lonBD = new BigDecimal(String.valueOf(lastKnownLocation.getLongitude()));
+                        mLon = lonBD.floatValue();
+                    }
+                }
             }else {
                 mLat=0f;
                 mLon=0f;
@@ -184,7 +212,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
             mPresenter.login(etUserName.getText().toString(), etPassword.getText().toString(),
                     imei,mLat,mLon,imei, Api.DEVICE_TYPE);
         } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.read_phone_state), REQUEST_READ_PHONE_STATE, perms);
+            EasyPermissions.requestPermissions(this, getString(R.string.read_phone_state), REQUEST_READ_PHONE_STATE_AND_LOCATION, perms);
         }
     }
 
@@ -196,9 +224,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     @Override
     public void showLoginIndicator(boolean active) {
         if (active)
-            mIndicatorView.show();
+            mIndicatorView.smoothToShow();
         else
-            mIndicatorView.hide();
+            mIndicatorView.smoothToHide();
     }
 
     @Override
@@ -207,8 +235,14 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     }
 
     @Override
-    public void showLoginSuccess() {
+    public void showLoginSuccess(boolean isSuccess,String message) {
+        if (!CommUtil.checkIsNull(message))
+            ToastUtils.showShort(message);
+        if (isSuccess){
+            openOtherUi();
+        }else {
 
+        }
     }
 
     @Override
@@ -234,9 +268,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            if (requestCode==REQUEST_READ_PHONE_STATE) {
+            if (requestCode==REQUEST_READ_PHONE_STATE_AND_LOCATION) {
                 new AppSettingsDialog.Builder(this)
-                        .setRequestCode(REQUEST_READ_PHONE_STATE)
+                        .setRequestCode(REQUEST_READ_PHONE_STATE_AND_LOCATION)
                         .setTitle("权限获取失败")
                         .setRationale(R.string.setting_read_phone_state)
                         .build().show();
@@ -248,7 +282,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_READ_PHONE_STATE) {
+        if (requestCode == REQUEST_READ_PHONE_STATE_AND_LOCATION) {
             // Do something after user returned from app settings screen, like showing a Toast.
           doLogin();
         }

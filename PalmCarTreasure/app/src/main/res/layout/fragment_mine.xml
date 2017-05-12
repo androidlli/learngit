@@ -379,4 +379,5 @@
                 android:background="@drawable/button_exit_account"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <include layout="@layout/avload_view"/>
 </RelativeLayout>

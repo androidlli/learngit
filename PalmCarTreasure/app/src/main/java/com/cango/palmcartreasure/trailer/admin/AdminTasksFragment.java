@@ -3,6 +3,7 @@ package com.cango.palmcartreasure.trailer.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,8 +63,9 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     TextView tvBottom;
     @BindView(R.id.ll_admin_task_unabsorbed)
     LinearLayout llUnabsorbed;
+    private Object selectedTaskListBean;
 
-    @OnClick({R.id.tv_toolbar_right, R.id.tv_admin_task_bottom,R.id.tv_give_up})
+    @OnClick({R.id.tv_toolbar_right, R.id.tv_admin_task_bottom, R.id.tv_give_up, R.id.tv_arrange})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_toolbar_right:
@@ -107,9 +109,12 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
                 } else if (mType.equals(TASK)) {
                     if (checkedAllByTask()) {
                         //抽回任务
-                        int[] checkUserIdsByTask = getCheckUserIdsByTask();
+                        List<GroupTaskQuery.DataBean.TaskListBean> checkUserIdsByTask = getCheckUserIdsByTask();
+                        if (!CommUtil.checkIsNull(checkUserIdsByTask) && checkUserIdsByTask.size() > 0) {
+                            mPresenter.groupTaskDraw(true, checkUserIdsByTask);
+                        }
                     }
-                }else {
+                } else {
 
                 }
                 break;
@@ -118,6 +123,16 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
                     //任务放弃
                     TaskAbandonRequest[] checkUserIdsByUnabsorbed = getCheckUserIdsByUnabsorbed();
                     mPresenter.giveUpTasks(checkUserIdsByUnabsorbed);
+                }
+                break;
+            case R.id.tv_arrange:
+                //任务分配
+                List<TaskManageList.DataBean.TaskListBean> taskListBeanList = getSelectedTaskListBean();
+                if (!CommUtil.checkIsNull(taskListBeanList)&&taskListBeanList.size()>0){
+                    Intent intent=new Intent(mActivity,StaiffActivity.class);
+                    intent.putExtra(StaiffFragment.TYPE,StaiffFragment.PUT_TASKS_GROUP);
+                    intent.putParcelableArrayListExtra("taskListBeanList", (ArrayList<? extends Parcelable>) taskListBeanList);
+                    mActivity.mSwipeBackHelper.forward(intent);
                 }
                 break;
         }
@@ -328,6 +343,17 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     }
 
     @Override
+    public void showGroupTaskDraw(boolean isSuccess, String message) {
+        if (!CommUtil.checkIsNull(message))
+            ToastUtils.showShort(message);
+        if (isSuccess){
+            onRefresh();
+        }else {
+
+        }
+    }
+
+    @Override
     public void showAdminUnabsorbedTasks(List<TaskManageList.DataBean.TaskListBean> tasks) {
         if (isLoadMore) {
             mTempPageCount++;
@@ -476,7 +502,7 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
         return false;
     }
 
-    private int[] getCheckUserIdsByTask() {
+    private List<GroupTaskQuery.DataBean.TaskListBean> getCheckUserIdsByTask() {
         if (taskQueryBeanList != null) {
             List<GroupTaskQuery.DataBean.TaskListBean> lists = new ArrayList<>();
             for (GroupTaskQuery.DataBean.TaskListBean bean : taskQueryBeanList) {
@@ -484,11 +510,7 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
                     lists.add(bean);
                 }
             }
-            int[] userIds = new int[lists.size()];
-            for (int i = 0; i < lists.size(); i++) {
-                userIds[i] = lists.get(i).getGroupid();
-            }
-            return userIds;
+            return lists;
         }
         return null;
     }
@@ -550,5 +572,15 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
             return requests;
         }
         return null;
+    }
+
+    public List<TaskManageList.DataBean.TaskListBean> getSelectedTaskListBean() {
+        List<TaskManageList.DataBean.TaskListBean> TaskListBeanList = new ArrayList<>();
+        for (TaskManageList.DataBean.TaskListBean bean : taskManageList) {
+            if (bean.isChecked()) {
+                TaskListBeanList.add(bean);
+            }
+        }
+        return TaskListBeanList;
     }
 }

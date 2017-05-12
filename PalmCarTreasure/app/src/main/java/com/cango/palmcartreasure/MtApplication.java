@@ -50,4 +50,15 @@ public class MtApplication extends Application {
             }
         }
     }
+    public static void clearExceptLastActivitys() {
+        if (activityList == null||activityList.size()==0) {
+
+        } else {
+            for (int i=0;i<activityList.size()-1;i++){
+                if (activityList.get(i)!=null){
+                    activityList.get(i).finish();
+                }
+            }
+        }
+    }
 }

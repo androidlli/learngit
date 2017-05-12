@@ -1,5 +1,8 @@
 package com.cango.palmcartreasure.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.cango.palmcartreasure.util.CommUtil;
 
 import java.util.List;
@@ -65,7 +68,7 @@ public class TaskManageList {
             this.taskList = taskList;
         }
 
-        public static class TaskListBean {
+        public static class TaskListBean implements Parcelable {
             /**
              * agencyID : 101
              * caseID : 101
@@ -209,6 +212,59 @@ public class TaskManageList {
             public void setFeerate(double feerate) {
                 this.feerate = feerate;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.agencyID);
+                dest.writeInt(this.caseID);
+                dest.writeInt(this.applyID);
+                dest.writeString(this.applyCD);
+                dest.writeString(this.customerName);
+                dest.writeString(this.carPlateNO);
+                dest.writeString(this.shortName);
+                dest.writeString(this.distance);
+                dest.writeString(this.agencyStatus);
+                dest.writeString(this.flowStauts);
+                dest.writeDouble(this.feerate);
+                dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
+                dest.writeDouble(this.agencyAmount);
+            }
+
+            public TaskListBean() {
+            }
+
+            protected TaskListBean(Parcel in) {
+                this.agencyID = in.readInt();
+                this.caseID = in.readInt();
+                this.applyID = in.readInt();
+                this.applyCD = in.readString();
+                this.customerName = in.readString();
+                this.carPlateNO = in.readString();
+                this.shortName = in.readString();
+                this.distance = in.readString();
+                this.agencyStatus = in.readString();
+                this.flowStauts = in.readString();
+                this.feerate = in.readDouble();
+                this.isChecked = in.readByte() != 0;
+                this.agencyAmount = in.readDouble();
+            }
+
+            public static final Parcelable.Creator<TaskListBean> CREATOR = new Parcelable.Creator<TaskListBean>() {
+                @Override
+                public TaskListBean createFromParcel(Parcel source) {
+                    return new TaskListBean(source);
+                }
+
+                @Override
+                public TaskListBean[] newArray(int size) {
+                    return new TaskListBean[size];
+                }
+            };
         }
     }
 }

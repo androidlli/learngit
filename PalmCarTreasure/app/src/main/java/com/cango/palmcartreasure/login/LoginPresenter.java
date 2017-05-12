@@ -9,8 +9,6 @@ import com.cango.palmcartreasure.net.RxSubscriber;
 import com.cango.palmcartreasure.util.EncryptUtils;
 import com.orhanobut.logger.Logger;
 
-import java.util.concurrent.TimeUnit;
-
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -36,21 +34,30 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void login(String userName, String password, String imei, final float lat, final float lon, String deviceToken, String deviceType) {
         mLoginView.showLoginIndicator(true);
-        mLoginService.getLoginData(userName, EncryptUtils.encryptMD5ToString(password), imei, lat, lon,imei,deviceType)
+        mLoginService.getLoginData(userName, EncryptUtils.encryptMD5ToString(password), imei, lat, lon, imei, deviceType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
 //                .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe(new RxSubscriber<LoginData>() {
                     @Override
                     protected void _onNext(LoginData o) {
-                        MtApplication.mSPUtils.put(Api.TOKEN,o.getData().getToken());
-                        MtApplication.mSPUtils.put(Api.USERID,o.getData().getUser().getUSERID());
-                        MtApplication.mSPUtils.put(Api.USERROLEID,o.getData().getUser().getUSERROLEID());
-                        MtApplication.mSPUtils.put(Api.LOGIN_LAST_LAT,lat);
-                        MtApplication.mSPUtils.put(Api.LOGIN_LAST_LON,lon);
                         if (mLoginView.isActive()) {
                             mLoginView.showLoginIndicator(false);
-                            mLoginView.openOtherUi();
+                            int code = o.getCode();
+                            String msg = o.getMsg();
+                            boolean isSuccess;
+                            if (code == 0) {
+                                MtApplication.mSPUtils.put(Api.TOKEN, o.getData().getToken());
+                                MtApplication.mSPUtils.put(Api.USERID, o.getData().getUser().getUSERID());
+                                MtApplication.mSPUtils.put(Api.USERROLEID, o.getData().getUser().getUSERROLEID());
+                                MtApplication.mSPUtils.put(Api.LOGIN_LAST_LAT, lat);
+                                MtApplication.mSPUtils.put(Api.LOGIN_LAST_LON, lon);
+//                                mLoginView.openOtherUi();
+                                isSuccess=true;
+                            }else {
+                                isSuccess=false;
+                            }
+                            mLoginView.showLoginSuccess(isSuccess,msg);
                         }
                     }
 

@@ -10,14 +10,25 @@ import java.util.List;
  */
 
 public interface MineContract {
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
         void showMineDataIndicator(boolean active);
+
         void showMineDataError();
+
         void showMineData(List<String> mineData);
+
+        void showLogoutMessage(boolean isSuccess, String message);
+
         void showNoMineData();
+
         boolean isActive();
     }
-    interface Presenter extends BasePresenter{
+
+    interface Presenter extends BasePresenter {
         void loadMineData(boolean showLoadingUI);
+
+        void logout(boolean showLoadingUI, float lat, float lon);
+
+        void logoutTest(boolean showLoadingUI,float lat,float lon);
     }
 }

@@ -1,11 +1,15 @@
 package com.cango.palmcartreasure.trailer.admin;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseActivity;
+import com.cango.palmcartreasure.model.TaskManageList;
 import com.cango.palmcartreasure.util.CommUtil;
+
+import java.util.ArrayList;
 
 public class StaiffActivity extends BaseActivity {
 
@@ -24,7 +28,13 @@ public class StaiffActivity extends BaseActivity {
         String type = getIntent().getStringExtra(StaiffFragment.TYPE);
         StaiffFragment staiffFragment = (StaiffFragment) getSupportFragmentManager().findFragmentById(R.id.fl_staiff_contains);
         if (CommUtil.checkIsNull(staiffFragment)) {
-            staiffFragment = StaiffFragment.newInstance(type);
+            if (type.equals(StaiffFragment.SHOW_GROUP)){
+                staiffFragment = StaiffFragment.newInstance(type);
+            }else if (type.equals(StaiffFragment.PUT_TASKS_GROUP)){
+                ArrayList<TaskManageList.DataBean.TaskListBean> taskListBeanList = getIntent().getParcelableArrayListExtra("taskListBeanList");
+                staiffFragment=StaiffFragment.newInstance(type,taskListBeanList);
+            }else {
+            }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fl_staiff_contains, staiffFragment);
             transaction.commit();

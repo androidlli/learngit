@@ -236,6 +236,7 @@
                 </com.zhy.autolayout.AutoRelativeLayout>
             </com.zhy.autolayout.AutoLinearLayout>
             <TextView
+                android:id="@+id/tv_ensure"
                 android:layout_width="600px"
                 android:layout_height="107px"
                 android:layout_centerHorizontal="true"
@@ -247,6 +248,7 @@
                 android:textSize="13sp"
                 android:textColor="@android:color/white" />
         </com.zhy.autolayout.AutoRelativeLayout>
+        <include layout="@layout/avload_view"></include>
     </RelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout

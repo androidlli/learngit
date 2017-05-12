@@ -11,7 +11,7 @@ import com.cango.palmcartreasure.model.TaskManageList;
 import com.cango.palmcartreasure.net.NetManager;
 import com.cango.palmcartreasure.net.RxSubscriber;
 
-import org.w3c.dom.CDATASection;
+import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -75,7 +75,7 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
         } else if (type.equals(AdminTasksFragment.ADMIN_UNABSORBED)) {
             mService.getTaskManageList(MtApplication.mSPUtils.getInt(Api.USERID),
                     MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
-                    MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON),pageCount,pageSize)
+                    MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON), pageCount, pageSize)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new RxSubscriber<TaskManageList>() {
@@ -112,8 +112,8 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
         } else {
 
         }
-        mService.getGroupTaskQuery(MtApplication.mSPUtils.getInt(Api.USERID),userIds, MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
-                MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON),pageCount,pageSize)
+        mService.getGroupTaskQuery(MtApplication.mSPUtils.getInt(Api.USERID), userIds, MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
+                MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON), pageCount, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<GroupTaskQuery>() {
@@ -141,8 +141,12 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
     }
 
     @Override
-    public void giveUpTasks(TaskAbandonRequest[] requests) {
-        mService.TaskAbandon(MtApplication.mSPUtils.getInt(Api.USERID),requests)
+    public void groupTaskDraw(boolean showRefreshLoadingUI, List<GroupTaskQuery.DataBean.TaskListBean> taskListBeanList) {
+//        if (showRefreshLoadingUI) {
+//            if (mAdminView.isActive())
+//                mAdminView.showAdminTasksIndicator(showRefreshLoadingUI);
+//        }
+        mService.groupTaskDraw(MtApplication.mSPUtils.getInt(Api.USERID), taskListBeanList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<TaskAbandon>() {
@@ -150,9 +154,33 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
                     protected void _onNext(TaskAbandon o) {
                         if (mAdminView.isActive()) {
                             int code = o.getCode();
-                            if (code==0||code==-1){
-                                boolean isSuccess=code==0?true:false;
-                                mAdminView.showGiveUpTasksAndNotifyUi(isSuccess,o.getMsg());
+                            boolean isSuccess = code == 0 ? true : false;
+                            mAdminView.showGroupTaskDraw(isSuccess, o.getMsg());
+                        }
+                    }
+
+                    @Override
+                    protected void _onError() {
+                        if (mAdminView.isActive()){
+//                            mAdminView.showAdminTasksIndicator(false);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void giveUpTasks(TaskAbandonRequest[] requests) {
+        mService.TaskAbandon(MtApplication.mSPUtils.getInt(Api.USERID), requests)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<TaskAbandon>() {
+                    @Override
+                    protected void _onNext(TaskAbandon o) {
+                        if (mAdminView.isActive()) {
+                            int code = o.getCode();
+                            if (code == 0 || code == -1) {
+                                boolean isSuccess = code == 0 ? true : false;
+                                mAdminView.showGiveUpTasksAndNotifyUi(isSuccess, o.getMsg());
                             }
                         }
                     }

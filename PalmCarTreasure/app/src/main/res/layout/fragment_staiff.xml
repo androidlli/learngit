@@ -44,4 +44,5 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_staiff" />
 
+    <include layout="@layout/avload_view"></include>
 </RelativeLayout>

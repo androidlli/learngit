@@ -32,8 +32,13 @@ public class LoginActivity extends BaseActivity {
         }
 
         LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.fl_main_contains);
+        boolean isFromLogout = getIntent().getBooleanExtra("isFromLogout", false);
         if (CommUtil.checkIsNull(loginFragment)) {
-            loginFragment = LoginFragment.newInstance();
+            if (isFromLogout){
+                loginFragment=LoginFragment.newInstance(isFromLogout);
+            }else {
+                loginFragment = LoginFragment.newInstance();
+            }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fl_main_contains, loginFragment);
             transaction.commit();

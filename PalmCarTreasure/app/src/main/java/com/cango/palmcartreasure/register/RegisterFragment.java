@@ -44,7 +44,8 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
                 }else {
                     Intent intent=new Intent(mActivity,SMSActivity.class);
                     intent.putExtra("username",etUserName.getText().toString().trim());
-                    MtApplication.addActivity(mActivity);
+                    //在baseactiviy中把activity加入了list
+//                    MtApplication.addActivity(mActivity);
                     mActivity.mSwipeBackHelper.forward(intent);
                 }
                 break;

@@ -11,7 +11,7 @@ public interface LoginContract {
     interface View extends BaseView<Presenter>{
         void showLoginIndicator(boolean active);
         void showLoginError();
-        void showLoginSuccess();
+        void showLoginSuccess(boolean isSuccess,String message);
         void openOtherUi();
         boolean isActive();
     }

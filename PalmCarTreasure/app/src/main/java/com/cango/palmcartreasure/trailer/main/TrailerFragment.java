@@ -128,7 +128,7 @@ public class TrailerFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        MtApplication.clearActivitys();
+        MtApplication.clearExceptLastActivitys();
     }
 
     @Override
