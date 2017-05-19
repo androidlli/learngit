@@ -16,7 +16,11 @@ public interface MineContract {
 
         void showMineDataError();
 
+<<<<<<< HEAD
         void showMineData(PersonMain.DataBean dataBean);
+=======
+        void showMineData(List<String> mineData);
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
         void showLogoutMessage(boolean isSuccess, String message);
 

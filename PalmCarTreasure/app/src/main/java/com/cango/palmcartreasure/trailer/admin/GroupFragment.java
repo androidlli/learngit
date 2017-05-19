@@ -24,6 +24,10 @@ import com.cango.palmcartreasure.model.Member;
 import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.SizeUtil;
 import com.cango.palmcartreasure.util.ToastUtils;
+<<<<<<< HEAD
+=======
+import com.orhanobut.logger.Logger;
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -103,6 +107,10 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
                         }
                     }
                 }
+<<<<<<< HEAD
+=======
+                Logger.d(datas.size());
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                 mAdapter.notifyDataSetChanged();
                 mDrawerLayout.openDrawer(GravityCompat.END);
                 break;
@@ -238,6 +246,10 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
             groupId = getArguments().getInt("groupId");
             groupName = getArguments().getString("groupName");
             memberLeader = getArguments().getParcelable("memberLeader");
+<<<<<<< HEAD
+=======
+            Logger.d(groupName + "---" + memberLeader.getName());
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
             currentMembers = getArguments().getParcelableArrayList("currentMembers");
         } else {
 
@@ -411,7 +423,11 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
     private void confirmGroupMDF() {
         String groupName = etGroupName.getText().toString().trim();
         if (CommUtil.checkIsNull(groupName) || CommUtil.checkIsNull(memberLeader) || CommUtil.checkIsNull(currentMembers)) {
+<<<<<<< HEAD
             ToastUtils.showLong(R.string.please_input_all_message);
+=======
+
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
         } else {
             if (currentMembers.size() > 0) {
                 List<GroupList.DataBean.GroupListBean> groupListBeanList = new ArrayList<>();

@@ -13,9 +13,13 @@ import com.cango.palmcartreasure.net.NetManager;
 import com.cango.palmcartreasure.net.RxSubscriber;
 import com.cango.palmcartreasure.util.CommUtil;
 
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+=======
+import java.util.List;
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -140,6 +144,7 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
         } else {
 
         }
+<<<<<<< HEAD
 //        mService.getGroupTaskQuery(MtApplication.mSPUtils.getInt(Api.USERID), userIds, MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
 //                MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON), pageCount, pageSize)
         Map<String, Object> objectMap = new HashMap<>();
@@ -150,6 +155,10 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
         objectMap.put("pageIndex", pageCount);
         objectMap.put("pageSize", pageSize);
         mService.getGroupTaskQuery(objectMap)
+=======
+        mService.getGroupTaskQuery(MtApplication.mSPUtils.getInt(Api.USERID), userIds, MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
+                MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON), pageCount, pageSize)
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<GroupTaskQuery>() {
@@ -217,7 +226,36 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
     }
 
     @Override
+    public void groupTaskDraw(boolean showRefreshLoadingUI, List<GroupTaskQuery.DataBean.TaskListBean> taskListBeanList) {
+//        if (showRefreshLoadingUI) {
+//            if (mAdminView.isActive())
+//                mAdminView.showAdminTasksIndicator(showRefreshLoadingUI);
+//        }
+        mService.groupTaskDraw(MtApplication.mSPUtils.getInt(Api.USERID), taskListBeanList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<TaskAbandon>() {
+                    @Override
+                    protected void _onNext(TaskAbandon o) {
+                        if (mAdminView.isActive()) {
+                            int code = o.getCode();
+                            boolean isSuccess = code == 0 ? true : false;
+                            mAdminView.showGroupTaskDraw(isSuccess, o.getMsg());
+                        }
+                    }
+
+                    @Override
+                    protected void _onError() {
+                        if (mAdminView.isActive()){
+//                            mAdminView.showAdminTasksIndicator(false);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void giveUpTasks(TaskAbandonRequest[] requests) {
+<<<<<<< HEAD
         if (mAdminView.isActive()) {
             mAdminView.showLoadingView(true);
         }
@@ -226,6 +264,9 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
         objectMap.put("userid", MtApplication.mSPUtils.getInt(Api.USERID));
         objectMap.put("taskList", requests);
         mService.TaskAbandon(objectMap)
+=======
+        mService.TaskAbandon(MtApplication.mSPUtils.getInt(Api.USERID), requests)
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<TaskAbandon>() {
@@ -235,7 +276,11 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
                             mAdminView.showLoadingView(false);
                             int code = o.getCode();
                             if (code == 0 || code == -1) {
+<<<<<<< HEAD
                                 boolean isSuccess = code == 0;
+=======
+                                boolean isSuccess = code == 0 ? true : false;
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                                 mAdminView.showGiveUpTasksAndNotifyUi(isSuccess, o.getMsg());
                             }
                         }

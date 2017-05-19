@@ -207,12 +207,28 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
         return fragment;
     }
 
+<<<<<<< HEAD
     public static TrailerFragment newInstance(boolean isFromSMS) {
         TrailerFragment fragment = new TrailerFragment();
         Bundle args = new Bundle();
         args.putBoolean("isFromSMS", isFromSMS);
         fragment.setArguments(args);
         return fragment;
+=======
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MtApplication.clearExceptLastActivitys();
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
     }
 
     @Override

@@ -6,7 +6,10 @@ import com.cango.palmcartreasure.model.GroupTaskCount;
 import com.cango.palmcartreasure.model.GroupTaskQuery;
 import com.cango.palmcartreasure.model.TaskAbandonRequest;
 import com.cango.palmcartreasure.model.TaskManageList;
+<<<<<<< HEAD
 import com.cango.palmcartreasure.model.TypeTaskData;
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
 import java.util.List;
 

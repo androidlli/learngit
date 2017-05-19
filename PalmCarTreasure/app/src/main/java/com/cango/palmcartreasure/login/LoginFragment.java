@@ -137,15 +137,22 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
 
     @Override
     protected void initData() {
+<<<<<<< HEAD
         mActivity= (LoginActivity) getActivity();
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
         if (!CommUtil.checkIsNull(getArguments())){
             isFromLogout = getArguments().getBoolean("isFromLogout",false);
             Logger.d(isFromLogout);
         }
+<<<<<<< HEAD
         mLocationClient=new AMapLocationClient(mActivity.getApplicationContext());
         AMapLocationClientOption option = new AMapLocationClientOption();
         option.setInterval(3000);
         mLocationClient.setLocationOption(option);
+=======
+        mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
         mLoactionListener = new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
@@ -177,9 +184,24 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     }
 
     @Override
+<<<<<<< HEAD
     public void onDestroy() {
         super.onDestroy();
         if (mLocationClient!=null){
+=======
+    public void onResume() {
+        super.onResume();
+        if (isFromLogout){
+            MtApplication.clearExceptLastActivitys();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mLocationClient != null) {
+            mLocationClient.unRegisterLocationListener(mLoactionListener);
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
             mLocationClient.onDestroy();
         }
     }
@@ -210,12 +232,30 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     }
 
     @AfterPermissionGranted(REQUEST_READ_PHONE_STATE_AND_LOCATION)
+<<<<<<< HEAD
     private void openPermissions() {
         String[] perms={Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,};
         if (EasyPermissions.hasPermissions(getContext(), perms)) {
             if (isDoLogin){
                 isDoLogin=false;
                 doLogin();
+=======
+    private void doLogin() {
+        String[] perms={Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,};
+        if (EasyPermissions.hasPermissions(getContext(), perms)) {
+            if (mLocationClient.isStarted()){
+                AMapLocation lastKnownLocation = mLocationClient.getLastKnownLocation();
+                if (lastKnownLocation!=null){
+                    if (!CommUtil.checkIsNull(lastKnownLocation.getLatitude())){
+                        BigDecimal latBD = new BigDecimal(String.valueOf(lastKnownLocation.getLatitude()));
+                        mLat = latBD.floatValue();
+                    }
+                    if (!CommUtil.checkIsNull(lastKnownLocation.getLongitude())){
+                        BigDecimal lonBD = new BigDecimal(String.valueOf(lastKnownLocation.getLongitude()));
+                        mLon = lonBD.floatValue();
+                    }
+                }
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
             }else {
 
             }

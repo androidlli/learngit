@@ -1,7 +1,10 @@
 package com.cango.palmcartreasure.trailer.mine;
 
 
+<<<<<<< HEAD
 import android.Manifest;
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -12,24 +15,33 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.api.Api;
 import com.cango.palmcartreasure.base.BaseFragment;
 import com.cango.palmcartreasure.login.LoginActivity;
+<<<<<<< HEAD
 import com.cango.palmcartreasure.model.PersonMain;
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.cango.palmcartreasure.trailer.download.DownloadActivity;
 import com.cango.palmcartreasure.trailer.message.MessageActivity;
 import com.cango.palmcartreasure.trailer.personal.PersonalActivity;
-import com.cango.palmcartreasure.trailer.task.TrailerTasksActivity;
 import com.cango.palmcartreasure.util.BarUtil;
+<<<<<<< HEAD
 import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.ToastUtils;
 import com.orhanobut.logger.Logger;
+=======
+import com.cango.palmcartreasure.util.ToastUtils;
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.math.BigDecimal;
@@ -49,6 +61,7 @@ public class MineFragment extends BaseFragment implements MineContract.View ,Eas
     private static final int REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP = 121;
     @BindView(R.id.toolbar_mine)
     Toolbar mToolbar;
+<<<<<<< HEAD
     @BindView(R.id.tv_mine_nickName)
     TextView tvNickName;
     @BindView(R.id.tv_alltaskcount)
@@ -59,6 +72,8 @@ public class MineFragment extends BaseFragment implements MineContract.View ,Eas
     TextView tvDoneTaskCount;
     @BindView(R.id.rl_message)
     RelativeLayout rlMessage;
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
     @BindView(R.id.avl_login_indicator)
     AVLoadingIndicatorView mLoadView;
 
@@ -79,7 +94,11 @@ public class MineFragment extends BaseFragment implements MineContract.View ,Eas
                 //测试使用
 //                mActivity.mSwipeBackHelper.forward(AdminActivity.class);
 //                mPresenter.logout(true, MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT), MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON));
+<<<<<<< HEAD
                 doLogout();
+=======
+                mPresenter.logoutTest(true,MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON));
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                 break;
         }
     }
@@ -122,7 +141,11 @@ public class MineFragment extends BaseFragment implements MineContract.View ,Eas
         mActivity.getSupportActionBar().setHomeButtonEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+<<<<<<< HEAD
         mPresenter.loadMineData(true);
+=======
+        mLoadView.hide();
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
     }
 
     @Override
@@ -183,9 +206,15 @@ public class MineFragment extends BaseFragment implements MineContract.View ,Eas
     @Override
     public void showMineDataIndicator(boolean active) {
         if (active)
+<<<<<<< HEAD
             mLoadView.smoothToShow();
         else
             mLoadView.smoothToHide();
+=======
+            mLoadView.show();
+        else
+            mLoadView.hide();
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
     }
 
     @Override
@@ -215,6 +244,18 @@ public class MineFragment extends BaseFragment implements MineContract.View ,Eas
             loginIntent.putExtra("isFromLogout", true);
             mActivity.mSwipeBackHelper.forward(loginIntent);
         } else {
+
+        }
+    }
+
+    @Override
+    public void showLogoutMessage(boolean isSuccess, String message) {
+        ToastUtils.showShort(message);
+        if (isSuccess){
+            Intent loginIntent=new Intent(mActivity,LoginActivity.class);
+            loginIntent.putExtra("isFromLogout",true);
+            mActivity.mSwipeBackHelper.forward(loginIntent);
+        }else {
 
         }
     }

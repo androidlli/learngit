@@ -3,7 +3,10 @@ package com.cango.palmcartreasure.trailer.mine;
 import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.api.Api;
 import com.cango.palmcartreasure.api.LoginService;
+<<<<<<< HEAD
 import com.cango.palmcartreasure.model.PersonMain;
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.cango.palmcartreasure.model.TaskAbandon;
 import com.cango.palmcartreasure.net.NetManager;
 import com.cango.palmcartreasure.net.RxSubscriber;
@@ -52,6 +55,80 @@ public class MinePresenter implements MineContract.Presenter {
                                 mMineView.showMineData(o.getData());
                             }else {
                                 mMineView.showMineDataError();
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected void _onError() {
+                        if (mMineView.isActive()){
+                            mMineView.showMineDataIndicator(false);
+                            mMineView.showMineDataError();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void logoutTest(boolean showLoadingUI,float lat,float lon){
+        if (mMineView.isActive()) {
+            mMineView.showMineDataIndicator(showLoadingUI);
+        }
+        Map<String,Object> stringMap=new HashMap<>();
+        stringMap.put("userid",MtApplication.mSPUtils.getInt(Api.USERID));
+        stringMap.put("LAT",lat);
+        stringMap.put("LON",lon);
+        mService.logoutTest(stringMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<TaskAbandon>() {
+                    @Override
+                    protected void _onNext(TaskAbandon o) {
+                        if (mMineView.isActive()) {
+                            mMineView.showMineDataIndicator(false);
+                            int code = o.getCode();
+                            if (code==0){
+                                MtApplication.mSPUtils.clear();
+                                if (!CommUtil.checkIsNull(o.getMsg()))
+                                    mMineView.showLogoutMessage(true,o.getMsg());
+                            }else {
+                                if (!CommUtil.checkIsNull(o.getMsg()))
+                                    mMineView.showLogoutMessage(false,o.getMsg());
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected void _onError() {
+                        if (mMineView.isActive()){
+                            mMineView.showMineDataIndicator(false);
+                            mMineView.showMineDataError();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void logout(boolean showLoadingUI, float lat, float lon) {
+        if (mMineView.isActive()) {
+            mMineView.showMineDataIndicator(showLoadingUI);
+        }
+        mService.logout(MtApplication.mSPUtils.getInt(Api.USERID), lat, lon)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<TaskAbandon>() {
+                    @Override
+                    protected void _onNext(TaskAbandon o) {
+                        if (mMineView.isActive()) {
+                            mMineView.showMineDataIndicator(false);
+                            int code = o.getCode();
+                            if (code==0){
+                                MtApplication.mSPUtils.clear();
+                                if (CommUtil.checkIsNull(o.getMsg()))
+                                    mMineView.showLogoutMessage(true,o.getMsg());
+                            }else {
+                                if (CommUtil.checkIsNull(o.getMsg()))
+                                    mMineView.showLogoutMessage(false,o.getMsg());
                             }
                         }
                     }

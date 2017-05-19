@@ -100,7 +100,11 @@ public class GroupPresenter implements GroupContract.Presenter {
                         if (mView.isActive()){
                             mView.showMemberIndicator(false);
                             int code = o.getCode();
+<<<<<<< HEAD
                             boolean isSuccess= code == 0;
+=======
+                            boolean isSuccess=code==0?true:false;
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                            mView.showGroupMDFResult(isSuccess,o.getMsg());
                         }
                     }

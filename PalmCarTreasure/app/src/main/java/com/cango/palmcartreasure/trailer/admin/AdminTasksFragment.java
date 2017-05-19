@@ -5,7 +5,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+<<<<<<< HEAD
 import android.support.annotation.NonNull;
+=======
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -85,10 +88,14 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     TextView tvBottom;
     @BindView(R.id.ll_admin_task_unabsorbed)
     LinearLayout llUnabsorbed;
+<<<<<<< HEAD
     @BindView(R.id.avl_login_indicator)
     AVLoadingIndicatorView mLoadView;
     @BindView(R.id.ll_sorry)
     LinearLayout llSorry;
+=======
+    private Object selectedTaskListBean;
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
     @OnClick({R.id.tv_toolbar_right, R.id.tv_admin_task_bottom, R.id.tv_give_up, R.id.tv_arrange})
     public void onClick(View view) {
@@ -153,11 +160,19 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
             case R.id.tv_arrange:
                 //任务分配
                 List<TaskManageList.DataBean.TaskListBean> taskListBeanList = getSelectedTaskListBean();
+<<<<<<< HEAD
                 if (!CommUtil.checkIsNull(taskListBeanList) && taskListBeanList.size() > 0) {
                     Intent intent = new Intent(mActivity, StaiffActivity.class);
                     intent.putExtra(StaiffFragment.TYPE, StaiffFragment.PUT_TASKS_GROUP);
                     intent.putParcelableArrayListExtra("taskListBeanList", (ArrayList<? extends Parcelable>) taskListBeanList);
                     mActivity.mSwipeBackHelper.forward(intent, AdminTasksActivity.ACTIVITY_ARRANGE_REQUEST_CODE);
+=======
+                if (!CommUtil.checkIsNull(taskListBeanList)&&taskListBeanList.size()>0){
+                    Intent intent=new Intent(mActivity,StaiffActivity.class);
+                    intent.putExtra(StaiffFragment.TYPE,StaiffFragment.PUT_TASKS_GROUP);
+                    intent.putParcelableArrayListExtra("taskListBeanList", (ArrayList<? extends Parcelable>) taskListBeanList);
+                    mActivity.mSwipeBackHelper.forward(intent);
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                 }
                 break;
         }
@@ -500,12 +515,18 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     public void showGroupTaskDraw(boolean isSuccess, String message) {
         if (!CommUtil.checkIsNull(message))
             ToastUtils.showShort(message);
+<<<<<<< HEAD
         if (isSuccess) {
             //刷新自己列表
             onRefresh();
             //通知组任务查询列表刷新
             EventBus.getDefault().post(new TaskDrawEvent(isSuccess));
         } else {
+=======
+        if (isSuccess){
+            onRefresh();
+        }else {
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
         }
     }

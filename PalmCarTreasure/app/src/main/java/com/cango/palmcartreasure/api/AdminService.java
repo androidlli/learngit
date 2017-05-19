@@ -36,6 +36,7 @@ public interface AdminService {
     ///api/trailer/grouptaskquery?userid={userid}&LAT={LAT}&LON={LON}&pageIndex={pageIndex}&pageSize={pageSize}&ApiToken={APITOKEN}
     //分组任务查询
     @POST("trailer/grouptaskquery")
+<<<<<<< HEAD
 //    Observable<GroupTaskQuery> getGroupTaskQuery(@Query("userid") int userId, @Body int[] groupIds, @Query("LAT") float lat,
 //                                                 @Query("LON") float lon, @Query("pageIndex") int pageIndex,
 //                                                 @Query("pageSize") int pageSize);
@@ -46,6 +47,16 @@ public interface AdminService {
     @POST("trailer/grouptaskdraw")
 //    Observable<TaskAbandon> groupTaskDraw(@Query("userid") int userId, @Body List<GroupTaskQuery.DataBean.TaskListBean> taskListBeanList);
     Observable<TaskAbandon> groupTaskDraw(@Body Map<String,Object> objectMap);
+=======
+    Observable<GroupTaskQuery> getGroupTaskQuery(@Query("userid") int userId, @Body int[] groupIds, @Query("LAT") float lat,
+                                                 @Query("LON") float lon, @Query("pageIndex") int pageIndex,
+                                                 @Query("pageSize") int pageSize);
+>>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
+
+    //POST /api/trailer/grouptaskdraw?userid={userid}&ApiToken={APITOKEN}
+    //组任务抽回接口
+    @POST("trailer/grouptaskdraw")
+    Observable<TaskAbandon> groupTaskDraw(@Query("userid") int userId, @Body List<GroupTaskQuery.DataBean.TaskListBean> taskListBeanList);
 
     ///api/trailer/taskabandon
     //放弃任务接口
@@ -58,6 +69,11 @@ public interface AdminService {
     @POST("trailer/taskarrange")
 //    Observable<TaskAbandon> taskArrange(@Query("userid") int userId, @Query("groupid") int groupId, @Body List<TaskManageList.DataBean.TaskListBean> taskListBeanList);
     Observable<TaskAbandon> taskArrange(@Body Map<String,Object> objectMap);
+
+    //POST /api/trailer/taskarrange?userid={userid}&groupid={groupid}&ApiToken={APITOKEN}
+    //任务分配接口
+    @POST("trailer/taskarrange")
+    Observable<TaskAbandon> taskArrange(@Query("userid") int userId, @Query("groupid") int groupId, @Body List<TaskManageList.DataBean.TaskListBean> taskListBeanList);
 
     //GET /api/trailer/grouplist?userid={userid}&type={type}&ApiToken={APITOKEN}:type:T,已分组；F：未分组
     @GET("trailer/grouplist")
