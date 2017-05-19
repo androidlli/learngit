@@ -71,7 +71,7 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/iv_head_right_tag"
-                    android:src="@drawable/mine_head" />
+                    android:src="@drawable/mine_head"/>
             </RelativeLayout>
 
             <ImageView
@@ -108,11 +108,11 @@
                     android:src="@drawable/next_step" />
 
                 <TextView
+                    android:id="@+id/tv_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/iv_sex_right_tag"
-                    android:text="@string/app_name"
                     android:textColor="@color/mt303030"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -155,7 +155,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/iv_birthday_right_tag"
-                    android:text="@string/app_name"
                     android:textColor="@color/mt303030"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -204,11 +203,11 @@
                     android:src="@drawable/next_step" />
 
                 <TextView
+                    android:id="@+id/tv_mobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="45px"
                     android:layout_toLeftOf="@+id/iv_phone_right_tag"
-                    android:text="@string/app_name"
                     android:textColor="@color/mt303030"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -251,10 +250,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/iv_weixin_right_tag"
-                    android:text="@string/app_name"
                     android:textColor="@color/mt303030"
                     android:textSize="15sp" />
             </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <include layout="@layout/avload_view"/>
 </RelativeLayout>

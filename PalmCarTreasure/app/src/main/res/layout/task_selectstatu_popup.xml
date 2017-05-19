@@ -43,6 +43,7 @@
             android:background="@color/mteaeaea" />
 
         <TextView
+            android:id="@+id/tv_new_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="11dp"
@@ -58,6 +59,7 @@
             android:background="@color/mteaeaea" />
 
         <TextView
+            android:id="@+id/tv_complete_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="11dp"

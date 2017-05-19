@@ -51,6 +51,7 @@ public class UnabsorbedTaskAdapter extends BaseAdapter<TaskManageList.DataBean.T
         TextView tvCustomerName = holder.getView(R.id.tv_task_item_name);
         TextView tvCarPlateNO = holder.getView(R.id.tv_task_item_plate);
         TextView tvFeerate = holder.getView(R.id.tv_feerate);
+        TextView tvRedueDays=holder.getView(R.id.tv_redueDays);
         TextView tvAgencyAmount = holder.getView(R.id.tv_agencyAmount);
         tvApplyCD.setText(data.getApplyCD());
         tvDistance.setText(data.getDistance());
@@ -58,7 +59,16 @@ public class UnabsorbedTaskAdapter extends BaseAdapter<TaskManageList.DataBean.T
         tvCustomerName.setText(data.getCustomerName());
         tvCarPlateNO.setText(data.getCarPlateNO());
         tvFeerate.setText(data.getFeerate()+"");
-        tvAgencyAmount.setText(data.getAgencyAmount()+"元");
+        if (data.getRedueDays()==0){
+            tvRedueDays.setText("");
+        }else {
+            tvRedueDays.setText(data.getRedueDays()+"天");
+        }
+        if (data.getRedueAmount()==0){
+            tvAgencyAmount.setText("");
+        }else {
+            tvAgencyAmount.setText(data.getRedueAmount()+"元");
+        }
 
     }
 

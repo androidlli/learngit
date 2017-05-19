@@ -28,63 +28,16 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_message">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_message"
             android:layout_below="@+id/toolbar_message"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="33px"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:gravity="bottom"
-        android:layout_alignParentBottom="true">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingBottom="15px"
-            android:paddingTop="30px">
-            <ImageView
-                android:layout_width="58px"
-                android:layout_height="45px"
-                android:background="@drawable/unread_selector"
-                android:layout_gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12px"
-                android:textColor="@color/mt303030"
-                android:textSize="29px"
-                android:text="@string/unread"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingBottom="15px"
-            android:paddingTop="25px">
-
-            <ImageView
-                android:layout_width="58px"
-                android:layout_height="52px"
-                android:layout_gravity="center"
-                android:background="@drawable/read_selector" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12px"
-                android:text="@string/read"
-                android:textColor="@color/mt303030"
-                android:textSize="29px" />
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <include layout="@layout/sorry"/>
 </RelativeLayout>

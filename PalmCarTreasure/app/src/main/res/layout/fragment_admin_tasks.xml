@@ -85,6 +85,7 @@
             android:textSize="16sp"
             android:textColor="@android:color/white"/>
         <TextView
+            android:id="@+id/tv_arrange"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="7"
@@ -94,4 +95,6 @@
             android:textSize="16sp"
             android:textColor="@android:color/white"/>
     </LinearLayout>
+    <include layout="@layout/avload_view"></include>
+    <include layout="@layout/sorry"></include>
 </RelativeLayout>

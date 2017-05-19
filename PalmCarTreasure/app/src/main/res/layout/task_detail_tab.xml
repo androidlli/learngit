@@ -4,88 +4,92 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
     <LinearLayout
+        android:id="@+id/ll_callrecord"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="36px"
-            android:layout_height="39px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/telephone_urged"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15px"
+            android:layout_marginTop="5dp"
             android:text="@string/telephone_urged"
-            android:textSize="28px"/>
+            android:textSize="12sp"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_home_visit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="39px"
-            android:layout_height="36px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/family_visit"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15px"
-            android:textSize="28px"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:text="@string/family_visit"/>
     </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="1">-->
+        <!--<ImageView-->
+            <!--android:layout_width="48px"-->
+            <!--android:layout_height="36px"-->
+            <!--android:src="@drawable/trailer_information"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="15px"-->
+            <!--android:textSize="28px"-->
+            <!--android:text="@string/trailer_information"/>-->
+    <!--</LinearLayout>-->
     <LinearLayout
+        android:id="@+id/ll_case_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="48px"
-            android:layout_height="36px"
-            android:src="@drawable/trailer_information"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15px"
-            android:textSize="28px"
-            android:text="@string/trailer_information"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_weight="1">
-        <ImageView
-            android:layout_width="33px"
-            android:layout_height="39px"
             android:src="@drawable/case_information"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15px"
-            android:textSize="28px"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:text="@string/case_information"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_customer_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
-            android:layout_width="39px"
-            android:layout_height="36px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/customer_information"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15px"
-            android:textSize="28px"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:text="@string/customer_information"/>
     </LinearLayout>
 </LinearLayout>

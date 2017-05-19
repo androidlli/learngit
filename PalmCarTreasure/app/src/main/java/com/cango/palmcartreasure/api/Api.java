@@ -5,7 +5,7 @@ package com.cango.palmcartreasure.api;
  */
 
 public class Api {
-    public static final String BASE_URL="http://192.168.150.112:81/api/";
+    public static final String BASE_URL="http://192.168.150.112:89/api/";
     public static final String DEVICE_TYPE="2";
     public static final String TOKEN="TOKEN";
     public static final String USERID="USERID";

@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="20px"
-        android:layout_marginLeft="40px"
-        android:layout_marginRight="40px"
-        android:layout_marginTop="20px">
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="10dp">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/app_name"
                     android:textColor="@color/mtce9c5e"
-                    android:textSize="34px" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="10px">
+                android:paddingLeft="4dp">
 
                 <TextView
                     android:id="@+id/tv_task_detail_time"
@@ -56,7 +56,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/app_name"
                     android:textColor="@color/mtce9c5e"
-                    android:textSize="34px" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -65,15 +65,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:paddingLeft="20px">
+            android:paddingLeft="6dp">
 
             <TextView
                 android:id="@+id/tv_task_detail_content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 android:textColor="@color/mtce9c5e"
-                android:textSize="34px"
+                android:textSize="12sp"
+                android:gravity="right"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -82,7 +83,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="40px"
-        android:layout_marginRight="40px"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:src="@color/line"/>
 </LinearLayout>

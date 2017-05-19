@@ -10,17 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseFragment;
 import com.cango.palmcartreasure.login.LoginActivity;
 import com.cango.palmcartreasure.sms.SMSActivity;
 import com.cango.palmcartreasure.util.BarUtil;
-import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.ToastUtils;
-import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,7 +40,8 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
                 }else {
                     Intent intent=new Intent(mActivity,SMSActivity.class);
                     intent.putExtra("username",etUserName.getText().toString().trim());
-                    MtApplication.addActivity(mActivity);
+                    //在baseactiviy中把activity加入了list
+//                    MtApplication.addActivity(mActivity);
                     mActivity.mSwipeBackHelper.forward(intent);
                 }
                 break;

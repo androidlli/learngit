@@ -1,6 +1,7 @@
 package com.cango.palmcartreasure.trailer.admin;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.GravityCompat;
@@ -18,9 +19,12 @@ import com.cango.palmcartreasure.base.BaseFragment;
 import com.cango.palmcartreasure.baseAdapter.BaseHolder;
 import com.cango.palmcartreasure.baseAdapter.MemberItemDecoration;
 import com.cango.palmcartreasure.baseAdapter.OnBaseItemClickListener;
+import com.cango.palmcartreasure.model.GroupList;
 import com.cango.palmcartreasure.model.Member;
+import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.SizeUtil;
-import com.orhanobut.logger.Logger;
+import com.cango.palmcartreasure.util.ToastUtils;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +59,10 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
     TextView tvMember3;
     @BindView(R.id.tv_member4)
     TextView tvMember4;
+    @BindView(R.id.avl_login_indicator)
+    AVLoadingIndicatorView mLoadView;
 
-    @OnClick({R.id.iv_open_member_list, R.id.tv_confirm, R.id.tv_open_group_leader})
+    @OnClick({R.id.iv_open_member_list, R.id.tv_confirm, R.id.tv_open_group_leader, R.id.tv_ensure})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_open_member_list:
@@ -66,38 +72,37 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
                 break;
             case R.id.tv_open_group_leader:
                 mAdapter.setType(0);
-                    //因为如果在侧拉界面把组长选中点掉，那么组长下标是-1，那么我这里就该把状态true
-                    int leaderPosition = getGroupLeaderPosition();
-                    if (leaderPosition == -1) {
-                        if (memberLeader != null) {
-                            memberLeader.setGroupLeader(true);
-                        }
-                    } else {
-                        if (datas.get(leaderPosition) == memberLeader) {
-                        } else {
-                            datas.get(leaderPosition).setGroupLeader(false);
-                        }
+                //因为如果在侧拉界面把组长选中点掉，那么组长下标是-1，那么我这里就该把状态true
+                int leaderPosition = getGroupLeaderPosition();
+                if (leaderPosition == -1) {
+                    if (memberLeader != null) {
                         memberLeader.setGroupLeader(true);
                     }
-
-                    if (datas.contains(memberLeader) && datas.contains(currentMembers)) {
-
+                } else {
+                    if (datas.get(leaderPosition) == memberLeader) {
                     } else {
-                        if (!datas.contains(memberLeader)) {
-                            if (memberLeader.getId()>0){
-                                //防止新建分组的时候member是null
-                                datas.add(memberLeader);
-                            }
-                        }
-                        if (!datas.containsAll(currentMembers)) {
-                            if (currentMembers.size()==0){
+                        datas.get(leaderPosition).setGroupLeader(false);
+                    }
+                    memberLeader.setGroupLeader(true);
+                }
 
-                            }else {
-                                datas.addAll(currentMembers);
-                            }
+                if (datas.contains(memberLeader) && datas.contains(currentMembers)) {
+
+                } else {
+                    if (!datas.contains(memberLeader)) {
+                        if (memberLeader.getId() > 0) {
+                            //防止新建分组的时候member是null
+                            datas.add(memberLeader);
                         }
                     }
-                Logger.d(datas.size());
+                    if (!datas.containsAll(currentMembers)) {
+                        if (currentMembers.size() == 0) {
+
+                        } else {
+                            datas.addAll(currentMembers);
+                        }
+                    }
+                }
                 mAdapter.notifyDataSetChanged();
                 mDrawerLayout.openDrawer(GravityCompat.END);
                 break;
@@ -110,17 +115,17 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
                         memberLeader = datas.get(position);
                         //防止选择的组长是这个组的组员那么就把这个组的组员去掉
                         int memberLeaderId = memberLeader.getId();
-                        if (currentMembers!=null){
-                            int deleteGroupPosition=-1;
-                            for (int i=0;i<currentMembers.size();i++){
-                                if (currentMembers.get(i).getId()==memberLeaderId){
-                                    deleteGroupPosition=i;
+                        if (currentMembers != null) {
+                            int deleteGroupPosition = -1;
+                            for (int i = 0; i < currentMembers.size(); i++) {
+                                if (currentMembers.get(i).getId() == memberLeaderId) {
+                                    deleteGroupPosition = i;
                                     break;
                                 }
                             }
-                            if (deleteGroupPosition!=-1){
+                            if (deleteGroupPosition != -1) {
                                 currentMembers.remove(deleteGroupPosition);
-                                onSelectCount(currentMembers,currentMembers.size());
+                                onSelectCount(currentMembers, currentMembers.size());
                             }
                         }
                         tvLeader.setText(memberLeader.getName());
@@ -130,11 +135,15 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
                     checkSelectCount();
                 }
                 break;
+            case R.id.tv_ensure:
+                confirmGroupMDF();
+                break;
         }
     }
 
     private String mType;
     private List<Member> datas = new ArrayList<>();
+    private int groupId;
     /**
      * 当前的编辑的组名
      */
@@ -142,11 +151,11 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
     /**
      * 当前选中的组员
      */
-    private List<Member> currentMembers=new ArrayList<>();
+    private List<Member> currentMembers = new ArrayList<>();
     /**
      * 当前的选中的组长
      */
-    private Member memberLeader=new Member();
+    private Member memberLeader = new Member();
     private GroupActivity mActivity;
     private GroupContract.Presenter mPresenter;
     private GroupAdapter mAdapter;
@@ -159,10 +168,11 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
         return fragment;
     }
 
-    public static GroupFragment newInstance(String type, String groupName, Member memberLeader, List<Member> currentMembers) {
+    public static GroupFragment newInstance(String type, int groupId, String groupName, Member memberLeader, List<Member> currentMembers) {
         GroupFragment fragment = new GroupFragment();
         Bundle args = new Bundle();
         args.putString("type", type);
+        args.putInt("groupId", groupId);
         args.putString("groupName", groupName);
         args.putParcelable("memberLeader", memberLeader);
         args.putParcelableArrayList("currentMembers", (ArrayList<? extends Parcelable>) currentMembers);
@@ -178,11 +188,11 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
     @Override
     protected void initView() {
 
-        if (ADD.equals(mType)){
+        if (ADD.equals(mType)) {
             tvTitle.setText(getString(R.string.new_group));
-        }else if (UPDATE.equals(mType)){
+        } else if (UPDATE.equals(mType)) {
             tvTitle.setText(R.string.update_group);
-        }else {
+        } else {
 
         }
 
@@ -206,7 +216,6 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
         mAdapter.setOnItemClickListener(new OnBaseItemClickListener<Member>() {
             @Override
             public void onItemClick(BaseHolder viewHolder, Member data, int position) {
-                Logger.d(position);
             }
         });
         GridLayoutManager layoutManager = new GridLayoutManager(mActivity, 3);
@@ -226,9 +235,9 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
         if (ADD.equals(mType)) {
 
         } else if (UPDATE.equals(mType)) {
+            groupId = getArguments().getInt("groupId");
             groupName = getArguments().getString("groupName");
             memberLeader = getArguments().getParcelable("memberLeader");
-            Logger.d(groupName+"---"+memberLeader.getName());
             currentMembers = getArguments().getParcelableArrayList("currentMembers");
         } else {
 
@@ -284,7 +293,10 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
 
     @Override
     public void showMemberIndicator(boolean active) {
-
+        if (active)
+            mLoadView.show();
+        else
+            mLoadView.hide();
     }
 
     @Override
@@ -297,9 +309,8 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
         if (mType.equals(UPDATE)) {
 //            members.add(memberLeader);
 //            members.addAll(currentMembers);
-//            Logger.d(currentMembers.size());
             etGroupName.setText(groupName);
-            Logger.d(memberLeader.getName());
+            etGroupName.setSelection(groupName.length());
             tvLeader.setText(memberLeader.getName());
             onSelectCount(currentMembers, currentMembers.size());
         }
@@ -315,6 +326,16 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
     @Override
     public void showMemberDetailUi(int staiffId) {
 
+    }
+
+    @Override
+    public void showGroupMDFResult(boolean isSuccess, String message) {
+        if (!CommUtil.checkIsNull(message))
+            ToastUtils.showShort(message);
+        if (isSuccess){
+            mActivity.setResult(Activity.RESULT_OK);
+            mActivity.mSwipeBackHelper.swipeBackward();
+        }
     }
 
     @Override
@@ -387,26 +408,43 @@ public class GroupFragment extends BaseFragment implements GroupContract.View, G
         return -1;
     }
 
+    private void confirmGroupMDF() {
+        String groupName = etGroupName.getText().toString().trim();
+        if (CommUtil.checkIsNull(groupName) || CommUtil.checkIsNull(memberLeader) || CommUtil.checkIsNull(currentMembers)) {
+            ToastUtils.showLong(R.string.please_input_all_message);
+        } else {
+            if (currentMembers.size() > 0) {
+                List<GroupList.DataBean.GroupListBean> groupListBeanList = new ArrayList<>();
+                GroupList.DataBean.GroupListBean groupListBean = new GroupList.DataBean.GroupListBean();
+                List<GroupList.DataBean.GroupListBean.UserListBean> userListBeanList = new ArrayList<>();
+                GroupList.DataBean.GroupListBean.UserListBean userListBean;
+                if (ADD.equals(mType)) {
+                    groupListBean.setAction("30");
+                } else if (UPDATE.equals(mType)) {
+                    groupListBean.setAction("10");
+                } else {
+                }
+                groupListBean.setGroupid(groupId);
+                groupListBean.setGroupName(groupName);
+                groupListBean.setGroupLeaderID(memberLeader.getId());
+                //把组长也添加到组员列表里面
+                userListBean = new GroupList.DataBean.GroupListBean.UserListBean();
+                userListBean.setUserid(memberLeader.getId());
+                userListBean.setGroupid(groupId);
+                userListBeanList.add(userListBean);
+                //添加组员
+                for (int i = 0; i < currentMembers.size(); i++) {
+                    userListBean = new GroupList.DataBean.GroupListBean.UserListBean();
+                    userListBean.setUserid(currentMembers.get(i).getId());
+                    userListBean.setGroupid(groupId);
+                    userListBeanList.add(userListBean);
+                }
+                groupListBean.setUserList(userListBeanList);
+                groupListBeanList.add(groupListBean);
 
-//    public List<Member> getDatas() {
-//        List<Member> datas = new ArrayList<>();
-//        Member member = null;
-//        Random random = new Random();
-//        for (int i = 0; i < 50; i++) {
-//            int nextInt = random.nextInt(4);
-//            String name = "";
-//            if (nextInt == 0) {
-//                name = "胡歌";
-//            } else if (nextInt == 1) {
-//                name = "李冰冰";
-//            } else if (nextInt == 2) {
-//                name = "诸葛孔明";
-//            } else {
-//                name = "尼古拉斯凯奇";
-//            }
-//            member = new Member(i, name, false);
-//            datas.add(member);
-//        }
-//        return datas;
-//    }
+                mPresenter.groupMDF(true, groupListBeanList);
+            }
+        }
+    }
+
 }

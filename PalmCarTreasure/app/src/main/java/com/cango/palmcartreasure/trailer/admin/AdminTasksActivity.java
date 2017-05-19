@@ -1,5 +1,7 @@
 package com.cango.palmcartreasure.trailer.admin;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
@@ -9,6 +11,7 @@ import com.cango.palmcartreasure.util.CommUtil;
 
 public class AdminTasksActivity extends BaseActivity {
 
+    public static final int ACTIVITY_ARRANGE_REQUEST_CODE=1001;
     private AdminTaskPresenter mPresenter;
 
     @Override
@@ -37,5 +40,17 @@ public class AdminTasksActivity extends BaseActivity {
             transaction.commit();
         }
         mPresenter = new AdminTaskPresenter(adminTasksFragment);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==ACTIVITY_ARRANGE_REQUEST_CODE){
+            if (resultCode== Activity.RESULT_OK){
+                AdminTasksFragment adminTasksFragment = (AdminTasksFragment) getSupportFragmentManager().findFragmentById(R.id.fl_admin_contains);
+                if (adminTasksFragment!=null){
+                    adminTasksFragment.onRefresh();
+                }
+            }
+        }
     }
 }

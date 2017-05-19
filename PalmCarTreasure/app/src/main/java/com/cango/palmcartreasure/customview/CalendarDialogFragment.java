@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.cango.palmcartreasure.R;
+import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -25,6 +26,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by cango on 2017/4/17.
@@ -34,6 +36,12 @@ public class CalendarDialogFragment extends DialogFragment implements OnDateSele
     CalendarDay mSelectDay;
     Drawable selectDayEqualToday;
     OneDayDecorator mOneDayDecorator;
+
+    public void setCalendarDilaogListener(CalendarDilaogListener calendarDilaogListener) {
+        this.mListener = calendarDilaogListener;
+    }
+
+    private CalendarDilaogListener mListener;
 
     @Nullable
     @Override
@@ -63,6 +71,7 @@ public class CalendarDialogFragment extends DialogFragment implements OnDateSele
             @Override
             public void onClick(View v) {
                 getDialog().dismiss();
+                mListener.onCalendarClick(mSelectDay.getDate());
             }
         });
         return view;
@@ -153,5 +162,8 @@ public class CalendarDialogFragment extends DialogFragment implements OnDateSele
         public void setDate(CalendarDay date) {
             this.date = date;
         }
+    }
+    public interface CalendarDilaogListener{
+        void onCalendarClick(Date date);
     }
 }

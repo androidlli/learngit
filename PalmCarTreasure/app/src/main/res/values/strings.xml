@@ -32,7 +32,7 @@
     <string name="unfinished">未完成</string>
     <string name="other_task">其他</string>
 
-    <string name="load_end_tip">--end--</string>
+    <string name="load_end_tip">已经全部加载完毕。</string>
     <string name="load_loading_tip">努力加载中</string>
     <string name="load_failed_tip">点我再试试？</string>
     <string name="start_task">开始任务</string>
@@ -120,4 +120,8 @@
     <string name="new_group">新建分组</string>
     <string name="revulsion">抽回</string>
     <string name="update_group">修改分组</string>
+    <string name="please_input_all_message">请填写完整信息！</string>
+    <string name="please_input_search_conditions">请输入至少一个搜索条件！</string>
+    <string name="phone1">13162315225</string>
+    <string name="no_get_location">暂未能获取位置，请稍后尝试！</string>
 </resources>

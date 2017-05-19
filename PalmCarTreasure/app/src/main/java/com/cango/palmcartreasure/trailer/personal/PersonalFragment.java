@@ -3,30 +3,31 @@ package com.cango.palmcartreasure.trailer.personal;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseFragment;
-import com.cango.palmcartreasure.trailer.map.TrailerMapActivity;
+import com.cango.palmcartreasure.model.PersonalInfo;
 import com.cango.palmcartreasure.util.BarUtil;
-
-import java.util.List;
+import com.cango.palmcartreasure.util.CommUtil;
+import com.cango.palmcartreasure.util.ToastUtils;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PersonalFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PersonalFragment extends BaseFragment implements PersonalContract.View{
+public class PersonalFragment extends BaseFragment implements PersonalContract.View {
     @BindView(R.id.toolbar_personal)
     Toolbar mToolbar;
+    @BindView(R.id.tv_gender)
+    TextView tvGender;
+    @BindView(R.id.tv_mobile)
+    TextView tvMobile;
+    @BindView(R.id.avl_login_indicator)
+    AVLoadingIndicatorView mLoadView;
 
     private PersonalActivity mActivity;
     private PersonalContract.Presenter mPresenter;
@@ -64,6 +65,9 @@ public class PersonalFragment extends BaseFragment implements PersonalContract.V
         mActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
         mActivity.getSupportActionBar().setHomeButtonEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mPresenter.start();
+        mPresenter.loadPersonalData(true);
     }
 
     @Override
@@ -73,27 +77,31 @@ public class PersonalFragment extends BaseFragment implements PersonalContract.V
 
     @Override
     public void setPresenter(PersonalContract.Presenter presenter) {
-
+        mPresenter = presenter;
     }
 
     @Override
     public void showPersonalDataIndicator(boolean active) {
-
+        if (active) {
+            mLoadView.smoothToShow();
+        } else {
+            mLoadView.smoothToHide();
+        }
     }
 
     @Override
-    public void showPersonalDataError() {
-
+    public void showPersonalDataError(String message) {
+        if (!CommUtil.checkIsNull(message)) {
+            ToastUtils.showLong(message);
+        }
     }
 
     @Override
-    public void showPersonalData(List<String> personalData) {
-
-    }
-
-    @Override
-    public void showNoPersonalData() {
-
+    public void showPersonalData(PersonalInfo.DataBean dataBean) {
+        if (!CommUtil.checkIsNull(dataBean)){
+            tvGender.setText(dataBean.getGender());
+            tvMobile.setText(dataBean.getMobile());
+        }
     }
 
     @Override

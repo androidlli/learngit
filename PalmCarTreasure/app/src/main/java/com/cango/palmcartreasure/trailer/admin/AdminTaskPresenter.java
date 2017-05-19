@@ -8,10 +8,14 @@ import com.cango.palmcartreasure.model.GroupTaskQuery;
 import com.cango.palmcartreasure.model.TaskAbandon;
 import com.cango.palmcartreasure.model.TaskAbandonRequest;
 import com.cango.palmcartreasure.model.TaskManageList;
+import com.cango.palmcartreasure.model.TypeTaskData;
 import com.cango.palmcartreasure.net.NetManager;
 import com.cango.palmcartreasure.net.RxSubscriber;
+import com.cango.palmcartreasure.util.CommUtil;
 
-import org.w3c.dom.CDATASection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -55,19 +59,31 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
                                 mAdminView.showAdminTasksIndicator(false);
                                 int code = o.getCode();
                                 if (code == 0) {
-                                    mAdminView.showAdminTasks(o.getData().getTaskCountList());
-                                } else if (code == -1) {
+                                    if (o.getData() == null) {
+                                        mAdminView.showAdminTasksError();
+                                    } else {
+//                                        mAdminView.showAdminTasks(o.getData().getTaskCountList());
+                                        if (CommUtil.checkIsNull(o.getData())) {
+                                            mAdminView.showAdminTasksError();
+                                        } else {
+                                            if (!CommUtil.checkIsNull(o.getData().getTaskCountList()) && o.getData().getTaskCountList().size() > 0)
+                                                mAdminView.showAdminTasks(o.getData().getTaskCountList());
+                                            else {
+                                                mAdminView.showNoAdminTasks();
+                                            }
+                                        }
+                                    }
+                                } else
                                     mAdminView.showAdminTasksError();
-                                } else {
-
-                                }
                             }
                         }
 
                         @Override
                         protected void _onError() {
-                            if (mAdminView.isActive())
+                            if (mAdminView.isActive()) {
                                 mAdminView.showAdminTasksIndicator(false);
+                                mAdminView.showAdminTasksError();
+                            }
                         }
                     });
         } else if (type.equals(AdminTasksFragment.TASK)) {
@@ -75,7 +91,7 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
         } else if (type.equals(AdminTasksFragment.ADMIN_UNABSORBED)) {
             mService.getTaskManageList(MtApplication.mSPUtils.getInt(Api.USERID),
                     MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
-                    MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON),pageCount,pageSize)
+                    MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON), pageCount, pageSize)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new RxSubscriber<TaskManageList>() {
@@ -85,19 +101,31 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
                                 mAdminView.showAdminTasksIndicator(false);
                                 int code = o.getCode();
                                 if (code == 0) {
-                                    mAdminView.showAdminUnabsorbedTasks(o.getData().getTaskList());
-                                } else if (code == -1) {
+//                                    mAdminView.showAdminUnabsorbedTasks(o.getData().getTaskList());
+                                    if (o.getData() == null) {
+                                        mAdminView.showAdminTasksError();
+                                    } else {
+                                        if (CommUtil.checkIsNull(o.getData())) {
+                                            mAdminView.showAdminTasksError();
+                                        } else {
+                                            if (!CommUtil.checkIsNull(o.getData().getTaskList()) && o.getData().getTaskList().size() > 0)
+                                                mAdminView.showAdminUnabsorbedTasks(o.getData().getTaskList());
+                                            else {
+                                                mAdminView.showNoAdminTasks();
+                                            }
+                                        }
+                                    }
+                                } else
                                     mAdminView.showAdminTasksError();
-                                } else {
-
-                                }
                             }
                         }
 
                         @Override
                         protected void _onError() {
-                            if (mAdminView.isActive())
+                            if (mAdminView.isActive()) {
                                 mAdminView.showAdminTasksIndicator(false);
+                                mAdminView.showAdminTasksError();
+                            }
                         }
                     });
         }
@@ -112,8 +140,16 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
         } else {
 
         }
-        mService.getGroupTaskQuery(MtApplication.mSPUtils.getInt(Api.USERID),userIds, MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
-                MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON),pageCount,pageSize)
+//        mService.getGroupTaskQuery(MtApplication.mSPUtils.getInt(Api.USERID), userIds, MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT),
+//                MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON), pageCount, pageSize)
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("userid", MtApplication.mSPUtils.getInt(Api.USERID));
+        objectMap.put("groupIDList", userIds);
+        objectMap.put("LAT", lat);
+        objectMap.put("LON", lon);
+        objectMap.put("pageIndex", pageCount);
+        objectMap.put("pageSize", pageSize);
+        mService.getGroupTaskQuery(objectMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<GroupTaskQuery>() {
@@ -123,44 +159,99 @@ public class AdminTaskPresenter implements AdminTasksContract.Presenter {
                             mAdminView.showAdminTasksIndicator(false);
                             int code = o.getCode();
                             if (code == 0) {
-                                mAdminView.showAdminGroupTasks(o.getData().getTaskList());
-                            } else if (code == -1) {
+                                if (CommUtil.checkIsNull(o.getData())) {
+                                    mAdminView.showAdminTasksError();
+                                } else {
+                                    if (!CommUtil.checkIsNull(o.getData().getTaskList()) && o.getData().getTaskList().size() > 0)
+                                        mAdminView.showAdminGroupTasks(o.getData().getTaskList());
+                                    else {
+                                        mAdminView.showNoAdminTasks();
+                                    }
+                                }
+                            } else
                                 mAdminView.showAdminTasksError();
-                            } else {
-
-                            }
                         }
                     }
 
                     @Override
                     protected void _onError() {
-                        if (mAdminView.isActive())
+                        if (mAdminView.isActive()) {
                             mAdminView.showAdminTasksIndicator(false);
+                            mAdminView.showAdminTasksError();
+                        }
                     }
                 });
     }
 
     @Override
-    public void giveUpTasks(TaskAbandonRequest[] requests) {
-        mService.TaskAbandon(MtApplication.mSPUtils.getInt(Api.USERID),requests)
+    public void groupTaskDraw(final boolean showRefreshLoadingUI, List<GroupTaskQuery.DataBean.TaskListBean> taskListBeanList) {
+        if (showRefreshLoadingUI) {
+            if (mAdminView.isActive())
+                mAdminView.showLoadingView(showRefreshLoadingUI);
+        }
+//        mService.groupTaskDraw(MtApplication.mSPUtils.getInt(Api.USERID), taskListBeanList)
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("userid", MtApplication.mSPUtils.getInt(Api.USERID));
+        objectMap.put("taskList", taskListBeanList);
+        mService.groupTaskDraw(objectMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<TaskAbandon>() {
                     @Override
                     protected void _onNext(TaskAbandon o) {
                         if (mAdminView.isActive()) {
+                            mAdminView.showLoadingView(false);
                             int code = o.getCode();
-                            if (code==0||code==-1){
-                                boolean isSuccess=code==0?true:false;
-                                mAdminView.showGiveUpTasksAndNotifyUi(isSuccess,o.getMsg());
+                            boolean isSuccess = code == 0;
+                            mAdminView.showGroupTaskDraw(isSuccess, o.getMsg());
+                        }
+                    }
+
+                    @Override
+                    protected void _onError() {
+                        if (mAdminView.isActive()) {
+                            mAdminView.showLoadingView(false);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void giveUpTasks(TaskAbandonRequest[] requests) {
+        if (mAdminView.isActive()) {
+            mAdminView.showLoadingView(true);
+        }
+//        mService.TaskAbandon(MtApplication.mSPUtils.getInt(Api.USERID), requests)
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("userid", MtApplication.mSPUtils.getInt(Api.USERID));
+        objectMap.put("taskList", requests);
+        mService.TaskAbandon(objectMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<TaskAbandon>() {
+                    @Override
+                    protected void _onNext(TaskAbandon o) {
+                        if (mAdminView.isActive()) {
+                            mAdminView.showLoadingView(false);
+                            int code = o.getCode();
+                            if (code == 0 || code == -1) {
+                                boolean isSuccess = code == 0;
+                                mAdminView.showGiveUpTasksAndNotifyUi(isSuccess, o.getMsg());
                             }
                         }
                     }
 
                     @Override
                     protected void _onError() {
-
+                        if (mAdminView.isActive()) {
+                            mAdminView.showLoadingView(false);
+                        }
                     }
                 });
+    }
+
+    @Override
+    public void openDetailTask(TypeTaskData.DataBean.TaskListBean taskListBean) {
+        mAdminView.showAdminTaskDetailUi(taskListBean);
     }
 }

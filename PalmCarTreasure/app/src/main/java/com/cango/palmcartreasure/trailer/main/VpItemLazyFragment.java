@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseLazyFragment;
+import com.cango.palmcartreasure.model.TypeTaskData;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 
@@ -13,18 +15,23 @@ import butterknife.BindView;
  */
 
 public class VpItemLazyFragment extends BaseLazyFragment {
-    private static final String ID="id";
-    private static final String NAME="name";
 
-    @BindView(R.id.tv_vp_item_id)
-    TextView tvId;
+    @BindView(R.id.tv_vp_item_plate)
+    TextView tvPlate;
     @BindView(R.id.tv_vp_item_name)
     TextView tvName;
-    public static VpItemLazyFragment newInstance(String id,String name) {
+    @BindView(R.id.tv_vp_item_monthpayments)
+    TextView tvMents;
+    @BindView(R.id.tv_distance)
+    TextView tvDistance;
+    @BindView(R.id.tv_vp_item_tag)
+    TextView tvTag;
+    @BindView(R.id.tv_status)
+    TextView tvStatus;
+    public static VpItemLazyFragment newInstance(TypeTaskData.DataBean.TaskListBean taskListBean) {
         VpItemLazyFragment fragment = new VpItemLazyFragment();
         Bundle arguments = new Bundle();
-        arguments.putString(ID, id);
-        arguments.putString(NAME,name);
+        arguments.putParcelable("taskListBean",taskListBean);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -34,11 +41,14 @@ public class VpItemLazyFragment extends BaseLazyFragment {
     }
 
     @Override
-    protected void initData() {
-        Bundle arguments = getArguments();
-        String id = (String) arguments.get(ID);
-        String name= (String) arguments.get(NAME);
-        tvId.setText(id);
-        tvName.setText(name);
+    public void initData() {
+        Logger.d(11111111);
+        TypeTaskData.DataBean.TaskListBean mTaskListBean= (TypeTaskData.DataBean.TaskListBean) getArguments().get("taskListBean");
+        tvPlate.setText(mTaskListBean.getCustomerName());
+        tvName.setText(mTaskListBean.getApplyCD());
+        tvMents.setText(mTaskListBean.getCarPlateNO());
+        tvDistance.setText(mTaskListBean.getDistance());
+        tvTag.setText(mTaskListBean.getShortName());
+        tvStatus.setText(mTaskListBean.getFlowStauts());
     }
 }

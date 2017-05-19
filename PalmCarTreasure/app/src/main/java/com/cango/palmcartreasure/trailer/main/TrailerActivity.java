@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseActivity;
+import com.cango.palmcartreasure.model.TaskDrawEvent;
 import com.cango.palmcartreasure.util.BarUtil;
 import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.ScreenUtil;
@@ -36,14 +37,24 @@ public class TrailerActivity extends BaseActivity {
         setContentView(R.layout.activity_trailer);
 
         TrailerFragment trailerFragment = (TrailerFragment) getSupportFragmentManager().findFragmentById(R.id.fl_trailer_contains);
+        boolean isFromSMS = false;
+        if (getIntent()!=null){
+            if (getIntent().hasExtra("isFromSMS")){
+                isFromSMS = getIntent().getBooleanExtra("isFromSMS",false);
+            }
+        }
         if (CommUtil.checkIsNull(trailerFragment)) {
-            trailerFragment = TrailerFragment.newInstance();
+            if (isFromSMS){
+                trailerFragment=trailerFragment.newInstance(isFromSMS);
+            }else {
+                trailerFragment = TrailerFragment.newInstance();
+            }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fl_trailer_contains, trailerFragment);
             transaction.commit();
         }
-        Logger.d("w = "+ScreenUtil.getScreenWidth(this)+"; h = "+ScreenUtil.getScreenHeight(this));
-        Logger.d("statusBar = "+ BarUtil.getStatusBarHeight(this)+"; navigationBar = "+BarUtil.getNavigationBarHeight(this));
+//        Logger.d("w = "+ScreenUtil.getScreenWidth(this)+"; h = "+ScreenUtil.getScreenHeight(this));
+//        Logger.d("statusBar = "+ BarUtil.getStatusBarHeight(this)+"; navigationBar = "+BarUtil.getNavigationBarHeight(this));
 
     }
 

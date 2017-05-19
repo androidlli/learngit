@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -22,7 +24,7 @@ public abstract class BaseLazyFragment extends Fragment {
 
     protected abstract int getLayoutId();
 
-    protected abstract void initData();
+    public abstract void initData();
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -52,6 +54,7 @@ public abstract class BaseLazyFragment extends Fragment {
     }
 
     private void lazyLoad() {
+        Logger.d(isFirstLoad+"   "+isVisible()+"   "+isInitView);
         if (!isFirstLoad || !isVisible || !isInitView) {
             return;
         } else {

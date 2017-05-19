@@ -80,6 +80,28 @@ public class GroupList {
             private String groupName;
             private String groupLeader;
             private int groupLeaderID;
+
+            public String getAction() {
+                return action;
+            }
+
+            public void setAction(String action) {
+                this.action = action;
+            }
+
+            //test
+            private String action;
+
+            public boolean isSelected() {
+                return isSelected;
+            }
+
+            public void setSelected(boolean selected) {
+                isSelected = selected;
+            }
+
+            //增加这个为了给租分配任务的时候有点中效果
+            private boolean isSelected;
             private List<UserListBean> userList;
 
             public int getGroupid() {

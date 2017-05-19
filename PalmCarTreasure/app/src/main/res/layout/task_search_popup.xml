@@ -17,6 +17,7 @@
             android:paddingTop="10dp">
 
             <EditText
+                android:id="@+id/et_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -30,6 +31,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/et_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -56,11 +58,13 @@
             android:layout_marginTop="10dp">
 
             <RadioGroup
+                android:id="@+id/rg_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/rb_month"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -68,6 +72,7 @@
                     android:textColor="@color/mt9f9b92" />
 
                 <RadioButton
+                    android:id="@+id/rb_half_year"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -75,6 +80,7 @@
                     android:textColor="@color/mt9f9b92" />
 
                 <RadioButton
+                    android:id="@+id/rb_year"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -89,6 +95,7 @@
             android:layout_marginTop="25dp">
 
             <Button
+                android:id="@+id/btn_cancal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -97,6 +104,7 @@
                 android:text="@string/cancel" />
 
             <Button
+                android:id="@+id/btn_confirm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"

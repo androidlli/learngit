@@ -23,10 +23,14 @@ public interface GroupContract {
 
         void showMemberDetailUi(int staiffId);
 
+        void showGroupMDFResult(boolean isSuccess,String message);
+
         boolean isActive();
     }
 
     interface Presenter extends BasePresenter {
         void loadMembers(String type, boolean showRefreshLoadingUI, int pageCount, int pageSize);
+
+        void groupMDF(boolean showRefreshLoadingUI, List<GroupList.DataBean.GroupListBean> groupListBeanList);
     }
 }

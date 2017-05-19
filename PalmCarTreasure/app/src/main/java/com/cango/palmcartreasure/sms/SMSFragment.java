@@ -1,6 +1,7 @@
 package com.cango.palmcartreasure.sms;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseFragment;
 import com.cango.palmcartreasure.trailer.main.TrailerActivity;
@@ -28,7 +28,10 @@ public class SMSFragment extends BaseFragment implements SMSContract.View {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_sms_complete:
-                mActivity.mSwipeBackHelper.forwardAndFinish(TrailerActivity.class);
+                //通过eventbus来设置删除acivitylist
+                Intent intent=new Intent(mActivity,TrailerActivity.class);
+                intent.putExtra("isFromSMS",true);
+                mActivity.mSwipeBackHelper.forward(intent);
                 break;
         }
     }

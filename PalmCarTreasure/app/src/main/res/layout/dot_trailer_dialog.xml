@@ -33,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
         <TextView
+            android:id="@+id/tv_now"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -42,12 +43,13 @@
             android:background="@color/mtedae62"
             android:text="@string/notice_now"/>
         <TextView
+            android:id="@+id/tv_delay"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@color/mt9c9c9c"
-            android:text="@string/notice_now"/>
+            android:text="延迟通知"/>
     </LinearLayout>
 </LinearLayout>

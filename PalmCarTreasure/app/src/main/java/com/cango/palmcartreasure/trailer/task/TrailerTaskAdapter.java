@@ -14,8 +14,8 @@ import java.util.List;
  * Created by cango on 2017/4/10.
  */
 
-public class TrailerTaskAdapter extends BaseAdapter<TypeTaskData.DataBean> {
-    public TrailerTaskAdapter(Context context, List<TypeTaskData.DataBean> datas, boolean isOpenLoadMore) {
+public class TrailerTaskAdapter extends BaseAdapter<TypeTaskData.DataBean.TaskListBean> {
+    public TrailerTaskAdapter(Context context, List<TypeTaskData.DataBean.TaskListBean> datas, boolean isOpenLoadMore) {
         super(context, datas, isOpenLoadMore);
     }
 
@@ -26,6 +26,18 @@ public class TrailerTaskAdapter extends BaseAdapter<TypeTaskData.DataBean> {
     }
 
     @Override
-    protected void convert(BaseHolder holder, TypeTaskData.DataBean data) {
+    protected void convert(BaseHolder holder, TypeTaskData.DataBean.TaskListBean data) {
+        TextView tvApplyCD = holder.getView(R.id.tv_task_item_id);
+        TextView tvDistance = holder.getView(R.id.tv_distance);
+        TextView tvShortName = holder.getView(R.id.tv_task_item_type);
+        TextView tvCustomerName = holder.getView(R.id.tv_task_item_name);
+        TextView tvCarPlateNO = holder.getView(R.id.tv_task_item_plate);
+
+        tvApplyCD.setText(data.getApplyCD());
+        tvDistance.setText(data.getDistance());
+        tvShortName.setText(data.getShortName());
+        tvCustomerName.setText(data.getCustomerName());
+        tvCarPlateNO.setText(data.getCarPlateNO());
+
     }
 }

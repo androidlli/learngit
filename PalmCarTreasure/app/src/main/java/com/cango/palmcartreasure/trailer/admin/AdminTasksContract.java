@@ -6,7 +6,7 @@ import com.cango.palmcartreasure.model.GroupTaskCount;
 import com.cango.palmcartreasure.model.GroupTaskQuery;
 import com.cango.palmcartreasure.model.TaskAbandonRequest;
 import com.cango.palmcartreasure.model.TaskManageList;
-import com.cango.palmcartreasure.trailer.task.TaskContract;
+import com.cango.palmcartreasure.model.TypeTaskData;
 
 import java.util.List;
 
@@ -22,6 +22,7 @@ public interface AdminTasksContract {
 
         /**
          * 展示管理员所有的分组列表
+         *
          * @param
          */
         void showAdminTasks(List<GroupTaskCount.DataBean.TaskCountListBean> tasks);
@@ -32,22 +33,40 @@ public interface AdminTasksContract {
         void showAdminGroupTasks(List<GroupTaskQuery.DataBean.TaskListBean> tasks);
 
         /**
+         * 展示抽回结果
+         *
+         * @param isSuccess
+         * @param message
+         */
+        void showGroupTaskDraw(boolean isSuccess, String message);
+
+        /**
          * 展示管理员所有未分配的任务
          */
         void showAdminUnabsorbedTasks(List<TaskManageList.DataBean.TaskListBean> tasks);
 
-        void showGiveUpTasksAndNotifyUi(boolean isSuccess,String message);
+        void showGiveUpTasksAndNotifyUi(boolean isSuccess, String message);
 
         void showNoAdminTasks();
 
-        void showAdminTaskDetailUi(int taskId);
+        void showAdminTaskDetailUi(TypeTaskData.DataBean.TaskListBean taskListBean);
+
+        void showLoadingView(boolean isShow);
 
         boolean isActive();
     }
 
     interface Presenter extends BasePresenter {
         void loadAdminTasks(String type, float lat, float lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
+
         void loadGroupTasks(int[] groupIds, float lat, float lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
+
+        //抽回任务
+        void groupTaskDraw(boolean showRefreshLoadingUI, List<GroupTaskQuery.DataBean.TaskListBean> taskListBeanList);
+
+        //放弃任务
         void giveUpTasks(TaskAbandonRequest[] requests);
+
+        void openDetailTask(TypeTaskData.DataBean.TaskListBean taskListBean);
     }
 }

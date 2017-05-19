@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseActivity;
-import com.cango.palmcartreasure.trailer.mine.MineFragment;
+import com.cango.palmcartreasure.model.TypeTaskData;
 import com.cango.palmcartreasure.util.CommUtil;
 
 public class TrailerMapActivity extends BaseActivity {
@@ -27,9 +27,10 @@ public class TrailerMapActivity extends BaseActivity {
 
         }
         String type = getIntent().getStringExtra(TrailerMapFragment.TYPE);
+        TypeTaskData.DataBean.TaskListBean taskListBean = getIntent().getParcelableExtra(TrailerMapFragment.TASKLISTBEAN);
         TrailerMapFragment mapFragment = (TrailerMapFragment) getSupportFragmentManager().findFragmentById(R.id.fl_trailer_map_contains);
         if (CommUtil.checkIsNull(mapFragment)) {
-            mapFragment = TrailerMapFragment.newInstance(type);
+            mapFragment = TrailerMapFragment.newInstance(type,taskListBean);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fl_trailer_map_contains, mapFragment);
             transaction.commit();

@@ -16,19 +16,20 @@ public interface TaskContract {
 
         void showTasksError();
 
-        void showTasks(List<TypeTaskData.DataBean> tasks);
+        void showTasks(List<TypeTaskData.DataBean.TaskListBean> tasks);
 
         void showNoTasks();
 
-        void showTaskDetailUi(int taskId);
+        void showTaskDetailUi(TypeTaskData.DataBean.TaskListBean taskListBean);
 
         boolean isActive();
     }
 
     interface Presenter extends BasePresenter {
-        void openDetailTask(int id);
+        void openDetailTask(TypeTaskData.DataBean.TaskListBean taskListBean);
 
         void loadTasks(String type,float lat,float lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
 
+        void taskQuery(boolean showRefreshLoadingUI,String type,String applyCD,String customerName,int timeFlag,int pageIndex,int pageSize);
     }
 }

@@ -47,7 +47,7 @@
                 android:layout_width="67dp"
                 android:layout_height="67dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/mine_head" />
+                android:src="@drawable/mine_head"/>
 
             <TextView
                 android:id="@+id/tv_mine_nickName"
@@ -56,7 +56,6 @@
                 android:layout_below="@+id/civ_mine_head"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/app_name"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -67,7 +66,6 @@
                 android:layout_below="@+id/tv_mine_nickName"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
-                android:text="@string/app_name"
                 android:textColor="@color/mtb3ffffff"
                 android:textSize="10sp" />
         </RelativeLayout>
@@ -108,9 +106,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_alltaskcount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trailer_sos"
                 android:textColor="@color/mt434947"
                 android:textSize="49px" />
 
@@ -136,9 +134,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_undonetaskcount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trailer_sos"
                 android:textColor="@color/mt434947"
                 android:textSize="49px" />
 
@@ -164,9 +162,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_donetaskcount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trailer_sos"
                 android:textColor="@color/mt434947"
                 android:textSize="49px" />
 
@@ -207,12 +205,7 @@
                     android:text="@string/message_notificaton"
                     android:textColor="@color/mt525252"
                     android:textSize="15sp" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/next_step" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -304,68 +297,6 @@
                     android:src="@drawable/next_step" />
             </RelativeLayout>
 
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginLeft="12dp"-->
-                <!--android:layout_marginRight="12dp"-->
-                <!--android:background="@color/line" />-->
-
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:background="@android:color/white"-->
-                <!--android:paddingBottom="20dp"-->
-                <!--android:paddingLeft="12dp"-->
-                <!--android:paddingRight="12dp"-->
-                <!--android:paddingTop="20dp">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/copyright_information"-->
-                    <!--android:textColor="@color/mt525252"-->
-                    <!--android:textSize="15sp" />-->
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:src="@drawable/next_step" />-->
-            <!--</RelativeLayout>-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginLeft="12dp"-->
-                <!--android:layout_marginRight="12dp"-->
-                <!--android:background="@color/line" />-->
-
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:background="@android:color/white"-->
-                <!--android:paddingBottom="20dp"-->
-                <!--android:paddingLeft="12dp"-->
-                <!--android:paddingRight="12dp"-->
-                <!--android:paddingTop="20dp">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/software_licensing_agreement"-->
-                    <!--android:textColor="@color/mt525252"-->
-                    <!--android:textSize="15sp" />-->
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:src="@drawable/next_step" />-->
-            <!--</RelativeLayout>-->
-
             <Button
                 android:id="@+id/btn_exit"
                 android:layout_width="214dp"
@@ -379,4 +310,5 @@
                 android:background="@drawable/button_exit_account"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <include layout="@layout/avload_view"/>
 </RelativeLayout>

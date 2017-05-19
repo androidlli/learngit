@@ -3,11 +3,13 @@ package com.cango.palmcartreasure.trailer.taskdetail;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseActivity;
+import com.cango.palmcartreasure.model.TypeTaskData;
 import com.cango.palmcartreasure.trailer.task.TrailerTaskPresenter;
 import com.cango.palmcartreasure.trailer.task.TrailerTasksFragment;
 import com.cango.palmcartreasure.util.CommUtil;
@@ -29,10 +31,11 @@ public class TaskDetailActivity extends BaseActivity {
 
         }
 
-        int id = getIntent().getIntExtra("id",0-1);
+        int type=0;
+        TypeTaskData.DataBean.TaskListBean taskListBean = getIntent().getParcelableExtra(TaskDetailFragment.TASKLISTBEAN);
         TaskDetailFragment detailFragment = (TaskDetailFragment) getSupportFragmentManager().findFragmentById(R.id.fl_detail_contains);
         if (CommUtil.checkIsNull(detailFragment)){
-            detailFragment=TaskDetailFragment.newInstance(id);
+            detailFragment=TaskDetailFragment.newInstance(type,taskListBean);
             FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fl_detail_contains,detailFragment);
             transaction.commit();

@@ -46,38 +46,42 @@
                 android:layout_marginTop="40px"
                 android:layout_marginRight="40px"
                 android:orientation="vertical">
+
                 <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
                     android:padding="40px">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="63px"
                         android:layout_centerVertical="true"
+                        android:background="@drawable/admin_task_group_name_bg"
                         android:gravity="center"
+                        android:paddingBottom="5px"
                         android:paddingLeft="31px"
                         android:paddingRight="31px"
                         android:paddingTop="5px"
-                        android:paddingBottom="5px"
-                        android:textSize="36px"
-                        android:textColor="@android:color/white"
                         android:text="小组名称"
-                        android:background="@drawable/admin_task_group_name_bg"/>
+                        android:textColor="@android:color/white"
+                        android:textSize="36px" />
+
                     <EditText
                         android:id="@+id/et_group_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:textSize="36px"
-                        android:textColorHint="@color/mt9c9c9c"
-                        android:hint="@string/plase_input_group_name"
-                        android:gravity="right"
-                        android:background="@android:color/transparent"
-                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:gravity="right"
+                        android:hint="@string/plase_input_group_name"
+                        android:textColorHint="@color/mt9c9c9c"
+                        android:textSize="36px" />
                 </com.zhy.autolayout.AutoRelativeLayout>
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1px"
@@ -236,6 +240,7 @@
                 </com.zhy.autolayout.AutoRelativeLayout>
             </com.zhy.autolayout.AutoLinearLayout>
             <TextView
+                android:id="@+id/tv_ensure"
                 android:layout_width="600px"
                 android:layout_height="107px"
                 android:layout_centerHorizontal="true"
@@ -247,6 +252,7 @@
                 android:textSize="13sp"
                 android:textColor="@android:color/white" />
         </com.zhy.autolayout.AutoRelativeLayout>
+        <include layout="@layout/avload_view"></include>
     </RelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout

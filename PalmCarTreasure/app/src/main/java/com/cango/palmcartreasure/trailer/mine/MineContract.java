@@ -2,6 +2,7 @@ package com.cango.palmcartreasure.trailer.mine;
 
 import com.cango.palmcartreasure.base.BasePresenter;
 import com.cango.palmcartreasure.base.BaseView;
+import com.cango.palmcartreasure.model.PersonMain;
 
 import java.util.List;
 
@@ -10,14 +11,25 @@ import java.util.List;
  */
 
 public interface MineContract {
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
         void showMineDataIndicator(boolean active);
+
         void showMineDataError();
-        void showMineData(List<String> mineData);
+
+        void showMineData(PersonMain.DataBean dataBean);
+
+        void showLogoutMessage(boolean isSuccess, String message);
+
         void showNoMineData();
+
         boolean isActive();
     }
-    interface Presenter extends BasePresenter{
+
+    interface Presenter extends BasePresenter {
         void loadMineData(boolean showLoadingUI);
+
+        void logout(boolean showLoadingUI, float lat, float lon);
+
+        void logoutTest(boolean showLoadingUI,float lat,float lon);
     }
 }

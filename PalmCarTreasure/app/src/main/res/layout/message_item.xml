@@ -4,36 +4,83 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:paddingLeft="45px"
-    android:paddingRight="45px"
-    android:paddingTop="45px">
-    <TextView
-        android:id="@+id/tv_message_item_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/mt303030"
-        android:textSize="17sp"
-        android:text="@string/app_name"/>
+    android:paddingRight="60px"
+    android:paddingTop="50px">
+
     <TextView
         android:id="@+id/tv_message_item_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/mt9c9c9c"
-        android:textSize="12sp"
-        android:text="@string/app_name"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_message_item_id"/>
+        android:textSize="12sp" />
+
     <TextView
         android:id="@+id/tv_message_item_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_message_item_date"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="@color/mt9c9c9c"
-        android:textSize="12sp"
-        android:text="@string/app_name"
-        android:layout_below="@+id/tv_message_item_date"/>
+        android:textSize="15sp" />
+
     <ImageView
+        android:id="@+id/iv_red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_message_item_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/red_dot" />
+
+    <ImageView
+        android:id="@+id/iv_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="50px"
         android:layout_below="@+id/tv_message_item_content"
-        android:background="@color/line"
-        android:layout_marginTop="45px" />
+        android:background="@color/line" />
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/ll_id"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center_vertical">-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_message_item_id"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textColor="@color/mt303030"-->
+    <!--android:textSize="17sp" />-->
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_red"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="5px"-->
+    <!--android:src="@drawable/red_dot"/>-->
+    <!--</LinearLayout>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_message_item_date"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textColor="@color/mt9c9c9c"-->
+    <!--android:textSize="12sp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_below="@+id/ll_id"/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_message_item_content"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="45px"-->
+    <!--android:textColor="@color/mt9c9c9c"-->
+    <!--android:textSize="12sp"-->
+    <!--android:singleLine="true"-->
+    <!--android:ellipsize="end"-->
+    <!--android:layout_below="@+id/tv_message_item_date"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_line"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_below="@+id/tv_message_item_content"-->
+    <!--android:background="@color/line" />-->
 </RelativeLayout>

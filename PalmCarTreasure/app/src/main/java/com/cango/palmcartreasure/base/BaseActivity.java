@@ -6,6 +6,9 @@ import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.jaeger.library.StatusBarUtil;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -25,6 +28,8 @@ public abstract class BaseActivity extends AutoLayoutActivity implements BGASwip
         // 「必须在 Application 的 onCreate 方法中执行 BGASwipeBackManager.getInstance().init(this) 来初始化滑动返回」
         // 在 super.onCreate(savedInstanceState) 之前调用该方法
         initSwipeBackFinish();
+        //为了退出账号在baseActivity中把 activity加入list管理
+        MtApplication.addActivity(this);
         super.onCreate(savedInstanceState);
     }
 

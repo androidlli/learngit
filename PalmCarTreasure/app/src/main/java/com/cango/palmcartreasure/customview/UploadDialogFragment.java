@@ -34,6 +34,7 @@ import com.cango.palmcartreasure.model.SelectPhoto;
 import com.cango.palmcartreasure.trailer.map.PhotoAdapter;
 import com.cango.palmcartreasure.trailer.message.MessageAdapter;
 import com.cango.palmcartreasure.util.SizeUtil;
+import com.cango.palmcartreasure.util.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -51,6 +52,12 @@ import java.util.List;
 
 public class UploadDialogFragment extends DialogFragment {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    public void setmListener(UploadListener mListener) {
+        this.mListener = mListener;
+    }
+
+    private UploadListener mListener;
     private String mCurrentPhotoPath;
     private SelectPhoto mCurrentData;
     private ArrayList<SelectPhoto> datas;
@@ -62,6 +69,17 @@ public class UploadDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.upload_dialog, null);
+        view.findViewById(R.id.tv_trailer_complete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (datas.size()>1){
+                    mListener.upLoadClick(datas);
+                    dismiss();
+                }else {
+                    ToastUtils.showLong("请拍摄照片！");
+                }
+            }
+        });
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_upload);
         datas=new ArrayList<>();
         datas.add(new SelectPhoto("",true));
@@ -91,7 +109,6 @@ public class UploadDialogFragment extends DialogFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Logger.d("onActivityResult: requestCode = " + requestCode + "  resultCode = " + resultCode);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             if (mCurrentData!=null){
                 if (mCurrentData.isShowSelect()){
@@ -106,26 +123,6 @@ public class UploadDialogFragment extends DialogFragment {
             deleteImageFile();
         }
     }
-
-//    private void setPic() {
-//        int targetW = ivShow.getWidth();
-//        int targetH = ivShow.getHeight();
-//        Log.d(TAG, "setPic: targetW = " + targetW + "  targetH = " + targetH);
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inJustDecodeBounds = true;
-//        BitmapFactory.decodeFile(mCurrentPhotoPath, options);
-//        int photoW = options.outWidth;
-//        int photoH = options.outHeight;
-//        Log.d(TAG, "photoW :" + photoW + " photoH :" + photoH);
-//        int min = Math.min(photoW / targetW, photoH / targetH);
-//        if (min <= 0)
-//            min = 1;
-//        options.inJustDecodeBounds = false;
-//        options.inSampleSize = min;
-//        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, options);
-//        Log.d(TAG, "W " + bitmap.getWidth() + " H :" + bitmap.getHeight());
-//        ivShow.setImageBitmap(bitmap);
-//    }
 
     private void openCamera() {
         boolean hasSystemFeature = getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
@@ -174,5 +171,9 @@ public class UploadDialogFragment extends DialogFragment {
                 return emptyFile.delete();
         }
         return false;
+    }
+
+    public interface UploadListener{
+        void upLoadClick(List<SelectPhoto> selectPhotoList);
     }
 }

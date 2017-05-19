@@ -2,6 +2,7 @@ package com.cango.palmcartreasure.trailer.message;
 
 import com.cango.palmcartreasure.base.BasePresenter;
 import com.cango.palmcartreasure.base.BaseView;
+import com.cango.palmcartreasure.model.MessageList;
 import com.cango.palmcartreasure.model.TypeTaskData;
 
 import java.util.List;
@@ -16,11 +17,11 @@ public interface MessageContract {
 
         void showMessagesError();
 
-        void showMessages(List<String> messages);
-
-        void showNoMessages();
+        void showMessages(List<MessageList.DataBean.MessageListBean> dataBeanList);
 
         void showMessageDetailUi(int id);
+
+        void showMessageSuccess(boolean isSuccess,String message);
 
         boolean isActive();
     }
@@ -28,6 +29,8 @@ public interface MessageContract {
     interface Presenter extends BasePresenter {
         void openDetailTask(int id);
 
-        void loadTasks(boolean showRefreshLoadingUI, int pageCount, int pageSize);
+        void loadMessages(boolean showRefreshLoadingUI, int status,int pageCount, int pageSize);
+
+        void postMessageRead(int messageID);
     }
 }

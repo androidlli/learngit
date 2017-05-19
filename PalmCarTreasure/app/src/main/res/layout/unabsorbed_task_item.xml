@@ -170,10 +170,10 @@
                         android:src="@drawable/time" />
 
                     <TextView
+                        android:id="@+id/tv_redueDays"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20px"
-                        android:text="0天"
                         android:textColor="@color/task_tv"
                         android:textSize="37px" />
 

@@ -39,13 +39,23 @@
             android:id="@+id/ll_trailer_tophalf"
             android:layout_width="match_parent"
             android:layout_height="735px"
-            android:paddingTop="25px"
+            android:paddingTop="16px"
             android:orientation="vertical"
             android:background="@android:color/white">
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_trailer"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="424px" />
+                android:layout_height="wrap_content">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_trailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="424px" />
+                <ImageView
+                    android:id="@+id/iv_vp"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="424px" />
+            </FrameLayout>
+
             <LinearLayout
                 android:id="@+id/ll_vp_point"
                 android:layout_width="match_parent"
@@ -130,6 +140,7 @@
                         android:background="@color/line" />
 
                     <LinearLayout
+                        android:id="@+id/ll_new_task"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -180,6 +191,7 @@
                     android:layout_weight="1">
 
                     <LinearLayout
+                        android:id="@+id/ll_complete_task"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -209,6 +221,7 @@
                         android:background="@color/line" />
 
                     <LinearLayout
+                        android:id="@+id/ll_query"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -222,10 +235,11 @@
                             android:src="@drawable/other_task" />
 
                         <TextView
+                            android:id="@+id/tv_query"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="18px"
-                            android:text="@string/other_task"
+                            android:text="@string/query"
                             android:textColor="@color/trailer_text_color"
                             android:textSize="36px" />
                     </LinearLayout>
@@ -233,4 +247,5 @@
             </LinearLayout>
         </com.cango.palmcartreasure.customview.AutoCardView>
     </RelativeLayout>
+    <include layout="@layout/avload_view"/>
 </RelativeLayout>
