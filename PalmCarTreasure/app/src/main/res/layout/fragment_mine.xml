@@ -181,6 +181,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="147px"
         android:layout_below="@+id/ll_mine_task_statu">
 
         <LinearLayout
@@ -205,7 +206,13 @@
                     android:text="@string/message_notificaton"
                     android:textColor="@color/mt525252"
                     android:textSize="15sp" />
-
+                <ImageView
+                    android:id="@+id/iv_message_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/next_step" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -234,14 +241,20 @@
                     android:src="@drawable/next_step" />
             </RelativeLayout>
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="@color/mtdcdcdc" />
+                android:layout_height="wrap_content"
+                android:background="@android:color/white">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@color/mtdcdcdc" />
+            </LinearLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_clear_cache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -259,20 +272,48 @@
                     android:textColor="@color/mt525252"
                     android:textSize="15sp" />
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/next_step" />
             </RelativeLayout>
-
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/rl_download"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="@color/mtdcdcdc" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/white"
+                android:paddingBottom="20dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="20dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下载目录"
+                    android:textColor="@color/mt525252"
+                    android:textSize="15sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/next_step" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@color/mtdcdcdc" />
+            </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -297,18 +338,29 @@
                     android:src="@drawable/next_step" />
             </RelativeLayout>
 
-            <Button
+            <TextView
                 android:id="@+id/btn_exit"
                 android:layout_width="214dp"
                 android:layout_height="100px"
                 android:layout_marginTop="19dp"
                 android:layout_marginBottom="40dp"
+                android:gravity="center"
                 android:text="@string/exit_account"
                 android:textSize="15sp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/mt646464"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/button_exit_account"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <include layout="@layout/avload_view"/>
+    <LinearLayout
+        android:id="@+id/bnv_trailer_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="147px"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <include layout="@layout/trailer_bottom" />
+    </LinearLayout>
 </RelativeLayout>

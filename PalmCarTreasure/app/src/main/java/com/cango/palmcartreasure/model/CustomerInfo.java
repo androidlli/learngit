@@ -106,7 +106,7 @@ public class CustomerInfo {
             private String customername;
             private String sex;
             private String paperno;
-            private long mobile;
+            private String mobile;
             private String maritalstatus;
             private String province;
             private String city;
@@ -156,11 +156,11 @@ public class CustomerInfo {
                 this.paperno = paperno;
             }
 
-            public long getMobile() {
+            public String getMobile() {
                 return mobile;
             }
 
-            public void setMobile(long mobile) {
+            public void setMobile(String mobile) {
                 this.mobile = mobile;
             }
 

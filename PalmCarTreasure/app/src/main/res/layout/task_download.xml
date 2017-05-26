@@ -10,7 +10,8 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_entrust_letter"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="17dp"
             android:paddingTop="11dp"
@@ -23,7 +24,8 @@
             android:layout_height="1dp"
             android:background="@color/mteaeaea"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_trailer_doc"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="17dp"
             android:paddingTop="11dp"

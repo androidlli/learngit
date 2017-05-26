@@ -29,9 +29,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
-import com.cango.palmcartreasure.api.Api;
 import com.cango.palmcartreasure.base.BaseFragment;
 import com.cango.palmcartreasure.baseAdapter.BaseHolder;
 import com.cango.palmcartreasure.baseAdapter.OnBaseItemClickListener;
@@ -43,6 +41,7 @@ import com.cango.palmcartreasure.util.BarUtil;
 import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.ToastUtils;
 import com.orhanobut.logger.Logger;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -81,6 +80,8 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
     RecyclerView mRecyclerView;
     @BindView(R.id.ll_sorry)
     LinearLayout llSorry;
+    @BindView(R.id.avl_login_indicator)
+    AVLoadingIndicatorView mLoadView;
     @BindView(R.id.rl_shadow)
     RelativeLayout rlShadow;
 
@@ -107,10 +108,6 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
         }
     }
 
-    //定位相关
-    private AMapLocationClient mLocationClient;
-    private AMapLocationListener mLoactionListener;
-    private float mLat, mLon;
     private int mPageCount = 1, mTempPageCount = 2;
     static int PAGE_SIZE = 10;
     private boolean isLoadMore;
@@ -123,6 +120,51 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
     private TrailerTaskAdapter mAdapter;
     private List<TypeTaskData.DataBean.TaskListBean> taskListBeanList = new ArrayList<>();
     private PopupWindow mSearchPW, mSelectPW;
+    //定位相关
+    private AMapLocationClient mLocationClient;
+    private boolean isShouldFirstAddData=true;
+    private double mLat, mLon;
+    private AMapLocationListener mLoactionListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (CommUtil.checkIsNull(aMapLocation)) {
+                mLat = 0;
+                mLon = 0;
+            } else {
+                if (aMapLocation.getErrorCode() == 0) {
+                    if (!CommUtil.checkIsNull(aMapLocation.getLatitude())) {
+//                        BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
+//                        mLat = latBD.floatValue();
+                        mLat=aMapLocation.getLatitude();
+                    }
+                    if (!CommUtil.checkIsNull(aMapLocation.getLongitude())) {
+//                        BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
+//                        mLon = lonBD.floatValue();
+                        mLon=aMapLocation.getLongitude();
+                    }
+                    if (mLat>0&&mLon>0){
+                        if (isShouldFirstAddData){
+                            mLoadView.smoothToHide();
+                            isShouldFirstAddData=false;
+                            getData();
+                        }
+                    }
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(aMapLocation.getTime());
+                    String dateString = df.format(date);
+//                    Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
+                } else {
+                    mLat = 0;
+                    mLon = 0;
+                    int errorCode = aMapLocation.getErrorCode();
+                    if (errorCode == 12 || errorCode == 13) {
+                        ToastUtils.showLong(R.string.put_sim_and_permissions);
+                    }
+                    Logger.d("errorCode = " + aMapLocation.getErrorCode() + " errorInfo = " + aMapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
 
     public static TrailerTasksFragment getInstance(String type) {
         TrailerTasksFragment trailerTasksFragment = new TrailerTasksFragment();
@@ -165,7 +207,7 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorAccent, R.color.colorPrimary);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter = new TrailerTaskAdapter(mActivity, taskListBeanList, true);
+        mAdapter = new TrailerTaskAdapter(mActivity, taskListBeanList, true,mType);
         mAdapter.setLoadingView(R.layout.load_loading_layout);
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -175,9 +217,13 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
                 }
                 isLoadMore = true;
                 mPageCount = mTempPageCount;
-                if (!CommUtil.checkIsNull(mType))
-                    mPresenter.loadTasks(mType, mLat, mLon,
-                            false, mPageCount, PAGE_SIZE);
+                if (!CommUtil.checkIsNull(mType)){
+                    if (mLat>0&&mLon>0){
+                        mPresenter.loadTasks(mType, mLat, mLon, false, mPageCount, PAGE_SIZE);
+                    }else {
+                        ToastUtils.showShort(R.string.no_get_location);
+                    }
+                }
             }
         });
         mAdapter.setOnItemClickListener(new OnBaseItemClickListener<TypeTaskData.DataBean.TaskListBean>() {
@@ -193,7 +239,7 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
         mSearchPW = getPopupWindow(getActivity(), R.layout.task_search_popup);
         mSelectPW = getPopupWindow(getActivity(), R.layout.task_selectstatu_popup);
 
-        doGetDatas();
+        openPermissions();
     }
 
     @Override
@@ -202,48 +248,7 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
             mType = getArguments().getString(TYPE);
         }
         mActivity = (TrailerTasksActivity) getActivity();
-        mLocationClient=new AMapLocationClient(mActivity.getApplicationContext());
-        AMapLocationClientOption option = new AMapLocationClientOption();
-        option.setInterval(3000);
-        mLocationClient.setLocationOption(option);
-        mLoactionListener = new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (CommUtil.checkIsNull(aMapLocation)) {
-
-                } else {
-                    if (aMapLocation.getErrorCode() == 0) {
-                        //定位成功
-                        if (!CommUtil.checkIsNull(aMapLocation.getLatitude())){
-                            BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
-                            mLat = latBD.floatValue();
-                        }
-                        if (!CommUtil.checkIsNull(aMapLocation.getLongitude())){
-                            BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
-                            mLon = lonBD.floatValue();
-                        }
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = new Date(aMapLocation.getTime());
-                        String dateString = df.format(date);
-//                        Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
-                    } else {
-                        Logger.d("errorCode = " + aMapLocation.getErrorCode() + " errorInfo = " + aMapLocation.getErrorInfo());
-                    }
-                }
-            }
-        };
-        mLocationClient.setLocationListener(mLoactionListener);
-        mLocationClient.startLocation();
-        double latitude = mLocationClient.getLastKnownLocation().getLatitude();
-        double longitude = mLocationClient.getLastKnownLocation().getLongitude();
-        if (!CommUtil.checkIsNull(latitude)){
-            BigDecimal latBD = new BigDecimal(String.valueOf(latitude));
-            mLat = latBD.floatValue();
-        }
-        if (!CommUtil.checkIsNull(longitude)){
-            BigDecimal lonBD = new BigDecimal(String.valueOf(longitude));
-            mLon = lonBD.floatValue();
-        }
+        initLocation();
     }
 
     @Override
@@ -312,29 +317,12 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
         mTempPageCount = 2;
         taskListBeanList.clear();
         mAdapter.setLoadingView(R.layout.load_loading_layout);
-        if (mLat>0&&mLon>0){
+        if (mLat > 0 && mLon > 0) {
             if (!CommUtil.checkIsNull(mType))
                 mPresenter.loadTasks(mType, mLat, mLon,
                         true, mPageCount, PAGE_SIZE);
-        }else {
-            ToastUtils.showLong("位置获取失败！");
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    @AfterPermissionGranted(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
-    private void doGetDatas() {
-        String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            getData();
         } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.location_group_and_storage), REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP, perms);
+            ToastUtils.showShort("位置获取失败！");
         }
     }
 
@@ -374,36 +362,51 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
                         true, mPageCount, PAGE_SIZE);
             }
             tvTitle.setText(title);
-        }else {
+        } else {
             ToastUtils.showLong("位置获取失败！");
         }
     }
 
     @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
+    @AfterPermissionGranted(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
+    private void openPermissions() {
+        String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(getContext(), perms)) {
+            mLocationClient.startLocation();
+        } else {
+            EasyPermissions.requestPermissions(this, getString(R.string.location_group_and_storage), REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP, perms);
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        mLocationClient.startLocation();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
-                new AppSettingsDialog.Builder(this)
-                        .setRequestCode(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
-                        .setTitle("权限获取失败")
-                        .setRationale(R.string.setting_group_and_storage)
-                        .build().show();
-            }
+//        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+        if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
+            new AppSettingsDialog.Builder(this)
+                    .setRequestCode(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
+                    .setTitle("权限获取失败")
+                    .setRationale(R.string.setting_group_and_storage)
+                    .build().show();
         }
+//        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
-            // Do something after user returned from app settings screen, like showing a Toast.
-            doGetDatas();
+            openPermissions();
         }
     }
 
@@ -511,5 +514,42 @@ public class TrailerTasksFragment extends BaseFragment implements TaskContract.V
         popupWindow.update();
         // TODO: 2016/5/17 以下拉的方式显示，并且可以设置显示的位置
         return popupWindow;
+    }
+
+    /**
+     * 初始化定位
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private void initLocation() {
+        //初始化client
+        mLocationClient = new AMapLocationClient(mActivity.getApplicationContext());
+        //设置定位参数
+        mLocationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        mLocationClient.setLocationListener(mLoactionListener);
+    }
+
+    /**
+     * 默认的定位参数
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private AMapLocationClientOption getDefaultOption() {
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
+        mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        mOption.setLocationCacheEnable(false); //可选，设置是否使用缓存定位，默认为true
+        return mOption;
     }
 }

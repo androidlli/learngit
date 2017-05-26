@@ -158,11 +158,13 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginTop="27px"
-                            android:gravity="center">
+                            android:gravity="center_vertical">
                             <TextView
                                 android:visibility="invisible"
                                 android:id="@+id/tv_member1"
                                 android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:minWidth="90dp"
                                 android:layout_height="56px"
                                 android:paddingLeft="62px"
                                 android:paddingRight="62px"
@@ -182,6 +184,8 @@
                                 android:visibility="invisible"
                                 android:id="@+id/tv_member2"
                                 android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:minWidth="90dp"
                                 android:layout_height="56px"
                                 android:paddingLeft="62px"
                                 android:paddingRight="62px"
@@ -190,6 +194,27 @@
                                 android:textSize="40px"
                                 android:textColor="@color/mt848484"
                                 android:background="@drawable/admin_task_member_name_bg"/>
+                        </com.zhy.autolayout.AutoLinearLayout>
+                    <com.zhy.autolayout.AutoLinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="27px"
+                        android:gravity="center">
+                        <TextView
+                            android:visibility="invisible"
+                            android:id="@+id/tv_member3"
+                            android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:minWidth="90dp"
+                            android:layout_height="56px"
+                            android:paddingLeft="62px"
+                            android:paddingRight="62px"
+                            android:paddingTop="5px"
+                            android:paddingBottom="5px"
+                            android:textSize="40px"
+                            android:textColor="@color/mt848484"
+                            android:background="@drawable/admin_task_member_name_bg"/>
                         </com.zhy.autolayout.AutoLinearLayout>
                     </com.zhy.autolayout.AutoLinearLayout>
                     <com.zhy.autolayout.AutoLinearLayout
@@ -203,11 +228,13 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginTop="27px"
-                            android:gravity="center">
+                            android:gravity="center_vertical">
                             <TextView
                                 android:visibility="invisible"
-                                android:id="@+id/tv_member3"
+                                android:id="@+id/tv_member4"
                                 android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:minWidth="90dp"
                                 android:layout_height="56px"
                                 android:paddingLeft="62px"
                                 android:paddingRight="62px"
@@ -225,8 +252,29 @@
                             android:gravity="center">
                             <TextView
                                 android:visibility="invisible"
-                                android:id="@+id/tv_member4"
                                 android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:minWidth="70dp"
+                                android:layout_height="56px"
+                                android:paddingLeft="62px"
+                                android:paddingRight="62px"
+                                android:paddingTop="5px"
+                                android:paddingBottom="5px"
+                                android:textSize="40px"
+                                android:textColor="@color/mt848484"
+                                android:background="@drawable/admin_task_member_name_bg"/>
+                        </com.zhy.autolayout.AutoLinearLayout>
+                        <com.zhy.autolayout.AutoLinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="27px"
+                            android:gravity="center">
+                            <TextView
+                                android:visibility="invisible"
+                                android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:minWidth="70dp"
                                 android:layout_height="56px"
                                 android:paddingLeft="62px"
                                 android:paddingRight="62px"

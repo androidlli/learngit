@@ -3,18 +3,15 @@ package com.cango.palmcartreasure.trailer.message;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.base.BaseActivity;
-import com.cango.palmcartreasure.trailer.mine.MineFragment;
-import com.cango.palmcartreasure.trailer.mine.MinePresenter;
+import com.cango.palmcartreasure.trailer.main.TrailerActivity;
 import com.cango.palmcartreasure.util.CommUtil;
+import com.orhanobut.logger.Logger;
 
 public class MessageActivity extends BaseActivity {
 
@@ -40,7 +37,18 @@ public class MessageActivity extends BaseActivity {
             transaction.add(R.id.fl_message_contains, messageFragment);
             transaction.commit();
         }
-        MessagePresenter messagePresenter=new MessagePresenter(messageFragment);
+        MessagePresenter messagePresenter = new MessagePresenter(messageFragment);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (MtApplication.activityList!=null){
+            Logger.d(MtApplication.activityList.size());
+        }
+        if (MtApplication.activityList!=null&&MtApplication.activityList.size()>1){
+            super.onBackPressed();
+        }else {
+            mSwipeBackHelper.forwardAndFinish(TrailerActivity.class);
+        }
+    }
 }

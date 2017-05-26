@@ -95,6 +95,7 @@
             android:textSize="16sp"
             android:textColor="@android:color/white"/>
     </LinearLayout>
-    <include layout="@layout/avload_view"></include>
-    <include layout="@layout/sorry"></include>
+    <include layout="@layout/avload_view"/>
+    <include layout="@layout/sorry"/>
+    <include layout="@layout/no_data"/>
 </RelativeLayout>

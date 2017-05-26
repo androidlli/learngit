@@ -3,6 +3,7 @@ package com.cango.palmcartreasure.net;
 import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.api.Api;
 import com.cango.palmcartreasure.util.CommUtil;
+import com.umeng.message.PushAgent;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -75,10 +76,15 @@ public class NetManager {
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 String token = MtApplication.mSPUtils.getString(Api.TOKEN);
+                String deviceToken = null;
+                PushAgent pushAgent = PushAgent.getInstance(MtApplication.getmContext());
+                if (pushAgent!=null)
+                    deviceToken = pushAgent.getRegistrationId();
                 if (CommUtil.checkIsNull(token))
                     return chain.proceed(originalRequest);
                 Request request = chain.request().newBuilder()
                         .addHeader("Authorization", token)
+                        .addHeader("DEVICETOKEN",deviceToken)
                         .build();
                 return chain.proceed(request);
             }

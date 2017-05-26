@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cango.palmcartreasure.customview.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardElevation="0dp">
     <LinearLayout
         android:id="@+id/ll_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/cardview_border">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -36,8 +39,8 @@
                 android:layout_marginRight="20px"
                 android:padding="5px"
                 android:gravity="center"
-                android:textSize="46px"
-                android:textColor="@android:color/white"
+                android:textSize="45px"
+                android:textColor="@color/mt646464"
                 android:text="1"
                 android:background="@drawable/oval_bg"/>
         </RelativeLayout>
@@ -81,6 +84,8 @@
                 <TextView
                     android:id="@+id/tv_crew1"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="70dp"
                     android:layout_height="56px"
                     android:paddingLeft="31px"
                     android:paddingRight="31px"
@@ -100,6 +105,8 @@
                 <TextView
                     android:id="@+id/tv_crew2"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="70dp"
                     android:layout_height="56px"
                     android:paddingLeft="31px"
                     android:paddingRight="31px"
@@ -124,6 +131,8 @@
                     android:id="@+id/tv_crew3"
                     android:layout_width="wrap_content"
                     android:layout_height="56px"
+                    android:gravity="center"
+                    android:minWidth="70dp"
                     android:paddingLeft="31px"
                     android:paddingRight="31px"
                     android:paddingTop="5px"
@@ -142,6 +151,8 @@
                 <TextView
                     android:id="@+id/tv_crew4"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="70dp"
                     android:layout_height="56px"
                     android:paddingLeft="31px"
                     android:paddingRight="31px"
@@ -165,6 +176,8 @@
                 <TextView
                     android:id="@+id/tv_crew5"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="70dp"
                     android:layout_height="56px"
                     android:paddingLeft="31px"
                     android:paddingRight="31px"
@@ -185,6 +198,8 @@
                 <TextView
                     android:id="@+id/tv_crew6"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:minWidth="70dp"
                     android:layout_height="56px"
                     android:paddingLeft="31px"
                     android:paddingRight="31px"

@@ -3,24 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
+
     <LinearLayout
         android:id="@+id/ll_callrecord"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_weight="1"
         android:gravity="center"
-        android:layout_weight="1">
+        android:orientation="vertical">
+
         <ImageView
+            android:id="@+id/iv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/telephone_urged"/>
+            android:src="@drawable/telephone_urged" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/telephone_urged"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_home_visit"
         android:layout_width="match_parent"
@@ -29,6 +34,7 @@
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
+            android:id="@+id/iv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/family_visit"/>
@@ -64,6 +70,7 @@
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
+            android:id="@+id/iv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/case_information"/>
@@ -82,6 +89,7 @@
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
+            android:id="@+id/iv4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/customer_information"/>

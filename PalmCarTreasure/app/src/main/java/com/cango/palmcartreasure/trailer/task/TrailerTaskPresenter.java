@@ -36,7 +36,7 @@ public class TrailerTaskPresenter implements TaskContract.Presenter {
     }
 
     @Override
-    public void loadTasks(String type, float lat, float lon, boolean showRefreshLoadingUI, int pageCount, int pageSize) {
+    public void loadTasks(String type, double lat, double lon, boolean showRefreshLoadingUI, int pageCount, int pageSize) {
         if (mTaskView.isActive()){
             mTaskView.showTasksIndicator(showRefreshLoadingUI);
         }
@@ -50,7 +50,7 @@ public class TrailerTaskPresenter implements TaskContract.Presenter {
             taskDataObservable = mTaskService.getTaskDoneList(userId, lat, lon,pageCount,pageSize);
         } else {
             //search
-            taskDataObservable = mTaskService.getNewTaskList(userId, lat, lon,pageCount,pageSize);
+            taskDataObservable = mTaskService.taskQuery(userId, "", "",0,pageCount,pageSize);
         }
         taskDataObservable
                 .subscribeOn(Schedulers.io())

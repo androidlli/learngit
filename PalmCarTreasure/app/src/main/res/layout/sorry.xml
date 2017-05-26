@@ -5,9 +5,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/sorry" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textSize="16sp"
+        android:textColor="@color/mt727171"
+        android:text="暂无数据"/>
 </LinearLayout>

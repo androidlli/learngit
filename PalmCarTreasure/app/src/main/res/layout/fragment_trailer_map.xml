@@ -20,14 +20,35 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_map_title"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toLeftOf="@+id/iv_task_down"-->
+                    <!--android:text=""-->
+                    <!--android:textColor="@android:color/white"-->
+                    <!--android:textSize="18sp" />-->
 
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_task_down"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:src="@drawable/down" />-->
+            <!--</RelativeLayout>-->
             <TextView
                 android:id="@+id/tv_map_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
                 android:textColor="@android:color/white"
+                android:text=""
                 android:textSize="18sp" />
+
             <ImageView
                 android:id="@+id/iv_task_down"
                 android:layout_width="wrap_content"
@@ -43,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_trailer_map">
+
         <fragment
             android:id="@+id/fg_map"
             class="com.amap.api.maps.SupportMapFragment"
@@ -71,94 +93,100 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/tv_map_top_title"
             android:layout_marginTop="10px"
             android:layout_toLeftOf="@+id/btn_map_send"
-            android:layout_below="@+id/tv_map_top_title"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
+
                 <ImageView
                     android:layout_width="45px"
                     android:layout_height="46px"
-                    android:src="@drawable/phone_deep"/>
+                    android:src="@drawable/phone_deep" />
+
                 <TextView
                     android:id="@+id/tv_people1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
                     android:textColor="@color/mt646464"
-                    android:textSize="37px"
-                    android:text="@string/people"/>
+                    android:textSize="37px" />
+
                 <TextView
                     android:id="@+id/tv_num1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15px"
-                    android:textColor="#137dd8"
-                    android:textSize="37px"
                     android:autoLink="phone"
-                    android:text="@string/phone1"/>
+                    android:textColor="#137dd8"
+                    android:textSize="37px" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
+
                 <ImageView
                     android:layout_width="45px"
                     android:layout_height="46px" />
+
                 <TextView
-                    android:visibility="invisible"
                     android:id="@+id/tv_people2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
                     android:textColor="@color/mt646464"
                     android:textSize="37px"
-                    android:text="@string/people"/>
+                    android:visibility="invisible" />
+
                 <TextView
                     android:id="@+id/tv_num2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15px"
-                    android:textColor="#137dd8"
-                    android:textSize="37px"
                     android:autoLink="phone"
-                    android:text="13162315225"/>
+                    android:textColor="#137dd8"
+                    android:textSize="37px" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
+
                 <ImageView
                     android:layout_width="45px"
                     android:layout_height="46px" />
+
                 <TextView
-                    android:visibility="invisible"
                     android:id="@+id/tv_people3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
                     android:textColor="@color/mt646464"
                     android:textSize="37px"
-                    android:text="@string/people"/>
+                    android:visibility="invisible" />
+
                 <TextView
                     android:id="@+id/tv_num3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15px"
-                    android:textColor="#137dd8"
-                    android:textSize="37px"
                     android:autoLink="phone"
-                    android:text="13162315225"/>
+                    android:textColor="#137dd8"
+                    android:textSize="37px" />
             </LinearLayout>
         </LinearLayout>
 
-        <Button
+        <TextView
             android:id="@+id/btn_map_send"
             android:layout_width="254px"
             android:layout_height="114px"
@@ -166,6 +194,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="88px"
             android:background="@drawable/button_press_bg"
+            android:gravity="center"
             android:text="@string/send_car_to_library"
             android:textColor="@android:color/white"
             android:textSize="46px" />
@@ -199,7 +228,6 @@
                 android:id="@+id/tv_car_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
                 android:textColor="@color/mt303030"
                 android:textSize="52px" />
 
@@ -208,7 +236,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16px"
-                android:text="@string/app_name"
                 android:textColor="@color/mt9c9c9c"
                 android:textSize="37px" />
         </LinearLayout>
@@ -229,10 +256,9 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_trailer_map"
         android:background="#36000000"
-        android:visibility="gone">
-    </RelativeLayout>
+        android:visibility="gone"></RelativeLayout>
+
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_date"
         android:layout_width="match_parent"
         android:layout_height="492px"
@@ -241,149 +267,173 @@
         android:layout_marginLeft="43px"
         android:layout_marginRight="43px"
         android:background="@android:color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="136px"
             android:background="@drawable/toolbar_bg"
             android:gravity="center_vertical">
+
             <ImageView
                 android:layout_width="40px"
                 android:layout_height="46px"
                 android:layout_marginLeft="46px"
-                android:src="@drawable/select_date"/>
+                android:src="@drawable/select_date" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20px"
+                android:text="@string/select_date"
                 android:textColor="@android:color/white"
-                android:textSize="40px"
-                android:text="@string/select_date"/>
+                android:textSize="40px" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="46px"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:padding="46px">
+
             <ImageView
                 android:layout_width="35px"
                 android:layout_height="39px"
-                android:src="@drawable/little_rocket"/>
+                android:src="@drawable/little_rocket" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20px"
-                android:textSize="37px"
+                android:text="@string/run_speed"
                 android:textColor="@color/mt9c9c9c"
-                android:text="@string/run_speed"/>
+                android:textSize="37px" />
+
             <TextView
                 android:id="@+id/tv_one_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="69px"
+                android:paddingBottom="10px"
                 android:paddingLeft="18px"
                 android:paddingRight="18px"
                 android:paddingTop="10px"
-                android:paddingBottom="10px"
-                android:textSize="37px"
+                android:text="1.0x"
                 android:textColor="@color/mt9c9c9c"
-                android:text="1.0x"/>
+                android:textSize="37px" />
+
             <TextView
                 android:id="@+id/tv_one_point_five_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50px"
+                android:paddingBottom="10px"
                 android:paddingLeft="18px"
                 android:paddingRight="18px"
                 android:paddingTop="10px"
-                android:paddingBottom="10px"
-                android:textSize="37px"
+                android:text="1.5x"
                 android:textColor="@color/mt9c9c9c"
-                android:text="1.5x"/>
+                android:textSize="37px" />
+
             <TextView
                 android:id="@+id/tv_two_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50px"
+                android:paddingBottom="10px"
                 android:paddingLeft="18px"
                 android:paddingRight="18px"
                 android:paddingTop="10px"
-                android:paddingBottom="10px"
-                android:textSize="37px"
+                android:text="2.0x"
                 android:textColor="@color/mt9c9c9c"
-                android:text="2.0x"/>
+                android:textSize="37px" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginLeft="27px"
             android:layout_marginRight="27px"
             android:background="@color/mtc5c5c5" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:paddingLeft="43px"
-            android:paddingRight="43px"
-            android:gravity="center_vertical">
+            android:paddingRight="43px">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="106px"
                 android:layout_weight="1"
                 android:background="@drawable/button_press_bg"
                 android:gravity="center">
+
                 <ImageView
                     android:layout_width="22px"
                     android:layout_height="26px"
-                    android:src="@drawable/start"/>
+                    android:src="@drawable/start" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
+                    android:text="@string/start"
                     android:textColor="@android:color/white"
-                    android:textSize="40px"
-                    android:text="@string/start"/>
+                    android:textSize="40px" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="106px"
-                android:layout_weight="1"
                 android:layout_marginLeft="52px"
+                android:layout_weight="1"
                 android:background="@drawable/tv_normal"
                 android:gravity="center">
+
                 <ImageView
                     android:layout_width="22px"
                     android:layout_height="26px"
-                    android:src="@drawable/pause"/>
+                    android:src="@drawable/pause" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
+                    android:text="@string/pause"
                     android:textColor="@android:color/white"
-                    android:textSize="40px"
-                    android:text="@string/pause"/>
+                    android:textSize="40px" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="106px"
-                android:layout_weight="1"
                 android:layout_marginLeft="52px"
+                android:layout_weight="1"
                 android:background="@drawable/tv_yellow"
                 android:gravity="center">
+
                 <ImageView
                     android:layout_width="22px"
                     android:layout_height="26px"
-                    android:src="@drawable/start"/>
+                    android:src="@drawable/start" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
+                    android:text="@string/go_on"
                     android:textColor="@android:color/white"
-                    android:textSize="40px"
-                    android:text="@string/go_on"/>
+                    android:textSize="40px" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/sorry"/>
-    <include layout="@layout/avload_view"/>
+    <include layout="@layout/sorry" />
+
+    <include layout="@layout/no_data" />
+
+    <include layout="@layout/avload_view" />
 </RelativeLayout>

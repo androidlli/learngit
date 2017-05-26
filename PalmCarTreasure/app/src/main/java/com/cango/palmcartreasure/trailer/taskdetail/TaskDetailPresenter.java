@@ -1,5 +1,7 @@
 package com.cango.palmcartreasure.trailer.taskdetail;
 
+import android.net.Uri;
+
 import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.api.Api;
@@ -12,10 +14,22 @@ import com.cango.palmcartreasure.model.TaskDetailData;
 import com.cango.palmcartreasure.net.NetManager;
 import com.cango.palmcartreasure.net.RxSubscriber;
 import com.cango.palmcartreasure.util.CommUtil;
+import com.cango.palmcartreasure.util.ToastUtils;
+import com.orhanobut.logger.Logger;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Headers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -262,7 +276,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
 
         List<HomeVisitRecord.DataBean> dataBeanList = o.getData();
 //        for (HomeVisitRecord.DataBean bean : dataBeanList) {
-        for (int i=0;i<dataBeanList.size();i++){
+        for (int i = 0; i < dataBeanList.size(); i++) {
             HomeVisitRecord.DataBean bean = dataBeanList.get(i);
 
             section = new TaskDetailData.TaskSection();
@@ -291,6 +305,13 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             taskInfoList.add(taskInfo);
 
             taskInfo = new TaskDetailData.TaskSection.TaskInfo();
+            taskInfo.setLeft("申请人");
+            taskInfo.setLeftColor(R.color.mt9c9c9c);
+            taskInfo.setRight(bean.getApplyUser());
+            taskInfo.setRightColor(R.color.colorPrimary);
+            taskInfoList.add(taskInfo);
+
+            taskInfo = new TaskDetailData.TaskSection.TaskInfo();
             taskInfo.setLeft("家访动作");
             taskInfo.setLeftColor(R.color.mt9c9c9c);
             taskInfo.setRight(bean.getVisitAciton());
@@ -311,15 +332,8 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             taskInfo.setRightColor(R.color.colorPrimary);
             taskInfoList.add(taskInfo);
 
-            taskInfo = new TaskDetailData.TaskSection.TaskInfo();
-            taskInfo.setLeft("申请人");
-            taskInfo.setLeftColor(R.color.mt9c9c9c);
-            taskInfo.setRight(bean.getApplyUser());
-            taskInfo.setRightColor(R.color.colorPrimary);
-            taskInfoList.add(taskInfo);
-
             section.setIvId(R.drawable.home_record);
-            section.setTitle("家访记录"+i+1);
+            section.setTitle("家访记录" + i + 1);
             section.setTaskInfoList(taskInfoList);
             taskSectionList.add(section);
         }
@@ -380,15 +394,15 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             taskInfo.setRightColor(R.color.colorPrimary);
             taskInfoList.add(taskInfo);
 
-            taskInfo = new TaskDetailData.TaskSection.TaskInfo();
-            taskInfo.setLeft("IMEI1");
-            taskInfo.setRight(dataBean.getIMEI1());
-            taskInfoList.add(taskInfo);
-
-            taskInfo = new TaskDetailData.TaskSection.TaskInfo();
-            taskInfo.setLeft("IMEI2");
-            taskInfo.setRight(dataBean.getIMEI2());
-            taskInfoList.add(taskInfo);
+//            taskInfo = new TaskDetailData.TaskSection.TaskInfo();
+//            taskInfo.setLeft("IMEI1");
+//            taskInfo.setRight(dataBean.getIMEI1());
+//            taskInfoList.add(taskInfo);
+//
+//            taskInfo = new TaskDetailData.TaskSection.TaskInfo();
+//            taskInfo.setLeft("IMEI2");
+//            taskInfo.setRight(dataBean.getIMEI2());
+//            taskInfoList.add(taskInfo);
 
             section.setIvId(R.drawable.case_information);
             section.setTitle("案件信息");
@@ -434,7 +448,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             taskInfo = new TaskDetailData.TaskSection.TaskInfo();
             taskInfo.setLeft("手机");
             taskInfo.setLeftColor(R.color.mt9c9c9c);
-            taskInfo.setRight(custInfo.getMobile() + "");
+            taskInfo.setRight(custInfo.getMobile());
             taskInfo.setRightColor(R.color.colorPrimary);
             taskInfoList.add(taskInfo);
 
@@ -597,5 +611,81 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
         }
         data.setTaskSectionList(taskSectionList);
         return data;
+    }
+
+    @Override
+    public void downLoadFile(int type, boolean showLoadingUI, int userId, int agencyID, int caseID,
+                             String docType, final String parentDir, final TaskDetailFragment.OnDownloadListener listener) {
+        if (mView.isActive()) {
+            mView.showTaskDetailIndicator(showLoadingUI);
+        }
+        mService.docDownLoad(userId, agencyID, caseID, docType)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        InputStream is = null;
+                        byte[] buf = new byte[2048];
+                        int len;
+                        FileOutputStream fos = null;
+//                        // 储存下载文件的目录
+//                        String savePath = isExistDir(saveDir);
+                        try {
+                            if (response.isSuccessful()){
+                                Headers headers = response.headers();
+                                String[] strings = headers.get("Content-Disposition").split(";");
+                                String fileName = strings[1].replaceAll("filename=","");
+                                String decode = Uri.decode(fileName);
+                                File file=new File(parentDir,decode.trim());
+                                is = response.body().byteStream();
+                                long total = response.body().contentLength();
+                                fos = new FileOutputStream(file);
+                                long sum = 0;
+                                while ((len = is.read(buf)) != -1) {
+                                    fos.write(buf, 0, len);
+                                    sum += len;
+                                    int progress = (int) (sum * 1.0f / total * 100);
+                                    // 下载中
+                                    listener.onDownloading(progress);
+                                }
+                                fos.flush();
+                                // 下载完成
+                                listener.onDownloadSuccess(file);
+                                if (mView.isActive()) {
+                                    mView.showTaskDetailIndicator(false);
+                                }
+                            }else {
+                                listener.onDownloadFailed("下载失败！");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            listener.onDownloadFailed(e.getMessage());
+                            if (mView.isActive()) {
+                                mView.showTaskDetailIndicator(false);
+                            }
+                        } finally {
+                            if (mView.isActive()) {
+                                mView.showTaskDetailIndicator(false);
+                            }
+                            try {
+                                if (is != null)
+                                    is.close();
+                            } catch (IOException e) {
+                            }
+                            try {
+                                if (fos != null)
+                                    fos.close();
+                            } catch (IOException e) {
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Logger.d(t.getMessage());
+                        if (mView.isActive()) {
+                            mView.showTaskDetailIndicator(false);
+                        }
+                    }
+                });
     }
 }

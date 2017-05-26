@@ -65,7 +65,7 @@ public class WareHouse {
          * mobilePhone2 : 13178967898
          * mobilePhone3 : 13178967898
          */
-
+        private int spid;
         private String warehouseName;
         private float resultLAT;
         private float resultLON;
@@ -75,6 +75,13 @@ public class WareHouse {
         private String mobilePhone2;
         private String mobilePhone3;
 
+        public int getSpid() {
+            return spid;
+        }
+
+        public void setSpid(int spid) {
+            this.spid = spid;
+        }
         public String getDistance() {
             return distance;
         }

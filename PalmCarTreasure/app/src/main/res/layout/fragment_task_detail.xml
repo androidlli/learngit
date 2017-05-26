@@ -9,7 +9,8 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/toolbar_bg">
+        android:background="@drawable/toolbar_bg"
+        app:elevation="0dp">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_detail"
             android:layout_width="match_parent"
@@ -29,6 +30,8 @@
                 android:id="@+id/tv_download"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
                 android:layout_gravity="right"
                 android:layout_marginRight="15dp"
                 android:textColor="@android:color/white"
@@ -63,9 +66,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:textColor="@color/mt666666"
-                    android:text="@string/contract_no"/>
+                    android:textColor="@color/mt666666" />
                 <TextView
+                    android:id="@+id/tv_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -97,6 +100,7 @@
         android:layout_height="match_parent">
         <include layout="@layout/avload_view"/>
         <include layout="@layout/sorry"/>
+        <include layout="@layout/no_data"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_shadow"

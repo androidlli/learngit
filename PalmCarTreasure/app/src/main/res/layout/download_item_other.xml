@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_download_item_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_download_item_top">
+
+        <ImageView
+            android:id="@+id/iv_download_pdf_a"
+            android:layout_width="115px"
+            android:layout_height="115px"
+            android:layout_marginLeft="15px"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/pdf_icon" />
+
+        <TextView
+            android:id="@+id/tv_download_first_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_download_pdf_a"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="141px"
+            android:layout_toRightOf="@+id/iv_download_pdf_a"
+            android:textColor="@color/mt303030"
+            android:textSize="15sp" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_download_second_a"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/iv_download_pdf_a"-->
+        <!--android:layout_toRightOf="@+id/tv_download_first_a"-->
+        <!--android:text="..."-->
+        <!--android:textColor="@color/mt303030"-->
+        <!--android:textSize="15sp" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_download_third_a"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/iv_download_pdf_a"-->
+        <!--android:layout_toRightOf="@+id/tv_download_second_a"-->
+        <!--android:text="@string/entrust_letter"-->
+        <!--android:textColor="@color/mt303030"-->
+        <!--android:textSize="15sp" />-->
+
+        <TextView
+            android:id="@+id/tv_download_file_size_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/tv_download_first_a"
+            android:layout_toRightOf="@+id/iv_download_pdf_a"
+            android:textColor="@color/mt9c9c9c"
+            android:textSize="12sp" />
+
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/rl_download_item_center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/download_dotted_line_bg"
+        android:layerType="software" />
+    <TextView
+        android:id="@+id/tv_look"
+        android:layout_width="131px"
+        android:layout_height="71px"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/download_tv_bg"
+        android:gravity="center"
+        android:text="@string/share" />
+</RelativeLayout>

@@ -62,8 +62,8 @@ public class NavigationCar {
 
         private String connectflag;
         private String CACHETIME;
-        private float resultLAT;
-        private float resultLON;
+        private double resultLAT;
+        private double resultLON;
 
         public String getConnectflag() {
             return connectflag;
@@ -85,19 +85,19 @@ public class NavigationCar {
             this.CACHETIME = CACHETIME;
         }
 
-        public float getResultLAT() {
+        public double getResultLAT() {
             return resultLAT;
         }
 
-        public void setResultLAT(float resultLAT) {
+        public void setResultLAT(double resultLAT) {
             this.resultLAT = resultLAT;
         }
 
-        public float getResultLON() {
+        public double getResultLON() {
             return resultLON;
         }
 
-        public void setResultLON(float resultLON) {
+        public void setResultLON(double resultLON) {
             this.resultLON = resultLON;
         }
     }

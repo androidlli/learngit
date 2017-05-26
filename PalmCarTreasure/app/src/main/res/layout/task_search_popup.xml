@@ -50,15 +50,19 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@drawable/dotted_line_bg"
-            android:layerType="software" />
+            android:layerType="software"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <RadioGroup
                 android:id="@+id/rg_date"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -68,24 +72,56 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="一个月内"
-                    android:textColor="@color/mt9f9b92" />
+                    android:button="@drawable/radio_button_selector"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="  一个月内"
+                    android:textColor="@color/mt9f9b92"
+                    android:textSize="13sp" />
+
+                <RadioButton
+                    android:visibility="invisible"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textSize="13sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/mt9f9b92"
+                    android:button="@drawable/radio_button_selector"/>
 
                 <RadioButton
                     android:id="@+id/rb_half_year"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="半年内"
-                    android:textColor="@color/mt9f9b92" />
-
+                    android:text="  半年内"
+                    android:textSize="13sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/mt9f9b92"
+                    android:button="@drawable/radio_button_selector"/>
+                <RadioButton
+                    android:visibility="invisible"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textSize="13sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/mt9f9b92"
+                    android:button="@drawable/radio_button_selector"/>
                 <RadioButton
                     android:id="@+id/rb_year"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="一年内"
-                    android:textColor="@color/mt9f9b92" />
+                    android:text="  一年内"
+                    android:textSize="13sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/mt9f9b92"
+                    android:button="@drawable/radio_button_selector" />
             </RadioGroup>
         </LinearLayout>
 

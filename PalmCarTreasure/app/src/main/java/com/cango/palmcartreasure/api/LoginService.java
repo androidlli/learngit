@@ -1,12 +1,9 @@
 package com.cango.palmcartreasure.api;
 
 import com.cango.palmcartreasure.model.LoginData;
-<<<<<<< HEAD
 import com.cango.palmcartreasure.model.MessageList;
 import com.cango.palmcartreasure.model.PersonMain;
 import com.cango.palmcartreasure.model.PersonalInfo;
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.cango.palmcartreasure.model.TaskAbandon;
 
 import java.util.Map;
@@ -26,17 +23,16 @@ public interface LoginService {
 
     @GET("user/login")
     Observable<LoginData> getLoginData(@Query("username") String username,@Query("password") String password,
-                                       @Query("imei") String imei,@Query("lat") float lat,@Query("lon") float lon,
+                                       @Query("imei") String imei,@Query("lat") double lat,@Query("lon") double lon,
                                        @Query("deviceToken") String deviceToken,@Query("deviceType") String deviceType);
 
     //POST /api/user/logout?userid={userid}&LAT={LAT}&LON={LON}&ApiToken={APITOKEN}
     //app用户退出系统
     @POST("user/logout")
-    Observable<TaskAbandon> logout(@Query("userid") int userId,@Query("lat") float lat,@Query("lon") float lon);
+    Observable<TaskAbandon> logout(@Query("userid") int userId,@Query("lat") double lat,@Query("lon") double lon);
 
     @POST("user/logout")
     Observable<TaskAbandon> logoutTest(@Body Map<String,Object> stringMap);
-<<<<<<< HEAD
 
     //GET /api/trailer/personmain?userid={userid}&ApiToken={APITOKEN}  个人信息主页列表传输接口
     @GET("trailer/personmain")
@@ -54,6 +50,4 @@ public interface LoginService {
     //POST /api/trailer/messageread?ApiToken={APITOKEN}    消息阅读通知接口
     @POST("trailer/messageread")
     Observable<TaskAbandon> postMessageRead(@Body Map<String,Object> objectMap );
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 }

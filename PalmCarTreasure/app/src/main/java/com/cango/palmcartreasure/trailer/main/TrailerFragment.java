@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.cango.palmcartreasure.base.BaseFragment;
 import com.cango.palmcartreasure.customview.CalendarDialogFragment;
 import com.cango.palmcartreasure.customview.DotTrailerDialogFragment;
 import com.cango.palmcartreasure.model.TaskAbandon;
+import com.cango.palmcartreasure.model.TrailerEvent;
 import com.cango.palmcartreasure.model.TypeTaskData;
 import com.cango.palmcartreasure.net.NetManager;
 import com.cango.palmcartreasure.net.RxSubscriber;
@@ -43,6 +45,8 @@ import com.cango.palmcartreasure.trailer.map.TrailerMapFragment;
 import com.cango.palmcartreasure.trailer.mine.MineActivity;
 import com.cango.palmcartreasure.trailer.task.TrailerTasksActivity;
 import com.cango.palmcartreasure.trailer.task.TrailerTasksFragment;
+import com.cango.palmcartreasure.trailer.taskdetail.TaskDetailActivity;
+import com.cango.palmcartreasure.trailer.taskdetail.TaskDetailFragment;
 import com.cango.palmcartreasure.util.BarUtil;
 import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.SizeUtil;
@@ -51,10 +55,14 @@ import com.orhanobut.logger.Logger;
 import com.rd.Orientation;
 import com.rd.PageIndicatorView;
 import com.wang.avi.AVLoadingIndicatorView;
+import com.zhy.autolayout.AutoRelativeLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,12 +82,12 @@ import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class TrailerFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
     private static final int REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP = 140;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     @BindView(R.id.toolbar_trailer)
     Toolbar mToolbarTrailer;
@@ -103,6 +111,8 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
     LinearLayout llDotTrailer;
     @BindView(R.id.ll_send_car_library)
     LinearLayout llSendCarLibrary;
+    @BindView(R.id.iv_task)
+    ImageView ivTask;
     @BindView(R.id.avl_login_indicator)
     AVLoadingIndicatorView mLoadView;
     private Badge badge1, badge2;
@@ -137,7 +147,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                     if (currentBean.getIsCheckPoint().equals("T"))
                         openCamera();
                     else {
-                        ToastUtils.showLong("请先进行开始任务！");
+                        ToastUtils.showLong("请先开始任务！");
                     }
                 }
                 break;
@@ -178,18 +188,11 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
         }
     }
 
-    //定位相关
-    private AMapLocationClient mLocationClient;
-    private AMapLocationListener mLoactionListener;
-    private float mLat, mLon;
-
     private boolean isFromSMS;
     private String mCurrentPhotoPath;
     private int vpType = -1;//0-进行中 1-新分配 2-没有数据
     private TrailerActivity mActivity;
     private TrailerTaskService mService;
-    //    private MainPageAdapter mPageAdapter;
-    //    private List<BaseLazyFragment> mFragments = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
     private MainPageOtherAdapter mPageAdapter;
     private List<TypeTaskData.DataBean.TaskListBean> taskListBeanList = new ArrayList<>();
@@ -198,37 +201,63 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
     private boolean isShowPosition;
     private CalendarDialogFragment mCalendarDialog;
     private DotTrailerDialogFragment mDotDialog;
-
-    public TrailerFragment() {
-    }
+    //定位相关
+    private AMapLocationClient mLocationClient;
+    private boolean isShouldFirstAddData = true;
+    private double mLat, mLon;
+    private double pointLat, pointLon;
+    private AMapLocationListener mLoactionListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (CommUtil.checkIsNull(aMapLocation)) {
+                mLat = 0;
+                mLon = 0;
+            } else {
+                if (aMapLocation.getErrorCode() == 0) {
+                    if (!CommUtil.checkIsNull(aMapLocation.getLatitude())) {
+//                        BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
+//                        mLat = latBD.floatValue();
+                        mLat = aMapLocation.getLatitude();
+                    }
+                    if (!CommUtil.checkIsNull(aMapLocation.getLongitude())) {
+//                        BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
+//                        mLon = lonBD.floatValue();
+                        mLon = aMapLocation.getLongitude();
+                    }
+                    if (mLat > 0 && mLon > 0) {
+                        if (isShouldFirstAddData) {
+                            isShouldFirstAddData = false;
+                            addData();
+                        }
+                    }
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(aMapLocation.getTime());
+                    String dateString = df.format(date);
+//                    Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
+                } else {
+                    mLat = 0;
+                    mLon = 0;
+                    int errorCode = aMapLocation.getErrorCode();
+                    if (errorCode == 12 || errorCode == 13) {
+                        ToastUtils.showShort(R.string.put_sim_and_permissions);
+                    }
+                    Logger.d("errorCode = " + errorCode + " errorInfo = " + aMapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
 
     public static TrailerFragment newInstance() {
         TrailerFragment fragment = new TrailerFragment();
         return fragment;
     }
 
-<<<<<<< HEAD
     public static TrailerFragment newInstance(boolean isFromSMS) {
         TrailerFragment fragment = new TrailerFragment();
         Bundle args = new Bundle();
         args.putBoolean("isFromSMS", isFromSMS);
         fragment.setArguments(args);
         return fragment;
-=======
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MtApplication.clearExceptLastActivitys();
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
     }
 
     @Override
@@ -238,6 +267,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
 
     @Override
     protected void initView() {
+        ivTask.setImageResource(R.drawable.task_on);
         int statusBarHeight = BarUtil.getStatusBarHeight(getActivity());
         int actionBarHeight = BarUtil.getActionBarHeight(getActivity());
         if (Build.VERSION.SDK_INT >= 21) {
@@ -245,13 +275,9 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
             mToolbarTrailer.setLayoutParams(layoutParams);
             mToolbarTrailer.setPadding(0, statusBarHeight, 0, 0);
         }
-//        mPageAdapter = new MainPageAdapter(getChildFragmentManager());
-//        mPageAdapter.setData(mFragments);
         mPageAdapter = new MainPageOtherAdapter();
         mPageAdapter.setViewList(viewList);
-
         mViewPager.setAdapter(mPageAdapter);
-//        mViewPager.setOffscreenPageLimit(5);
         mPageIndicatorView.setViewPager(mViewPager);
         mPageIndicatorView.setOrientation(Orientation.HORIZONTAL);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -301,7 +327,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
         String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            addData();
+            mLocationClient.startLocation();
         } else {
             EasyPermissions.requestPermissions(this, getString(R.string.location_group_and_storage), REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP, perms);
         }
@@ -309,22 +335,37 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-
+        Logger.d("onPermissionsGranted");
+        mLocationClient.startLocation();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
-                new AppSettingsDialog.Builder(this)
-                        .setRequestCode(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
-                        .setTitle("权限获取失败")
-                        .setRationale(R.string.setting_group_and_storage)
-                        .build().show();
-            }
+//        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+        if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
+            new AppSettingsDialog.Builder(this)
+                    .setRequestCode(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
+                    .setTitle("权限获取失败")
+                    .setRationale(R.string.setting_group_and_storage)
+                    .build().show();
         }
+//    }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            pointLat = mLat;
+            pointLon = mLon;
+            showDotDialog();
+        }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            deleteImageFile();
+        }
+        if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
+            openPermissions();
+        }
+    }
 
     private void addData() {
         if (mLat > 0 && mLon > 0) {
@@ -350,6 +391,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                                         }
                                     }
                                 } else {
+                                    mLoadView.smoothToHide();
                                     llCenter.setVisibility(View.INVISIBLE);
                                     ivVp.setVisibility(View.VISIBLE);
                                     mViewPager.setVisibility(View.INVISIBLE);
@@ -378,48 +420,13 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
         if (!CommUtil.checkIsNull(getArguments())) {
             isFromSMS = getArguments().getBoolean("isFromSMS");
         }
-        mLocationClient = new AMapLocationClient(mActivity.getApplicationContext());
-        AMapLocationClientOption option = new AMapLocationClientOption();
-        option.setInterval(3000);
-        mLocationClient.setLocationOption(option);
-        mLoactionListener = new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (CommUtil.checkIsNull(aMapLocation)) {
+        initLocation();
+    }
 
-                } else {
-                    if (aMapLocation.getErrorCode() == 0) {
-                        //定位成功
-                        if (!CommUtil.checkIsNull(aMapLocation.getLatitude())) {
-                            BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
-                            mLat = latBD.floatValue();
-                        }
-                        if (!CommUtil.checkIsNull(aMapLocation.getLongitude())) {
-                            BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
-                            mLon = lonBD.floatValue();
-                        }
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = new Date(aMapLocation.getTime());
-                        String dateString = df.format(date);
-//                        Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
-                    } else {
-                        Logger.d("errorCode = " + aMapLocation.getErrorCode() + " errorInfo = " + aMapLocation.getErrorInfo());
-                    }
-                }
-            }
-        };
-        mLocationClient.setLocationListener(mLoactionListener);
-        mLocationClient.startLocation();
-//        double latitude = mLocationClient.getLastKnownLocation().getLatitude();
-//        double longitude = mLocationClient.getLastKnownLocation().getLongitude();
-//        if (!CommUtil.checkIsNull(latitude)) {
-//            BigDecimal latBD = new BigDecimal(String.valueOf(latitude));
-//            mLat = latBD.floatValue();
-//        }
-//        if (!CommUtil.checkIsNull(longitude)) {
-//            BigDecimal lonBD = new BigDecimal(String.valueOf(longitude));
-//            mLon = lonBD.floatValue();
-//        }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -428,21 +435,56 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
         if (isFromSMS) {
             MtApplication.clearExceptLastActivitys();
             isFromSMS = false;
+
+            mLoadView.smoothToShow();
+            isShowPosition = true;
+
+            viewList.clear();
+            taskListBeanList.clear();
+            currentBean = null;
+            vpType = -1;
+            if (!CommUtil.checkIsNull(badge1)) {
+                badge1.hide(true);
+            }
+            if (!CommUtil.checkIsNull(badge2)) {
+                badge2.hide(true);
+            }
+            mPageAdapter.notifyDataSetChanged();
+            addData();
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            showDotDialog();
-        }
-        if (resultCode == Activity.RESULT_CANCELED) {
-            deleteImageFile();
-        }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPushTrailerEvent(TrailerEvent trailerEvent){
+        mLoadView.smoothToShow();
+        isShowPosition = true;
 
-        if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
-            // Do something after user returned from app settings screen, like showing a Toast.
-            addData();
+        viewList.clear();
+        taskListBeanList.clear();
+        currentBean = null;
+        vpType = -1;
+        if (!CommUtil.checkIsNull(badge1)) {
+            badge1.hide(true);
+        }
+        if (!CommUtil.checkIsNull(badge2)) {
+            badge2.hide(true);
+        }
+        mPageAdapter.notifyDataSetChanged();
+        addData();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLocationClient != null) {
+            mLocationClient.unRegisterLocationListener(mLoactionListener);
+            mLocationClient.onDestroy();
         }
     }
 
@@ -497,25 +539,32 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
         llCenter.setVisibility(View.VISIBLE);
         ivVp.setVisibility(View.INVISIBLE);
         mViewPager.setVisibility(View.VISIBLE);
+        badge1 = null;
+        badge2 = null;
         if (type == 0) {
             badge1 = new QBadgeView(getActivity())
+                    .setBadgeBackgroundColor(Color.WHITE)
+                    .setShowShadow(false)
+                    .setBadgeTextColor(getResources().getColor(R.color.colorPrimary))
                     .bindTarget(llForTask)
                     .setBadgeNumber(o.getData().getTotalCount())
                     .setBadgeGravity(Gravity.TOP | Gravity.END)
                     .setGravityOffset(SizeUtil.px2dp(getContext(), 28), true);
         } else if (type == 1) {
             badge2 = new QBadgeView(getActivity())
+                    .setBadgeBackgroundColor(Color.WHITE)
+                    .setShowShadow(false)
+                    .setBadgeTextColor(getResources().getColor(R.color.colorPrimary))
                     .bindTarget(llNewTask)
                     .setBadgeNumber(o.getData().getTotalCount())
                     .setBadgeGravity(Gravity.TOP | Gravity.END)
                     .setGravityOffset(SizeUtil.px2dp(getContext(), 28), true);
         }
 
-        for (TypeTaskData.DataBean.TaskListBean bean : o.getData().getTaskList()) {
+        for (final TypeTaskData.DataBean.TaskListBean bean : o.getData().getTaskList()) {
             taskListBeanList.add(bean);
-//            VpItemLazyFragment vpItemLazyFragment = VpItemLazyFragment.newInstance(bean);
-//            mFragments.add(vpItemLazyFragment);
             View inflate = mActivity.getLayoutInflater().inflate(R.layout.trailer_vp_item, null);
+            AutoRelativeLayout arlContain = (AutoRelativeLayout) inflate.findViewById(R.id.arl_contain);
             TextView tvPlate = (TextView) inflate.findViewById(R.id.tv_vp_item_plate);
             TextView tvName = (TextView) inflate.findViewById(R.id.tv_vp_item_name);
             TextView tvMents = (TextView) inflate.findViewById(R.id.tv_vp_item_monthpayments);
@@ -528,22 +577,27 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
             tvDistance.setText(bean.getDistance());
             tvTag.setText(bean.getShortName());
             tvStatus.setText(bean.getFlowStauts());
+            arlContain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), TaskDetailActivity.class);
+                    intent.putExtra(TaskDetailFragment.TASKLISTBEAN, bean);
+                    mActivity.mSwipeBackHelper.forward(intent);
+                }
+            });
             viewList.add(inflate);
         }
         currentBean = taskListBeanList.get(0);
         mPageAdapter.notifyDataSetChanged();
-
         if (isShowPosition) {
             mViewPager.setCurrentItem(currentPosition);
             isShowPosition = false;
         }
-
         if (vpType == 0) {
             llStartTask.setVisibility(View.GONE);
         } else if (vpType == 1) {
             llStartTask.setVisibility(View.VISIBLE);
         } else {
-
         }
     }
 
@@ -552,66 +606,35 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
             mDotDialog = new DotTrailerDialogFragment();
             mDotDialog.setmListener(new DotTrailerDialogFragment.OnStatusListener() {
                 @Override
-                public void onStatusClick(int type) {
-                    if (mLat > 0 && mLon > 0) {
-                        if (isAdded()) {
-                            mLoadView.smoothToShow();
-                        }
-                        String notifyCust = type == 0 ? "1" : "0";
-                        RequestBody userId = RequestBody.create(null, MtApplication.mSPUtils.getInt(Api.USERID) + "");
-                        RequestBody LAT = RequestBody.create(null, mLat + "");
-                        RequestBody LON = RequestBody.create(null, mLon + "");
-                        RequestBody agencyID = RequestBody.create(null, currentBean.getAgencyID() + "");
-                        RequestBody caseID = RequestBody.create(null, currentBean.getCaseID() + "");
-                        RequestBody notifyCustImm = RequestBody.create(null, notifyCust);
-                        File file = new File(mCurrentPhotoPath);
-                        RequestBody photoBody = RequestBody.create(MediaType.parse("image/*"), file);
-                        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), photoBody);
-                        mService.checkPiontSubmit(userId, LAT, LON, agencyID, caseID, notifyCustImm, part)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new RxSubscriber<TaskAbandon>() {
-                                    @Override
-                                    protected void _onNext(TaskAbandon o) {
-                                        if (isAdded()) {
-                                            mLoadView.smoothToHide();
-                                        }
-                                        //拖车大点是否成功，如果成功的话，从新刷新vp
-                                        int code = o.getCode();
-                                        if (!CommUtil.checkIsNull(o.getMsg())) {
-                                            ToastUtils.showLong(o.getMsg());
-                                        }
-                                        if (code == 0) {
+                public void onStatusClick(final int type) {
+                    File file = new File(mCurrentPhotoPath);
+                    Luban.get(mActivity)
+                            .load(file)                     //传人要压缩的图片
+                            .putGear(Luban.THIRD_GEAR)      //设定压缩档次，默认三挡
+                            .setCompressListener(new OnCompressListener() { //设置回调
 
-                                            isShowPosition = true;
-
-                                            viewList.clear();
-                                            taskListBeanList.clear();
-                                            currentBean = null;
-                                            vpType = -1;
-                                            if (!CommUtil.checkIsNull(badge1)) {
-                                                badge1.hide(true);
-                                            }
-                                            if (!CommUtil.checkIsNull(badge2)) {
-                                                badge2.hide(true);
-                                            }
-                                            mPageAdapter.notifyDataSetChanged();
-                                            addData();
-                                        } else {
-
-                                        }
+                                @Override
+                                public void onStart() {
+                                    // TODO 压缩开始前调用，可以在方法内启动 loading UI
+                                    if (isAdded()) {
+                                        mLoadView.smoothToShow();
                                     }
+                                }
 
-                                    @Override
-                                    protected void _onError() {
-                                        if (isAdded()) {
-                                            mLoadView.smoothToHide();
-                                        }
+                                @Override
+                                public void onSuccess(File file) {
+                                    // TODO 压缩成功后调用，返回压缩后的图片文件
+                                    upLoadImage(type, file);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    // TODO 当压缩过去出现问题时调用
+                                    if (isAdded()) {
+                                        mLoadView.smoothToHide();
                                     }
-                                });
-                    } else {
-                        ToastUtils.showShort(R.string.no_get_location);
-                    }
+                                }
+                            }).launch();    //启动压缩
                 }
             });
         }
@@ -619,6 +642,66 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
 
         } else {
             mDotDialog.show(getFragmentManager(), "DotDialog");
+        }
+    }
+
+    private void upLoadImage(int type, File file) {
+        if (mLat > 0 && mLon > 0 && pointLat > 0 && pointLon > 0) {
+            String notifyCust = type == 0 ? "1" : "0";
+            RequestBody userId = RequestBody.create(null, MtApplication.mSPUtils.getInt(Api.USERID) + "");
+            RequestBody LAT = RequestBody.create(null, pointLat + "");
+            RequestBody LON = RequestBody.create(null, pointLon + "");
+            RequestBody agencyID = RequestBody.create(null, currentBean.getAgencyID() + "");
+            RequestBody caseID = RequestBody.create(null, currentBean.getCaseID() + "");
+            RequestBody notifyCustImm = RequestBody.create(null, notifyCust);
+            RequestBody photoBody = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), photoBody);
+            mService.checkPiontSubmit(userId, LAT, LON, agencyID, caseID, notifyCustImm, part)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new RxSubscriber<TaskAbandon>() {
+                        @Override
+                        protected void _onNext(TaskAbandon o) {
+                            if (isAdded()) {
+                                deleteImageFile();
+                                mLoadView.smoothToHide();
+                            }
+                            //拖车大点是否成功，如果成功的话，从新刷新vp
+                            int code = o.getCode();
+                            if (!CommUtil.checkIsNull(o.getMsg())) {
+                                ToastUtils.showLong(o.getMsg());
+                            }
+                            if (code == 0) {
+
+                                isShowPosition = true;
+
+                                viewList.clear();
+                                taskListBeanList.clear();
+                                currentBean = null;
+                                vpType = -1;
+                                if (!CommUtil.checkIsNull(badge1)) {
+                                    badge1.hide(true);
+                                }
+                                if (!CommUtil.checkIsNull(badge2)) {
+                                    badge2.hide(true);
+                                }
+                                mPageAdapter.notifyDataSetChanged();
+                                addData();
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        protected void _onError() {
+                            if (isAdded()) {
+                                deleteImageFile();
+                                mLoadView.smoothToHide();
+                            }
+                        }
+                    });
+        } else {
+            ToastUtils.showShort(R.string.no_get_location);
         }
     }
 
@@ -650,8 +733,8 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                         objectMap.put("agencyID", currentBean.getAgencyID());
                         objectMap.put("caseID", currentBean.getCaseID());
                         objectMap.put("planDonetime", dateString);
-                        objectMap.put("LAT", MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT));
-                        objectMap.put("LON", MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON));
+                        objectMap.put("LAT", mLat);
+                        objectMap.put("LON", mLon);
                         mService.startTaskSubmit(objectMap)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -758,5 +841,42 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                 return emptyFile.delete();
         }
         return false;
+    }
+
+    /**
+     * 初始化定位
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private void initLocation() {
+        //初始化client
+        mLocationClient = new AMapLocationClient(mActivity.getApplicationContext());
+        //设置定位参数
+        mLocationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        mLocationClient.setLocationListener(mLoactionListener);
+    }
+
+    /**
+     * 默认的定位参数
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private AMapLocationClientOption getDefaultOption() {
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
+        mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        mOption.setLocationCacheEnable(false); //可选，设置是否使用缓存定位，默认为true
+        return mOption;
     }
 }

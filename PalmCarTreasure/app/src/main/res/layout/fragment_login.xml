@@ -41,7 +41,7 @@
             android:layout_height="213px"
             android:layout_marginTop="117px"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/login_logo" />
+            android:src="@mipmap/ic_launcher_round" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             android:layout_marginTop="20px"
             android:layout_below="@+id/iv_login_icon"
             android:layout_centerHorizontal="true"
-            android:text="CANGO"
+            android:text="@string/app_name"
             android:textSize="15sp"
             android:textColor="@android:color/black" />
 
@@ -139,6 +139,7 @@
             android:textSize="13sp"
             android:textColor="@android:color/white" />
         <TextView
+            android:visibility="invisible"
             android:id="@+id/tv_login_unable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -147,6 +148,7 @@
             android:layout_marginTop="52px"
             android:text="@string/unable_login"/>
         <TextView
+            android:visibility="invisible"
             android:id="@+id/btn_login_register"
             android:layout_width="600px"
             android:layout_height="107px"

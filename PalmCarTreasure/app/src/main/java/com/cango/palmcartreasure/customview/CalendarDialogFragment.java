@@ -56,8 +56,12 @@ public class CalendarDialogFragment extends DialogFragment implements OnDateSele
         Calendar instance = Calendar.getInstance();
         instance.set(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH), 1);
 
+        Calendar maxCalendar=Calendar.getInstance();
+        maxCalendar.add(Calendar.DAY_OF_MONTH,10);
+
         calendarView.state().edit()
                 .setMinimumDate(instance.getTime())
+                .setMaximumDate(maxCalendar)
                 .commit();
         mOneDayDecorator = new OneDayDecorator();
         calendarView.addDecorators(

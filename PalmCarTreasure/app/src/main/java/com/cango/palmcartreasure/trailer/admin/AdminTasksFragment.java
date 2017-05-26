@@ -5,10 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-<<<<<<< HEAD
 import android.support.annotation.NonNull;
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +18,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
-import com.cango.palmcartreasure.api.Api;
 import com.cango.palmcartreasure.base.BaseFragment;
 import com.cango.palmcartreasure.baseAdapter.BaseAdapter;
 import com.cango.palmcartreasure.baseAdapter.BaseHolder;
@@ -88,14 +83,12 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     TextView tvBottom;
     @BindView(R.id.ll_admin_task_unabsorbed)
     LinearLayout llUnabsorbed;
-<<<<<<< HEAD
     @BindView(R.id.avl_login_indicator)
     AVLoadingIndicatorView mLoadView;
     @BindView(R.id.ll_sorry)
     LinearLayout llSorry;
-=======
-    private Object selectedTaskListBean;
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
+    @BindView(R.id.ll_no_data)
+    LinearLayout llNoData;
 
     @OnClick({R.id.tv_toolbar_right, R.id.tv_admin_task_bottom, R.id.tv_give_up, R.id.tv_arrange})
     public void onClick(View view) {
@@ -160,27 +153,16 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
             case R.id.tv_arrange:
                 //任务分配
                 List<TaskManageList.DataBean.TaskListBean> taskListBeanList = getSelectedTaskListBean();
-<<<<<<< HEAD
                 if (!CommUtil.checkIsNull(taskListBeanList) && taskListBeanList.size() > 0) {
                     Intent intent = new Intent(mActivity, StaiffActivity.class);
                     intent.putExtra(StaiffFragment.TYPE, StaiffFragment.PUT_TASKS_GROUP);
                     intent.putParcelableArrayListExtra("taskListBeanList", (ArrayList<? extends Parcelable>) taskListBeanList);
                     mActivity.mSwipeBackHelper.forward(intent, AdminTasksActivity.ACTIVITY_ARRANGE_REQUEST_CODE);
-=======
-                if (!CommUtil.checkIsNull(taskListBeanList)&&taskListBeanList.size()>0){
-                    Intent intent=new Intent(mActivity,StaiffActivity.class);
-                    intent.putExtra(StaiffFragment.TYPE,StaiffFragment.PUT_TASKS_GROUP);
-                    intent.putParcelableArrayListExtra("taskListBeanList", (ArrayList<? extends Parcelable>) taskListBeanList);
-                    mActivity.mSwipeBackHelper.forward(intent);
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                 }
                 break;
         }
     }
 
-    private float mLat, mLon;
-    private AMapLocationClient mLocationClient;
-    private AMapLocationListener mLoactionListener;
     private String mType;
     private int[] mGroupIds;
     private AdminTasksActivity mActivity;
@@ -192,6 +174,50 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     private int mPageCount = 1, mTempPageCount = 2;
     static int PAGE_SIZE = 10;
     private boolean isLoadMore;
+    private double mLat, mLon;
+    private AMapLocationClient mLocationClient;
+    private boolean isShouldFirstAddData = true;
+    private AMapLocationListener mLoactionListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (CommUtil.checkIsNull(aMapLocation)) {
+                mLat = 0;
+                mLon = 0;
+            } else {
+                if (aMapLocation.getErrorCode() == 0) {
+                    if (!CommUtil.checkIsNull(aMapLocation.getLatitude())) {
+//                        BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
+//                        mLat = latBD.floatValue();
+                        mLat=aMapLocation.getLatitude();
+                    }
+                    if (!CommUtil.checkIsNull(aMapLocation.getLongitude())) {
+//                        BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
+//                        mLon = lonBD.floatValue();
+                        mLon=aMapLocation.getLongitude();
+                    }
+                    if (mLat > 0 && mLon > 0) {
+                        if (isShouldFirstAddData) {
+                            showLoadingView(false);
+                            isShouldFirstAddData = false;
+                            getFirstData();
+                        }
+                    }
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(aMapLocation.getTime());
+                    String dateString = df.format(date);
+//                    Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
+                } else {
+                    mLat = 0;
+                    mLon = 0;
+                    int errorCode = aMapLocation.getErrorCode();
+                    if (errorCode == 12 || errorCode == 13) {
+                        ToastUtils.showShort(R.string.put_sim_and_permissions);
+                    }
+                    Logger.d("errorCode = " + errorCode + " errorInfo = " + aMapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
 
     public static AdminTasksFragment newInstance(String type) {
         AdminTasksFragment fragment = new AdminTasksFragment();
@@ -305,10 +331,8 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
         } else {
 
         }
-
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorAccent, R.color.colorPrimary);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
         mAdapter.setLoadingView(R.layout.load_loading_layout);
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -338,8 +362,7 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
 
         //开启presenter
         mPresenter.start();
-//        getFirstData();
-        doGetDatas();
+        openPermissions();
     }
 
     private void getFirstData() {
@@ -358,58 +381,14 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     protected void initData() {
         mActivity = (AdminTasksActivity) getActivity();
         mType = getArguments().getString(TYPE);
-//        mLat = MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LAT);
-//        mLon = MtApplication.mSPUtils.getFloat(Api.LOGIN_LAST_LON);
         mGroupIds = getArguments().getIntArray(GROUPIDS);
-
-        mLocationClient = new AMapLocationClient(mActivity.getApplicationContext());
-        AMapLocationClientOption option = new AMapLocationClientOption();
-        option.setInterval(3000);
-        mLocationClient.setLocationOption(option);
-        mLoactionListener = new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (CommUtil.checkIsNull(aMapLocation)) {
-
-                } else {
-                    if (aMapLocation.getErrorCode() == 0) {
-                        //定位成功
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = new Date(aMapLocation.getTime());
-                        String dateString = df.format(date);
-//                        Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
-                        if (!CommUtil.checkIsNull(aMapLocation.getLatitude())){
-                            BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
-                            mLat = latBD.floatValue();
-                        }
-                        if (!CommUtil.checkIsNull(aMapLocation.getLongitude())){
-                            BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
-                            mLon = lonBD.floatValue();
-                        }
-                    } else {
-                        Logger.d("errorCode = " + aMapLocation.getErrorCode() + " errorInfo = " + aMapLocation.getErrorInfo());
-                    }
-                }
-            }
-        };
-        mLocationClient.setLocationListener(mLoactionListener);
-        mLocationClient.startLocation();
-//        double latitude = mLocationClient.getLastKnownLocation().getLatitude();
-//        double longitude = mLocationClient.getLastKnownLocation().getLongitude();
-//        if (!CommUtil.checkIsNull(latitude)){
-//            BigDecimal latBD = new BigDecimal(String.valueOf(latitude));
-//            mLat = latBD.floatValue();
-//        }
-//        if (!CommUtil.checkIsNull(longitude)){
-//            BigDecimal lonBD = new BigDecimal(String.valueOf(longitude));
-//            mLon = lonBD.floatValue();
-//        }
+        initLocation();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mLocationClient!=null){
+        if (mLocationClient != null) {
             mLocationClient.onDestroy();
         }
     }
@@ -470,6 +449,7 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     @Override
     public void showAdminTasks(List<GroupTaskCount.DataBean.TaskCountListBean> tasks) {
         llSorry.setVisibility(View.GONE);
+        llNoData.setVisibility(View.GONE);
         if (ADMIN_UNABSORBED.equals(mType)) {
             llUnabsorbed.setVisibility(View.VISIBLE);
             tvBottom.setVisibility(View.GONE);
@@ -493,6 +473,7 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     @Override
     public void showAdminGroupTasks(List<GroupTaskQuery.DataBean.TaskListBean> tasks) {
         llSorry.setVisibility(View.GONE);
+        llNoData.setVisibility(View.GONE);
         if (ADMIN_UNABSORBED.equals(mType)) {
             llUnabsorbed.setVisibility(View.VISIBLE);
             tvBottom.setVisibility(View.GONE);
@@ -515,18 +496,12 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     public void showGroupTaskDraw(boolean isSuccess, String message) {
         if (!CommUtil.checkIsNull(message))
             ToastUtils.showShort(message);
-<<<<<<< HEAD
         if (isSuccess) {
             //刷新自己列表
             onRefresh();
             //通知组任务查询列表刷新
             EventBus.getDefault().post(new TaskDrawEvent(isSuccess));
         } else {
-=======
-        if (isSuccess){
-            onRefresh();
-        }else {
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
         }
     }
@@ -534,6 +509,7 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     @Override
     public void showAdminUnabsorbedTasks(List<TaskManageList.DataBean.TaskListBean> tasks) {
         llSorry.setVisibility(View.GONE);
+        llNoData.setVisibility(View.GONE);
         if (ADMIN_UNABSORBED.equals(mType)) {
             llUnabsorbed.setVisibility(View.VISIBLE);
             tvBottom.setVisibility(View.GONE);
@@ -568,7 +544,7 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
         if (isLoadMore) {
             mAdapter.setLoadEndView(R.layout.load_end_layout);
         } else {
-            llSorry.setVisibility(View.VISIBLE);
+            llNoData.setVisibility(View.VISIBLE);
             llUnabsorbed.setVisibility(View.GONE);
             tvBottom.setVisibility(View.GONE);
         }
@@ -614,11 +590,13 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
     }
 
     @AfterPermissionGranted(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
-    private void doGetDatas() {
+    private void openPermissions() {
         String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            getFirstData();
+            mLocationClient.startLocation();
+//            getFirstData();
+            showLoadingView(true);
         } else {
             EasyPermissions.requestPermissions(this, getString(R.string.location_group_and_storage), REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP, perms);
         }
@@ -626,29 +604,27 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-
+        mLocationClient.startLocation();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
-                new AppSettingsDialog.Builder(this)
-                        .setRequestCode(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
-                        .setTitle("权限获取失败")
-                        .setRationale(R.string.setting_group_and_storage)
-                        .build().show();
-            }
+//        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+        if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
+            new AppSettingsDialog.Builder(this)
+                    .setRequestCode(REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP)
+                    .setTitle("权限获取失败")
+                    .setRationale(R.string.setting_group_and_storage)
+                    .build().show();
         }
+//        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQUEST_LOCATION_GROUP_AND_STORAGE_GROUP) {
-            // Do something after user returned from app settings screen, like showing a Toast.
-            doGetDatas();
+            openPermissions();
         }
     }
 
@@ -825,5 +801,42 @@ public class AdminTasksFragment extends BaseFragment implements AdminTasksContra
             }
         }
         return TaskListBeanList;
+    }
+
+    /**
+     * 初始化定位
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private void initLocation() {
+        //初始化client
+        mLocationClient = new AMapLocationClient(mActivity.getApplicationContext());
+        //设置定位参数
+        mLocationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        mLocationClient.setLocationListener(mLoactionListener);
+    }
+
+    /**
+     * 默认的定位参数
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private AMapLocationClientOption getDefaultOption() {
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
+        mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        mOption.setLocationCacheEnable(false); //可选，设置是否使用缓存定位，默认为true
+        return mOption;
     }
 }

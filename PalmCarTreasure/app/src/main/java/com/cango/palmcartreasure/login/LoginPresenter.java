@@ -32,9 +32,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void login(String userName, String password, String imei, final float lat, final float lon, String deviceToken, String deviceType) {
+    public void login(String userName, String password, String imei, final double lat, final double lon, String deviceToken, String deviceType) {
         mLoginView.showLoginIndicator(true);
-        mLoginService.getLoginData(userName, EncryptUtils.encryptMD5ToString(password), imei, lat, lon, imei, deviceType)
+        mLoginService.getLoginData(userName, EncryptUtils.encryptMD5ToString(password), imei, lat, lon, deviceToken, deviceType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
 //                .throttleFirst(1000, TimeUnit.MILLISECONDS)
@@ -50,8 +50,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                                 MtApplication.mSPUtils.put(Api.TOKEN, o.getData().getToken());
                                 MtApplication.mSPUtils.put(Api.USERID, o.getData().getUser().getUSERID());
                                 MtApplication.mSPUtils.put(Api.USERROLEID, o.getData().getUser().getUSERROLEID());
-                                MtApplication.mSPUtils.put(Api.LOGIN_LAST_LAT, lat);
-                                MtApplication.mSPUtils.put(Api.LOGIN_LAST_LON, lon);
+//                                MtApplication.mSPUtils.put(Api.LOGIN_LAST_LAT, lat);
+//                                MtApplication.mSPUtils.put(Api.LOGIN_LAST_LON, lon);
 //                                mLoginView.openOtherUi();
                                 isSuccess=true;
                             }else {

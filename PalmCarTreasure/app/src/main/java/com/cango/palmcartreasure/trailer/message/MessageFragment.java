@@ -18,9 +18,13 @@ import com.cango.palmcartreasure.baseAdapter.BaseHolder;
 import com.cango.palmcartreasure.baseAdapter.OnBaseItemClickListener;
 import com.cango.palmcartreasure.baseAdapter.OnLoadMoreListener;
 import com.cango.palmcartreasure.customview.MessageItemDialogFragment;
+import com.cango.palmcartreasure.model.MessageEvent;
 import com.cango.palmcartreasure.model.MessageList;
 import com.cango.palmcartreasure.util.BarUtil;
 import com.cango.palmcartreasure.util.CommUtil;
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,7 +174,12 @@ public class MessageFragment extends BaseFragment implements MessageContract.Vie
 
     @Override
     public void showMessageSuccess(boolean isSuccess, String message) {
+        Logger.d("showMessageSuccess");
+        if (isSuccess){
+            EventBus.getDefault().post(new MessageEvent(message));
+        }else {
 
+        }
     }
 
     @Override

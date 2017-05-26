@@ -19,12 +19,14 @@
         android:layout_marginBottom="20px"
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
+        app:cardPreventCornerOverlap="false"
+        app:cardElevation="0dp"
         app:cardCornerRadius="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white">
+           android:background="@drawable/cardview_border">
 
             <TextView
                 android:id="@+id/tv_applyCD"
@@ -93,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
                     android:textColor="@color/mtd27d00"
-                    android:textSize="150px" />
+                    android:textSize="120px" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -171,6 +173,7 @@
                         android:src="@drawable/time" />
 
                     <TextView
+                        android:id="@+id/tv_redueDays"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20px"

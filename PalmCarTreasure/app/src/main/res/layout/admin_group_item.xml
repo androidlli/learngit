@@ -20,13 +20,15 @@
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
         android:layout_marginBottom="20px"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
         app:cardCornerRadius="3dp">
        <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:paddingLeft="32px"
            android:paddingRight="32px"
-           android:background="@android:color/white">
+           android:background="@drawable/cardview_border">
            <TextView
                android:id="@+id/tv_group_name"
                android:layout_width="wrap_content"
@@ -39,7 +41,6 @@
                android:paddingBottom="5px"
                android:textSize="15sp"
                android:textColor="@android:color/white"
-               android:text="@string/app_name"
                android:background="@drawable/admin_task_group_name_bg"/>
            <TextView
                android:id="@+id/tv_group_leader"
@@ -49,8 +50,7 @@
                android:layout_marginRight="20px"
                android:layout_alignParentRight="true"
                android:textSize="13sp"
-               android:textColor="@color/mt848484"
-               android:text="@string/app_name" />
+               android:textColor="@color/mt848484" />
            <ImageView
                android:id="@+id/iv_admin_group_item_line"
                android:layout_width="match_parent"

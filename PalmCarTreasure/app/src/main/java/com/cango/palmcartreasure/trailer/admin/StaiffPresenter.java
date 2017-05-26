@@ -9,10 +9,7 @@ import com.cango.palmcartreasure.model.TaskManageList;
 import com.cango.palmcartreasure.net.NetManager;
 import com.cango.palmcartreasure.net.RxSubscriber;
 
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import java.util.List;
 import java.util.Map;
 
@@ -77,16 +74,12 @@ public class StaiffPresenter implements StaiffContract.Presenter {
         if (mStaiffView.isActive()) {
             mStaiffView.showStaiffIndicator(showRefreshLoadingUI);
         }
-<<<<<<< HEAD
 //        mService.taskArrange(MtApplication.mSPUtils.getInt(Api.USERID), groupId,taskListBeanList)
         Map<String,Object> objectMap=new HashMap<>();
         objectMap.put("userid",MtApplication.mSPUtils.getInt(Api.USERID));
         objectMap.put("groupid",groupId);
         objectMap.put("taskList",taskListBeanList);
         mService.taskArrange(objectMap)
-=======
-        mService.taskArrange(MtApplication.mSPUtils.getInt(Api.USERID), groupId,taskListBeanList)
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<TaskAbandon>() {
@@ -95,11 +88,7 @@ public class StaiffPresenter implements StaiffContract.Presenter {
                         if (mStaiffView.isActive()) {
                             mStaiffView.showStaiffIndicator(false);
                             int code = o.getCode();
-<<<<<<< HEAD
                             boolean isSuccess= code == 0;
-=======
-                            boolean isSuccess=code==0?true:false;
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                             mStaiffView.showTaskArrangeSuccess(isSuccess,o.getMsg());
                         }
                     }

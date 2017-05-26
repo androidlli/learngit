@@ -23,10 +23,6 @@ import com.cango.palmcartreasure.model.TaskManageList;
 import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.SizeUtil;
 import com.cango.palmcartreasure.util.ToastUtils;
-<<<<<<< HEAD
-=======
-import com.orhanobut.logger.Logger;
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -40,11 +36,7 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
     public static final String TYPE = "type";
     public static final String SHOW_GROUP = "show_group";
     public static final String PUT_TASKS_GROUP = "put_tasks_group";
-<<<<<<< HEAD
     public static final int ACTIVITY_REQUEST_CODE = 1000;
-=======
-    public static final int ACTIVITY_REQUEST_CODE=1000;
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
     @BindView(R.id.toolbar_staiff)
     Toolbar mToolbar;
@@ -54,11 +46,10 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
     RecyclerView mRecyclerView;
     @BindView(R.id.avl_login_indicator)
     AVLoadingIndicatorView mLoadView;
-<<<<<<< HEAD
     @BindView(R.id.ll_sorry)
     LinearLayout llSorry;
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
+    @BindView(R.id.ll_no_data)
+    LinearLayout llNoData;
 
     @OnClick({R.id.tv_toolbar_right})
     public void onClick(View view) {
@@ -70,19 +61,11 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
                     Intent addIntent = new Intent(getActivity(), GroupActivity.class);
                     addIntent.putExtra("type", GroupFragment.ADD);
 //                    mActivity.mSwipeBackHelper.forward(addIntent);
-<<<<<<< HEAD
                     mActivity.mSwipeBackHelper.forward(addIntent, ACTIVITY_REQUEST_CODE);
                 } else if (getString(R.string.confirm).equals(text)) {
                     //确定  针对于给他进行分配任务的
                     if (currentGroupId != -1) {
                         mPresenter.taskArrange(true, currentGroupId, taskListBeanList);
-=======
-                    mActivity.mSwipeBackHelper.forward(addIntent,ACTIVITY_REQUEST_CODE);
-                } else if (getString(R.string.confirm).equals(text)) {
-                    //确定  针对于给他进行分配任务的
-                    if (currentGroupId!=-1){
-                        mPresenter.taskArrange(true,currentGroupId,taskListBeanList);
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                     }
                 } else {
 
@@ -95,13 +78,8 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
     private StaiffActivity mActivity;
     private StaiffContract.Presenter mPresenter;
     private StaiffAdapter mAdapter;
-<<<<<<< HEAD
     private List<GroupList.DataBean.GroupListBean> mGroupListBeanList = new ArrayList<>();
     private int currentGroupId = -1;
-=======
-    private List<GroupList.DataBean.GroupListBean> mGroupListBeanList=new ArrayList<>();
-    private int currentGroupId=-1;
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
     private List<TaskManageList.DataBean.TaskListBean> taskListBeanList;
     private int mPageCount = 1, mTempPageCount = 2;
     static int PAGE_SIZE = 10;
@@ -163,11 +141,7 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
             @Override
             public void onItemClick(BaseHolder viewHolder, GroupList.DataBean.GroupListBean data, int position) {
                 //确定    对应put_tasks_group
-<<<<<<< HEAD
                 if (SHOW_GROUP.equals(mType)) {
-=======
-                if (SHOW_GROUP.equals(mType)){
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                     Member memberLeader = new Member();
                     memberLeader.setId(data.getGroupLeaderID());
                     memberLeader.setName(data.getGroupLeader());
@@ -194,26 +168,15 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
                     updateIntent.putExtra("memberLeader", memberLeader);
                     updateIntent.putParcelableArrayListExtra("currentMembers", (ArrayList<? extends Parcelable>) currentMembers);
 //                    mActivity.mSwipeBackHelper.forward(updateIntent);
-<<<<<<< HEAD
                     mActivity.mSwipeBackHelper.forward(updateIntent, ACTIVITY_REQUEST_CODE);
                 } else if (PUT_TASKS_GROUP.equals(mType)) {
                     currentGroupId = data.getGroupid();
                     for (GroupList.DataBean.GroupListBean bean : mGroupListBeanList) {
-=======
-                    mActivity.mSwipeBackHelper.forward(updateIntent,ACTIVITY_REQUEST_CODE);
-                }else if (PUT_TASKS_GROUP.equals(mType)){
-                    currentGroupId=data.getGroupid();
-                    for (GroupList.DataBean.GroupListBean bean:mGroupListBeanList) {
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
                         bean.setSelected(false);
                     }
                     data.setSelected(true);
                     mAdapter.notifyDataSetChanged();
-<<<<<<< HEAD
                 } else {
-=======
-                }else {
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
                 }
             }
@@ -258,6 +221,7 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
         if (isLoadMore) {
             mAdapter.setLoadFailedView(R.layout.load_failed_layout);
         } else {
+            mRecyclerView.setVisibility(View.GONE);
             llSorry.setVisibility(View.VISIBLE);
         }
     }
@@ -265,6 +229,7 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
     @Override
     public void showStaiff(List<GroupList.DataBean.GroupListBean> staiffs) {
         llSorry.setVisibility(View.GONE);
+        llNoData.setVisibility(View.GONE);
         mAdapter.setNewData(staiffs);
         mAdapter.setLoadEndView(R.layout.load_end_layout);
     }
@@ -272,10 +237,11 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
     @Override
     public void showNoStaiff() {
         if (isLoadMore) {
-
+            mAdapter.setLoadEndView(R.layout.load_end_layout);
         } else {
         }
-        mAdapter.setLoadEndView(R.layout.load_end_layout);
+        mRecyclerView.setVisibility(View.GONE);
+        llNoData.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -287,13 +253,10 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
     public void showTaskArrangeSuccess(boolean isSuccess, String message) {
         if (!CommUtil.checkIsNull(message))
             ToastUtils.showShort(message);
-<<<<<<< HEAD
-        if (isSuccess){
+        if (isSuccess) {
             mActivity.setResult(Activity.RESULT_OK);
             mActivity.mSwipeBackHelper.swipeBackward();
         }
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
     }
 
     @Override
@@ -301,16 +264,4 @@ public class StaiffFragment extends BaseFragment implements StaiffContract.View 
         return isAdded();
     }
 
-<<<<<<< HEAD
-=======
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Logger.d(resultCode);
-        if (requestCode==ACTIVITY_REQUEST_CODE){
-            if (resultCode== Activity.RESULT_OK){
-                mPresenter.loadStaiff("", true, 0, 0);
-            }
-        }
-    }
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 }

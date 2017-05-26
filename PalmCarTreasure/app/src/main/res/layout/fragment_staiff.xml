@@ -44,9 +44,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_staiff" />
 
-    <include layout="@layout/avload_view"></include>
-<<<<<<< HEAD
-    <include layout="@layout/sorry"></include>
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
+    <include layout="@layout/avload_view"/>
+    <include layout="@layout/sorry"/>
+    <include layout="@layout/no_data"/>
 </RelativeLayout>

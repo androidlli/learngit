@@ -14,9 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/upload_bg"
-        android:layout_marginTop="6dp"
+        android:orientation="vertical"
         android:layout_below="@+id/iv_close"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,16 +41,17 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/line"/>
+        <!--android:layout_height="92dp"-->
+        <!--android:paddingTop="15dp"-->
+        <!--android:paddingBottom="15dp"-->
         <LinearLayout
             android:id="@+id/ll_upload_photos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp">
+            android:layout_height="wrap_content">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_upload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
             <!--<ImageView-->
@@ -58,6 +60,302 @@
                 <!--android:layout_height="62dp"-->
                 <!--android:src="@drawable/select_photo"/>-->
 
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layerType="software"
+            android:background="@drawable/download_dotted_line_bg"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="14sp"
+                android:text="@string/first_question"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="14sp"
+                android:text="*"/>
+        </LinearLayout>
+        <RadioGroup
+            android:id="@+id/rg_first_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <RadioButton
+                android:id="@+id/rb_first_one"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@drawable/radio_button_selector"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="  客户本人"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rb_first_two"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  客户亲朋"
+                android:button="@drawable/radio_button_selector"/>
+            <RadioButton
+                android:id="@+id/rb_first_three"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  抵押车行"
+                android:button="@drawable/radio_button_selector"/>
+            <RadioButton
+                android:id="@+id/rb_first_four"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  未确认"
+                android:button="@drawable/radio_button_selector"/>
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="14sp"
+                android:text="@string/second_question"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="14sp"
+                android:text="*"/>
+        </LinearLayout>
+        <RadioGroup
+            android:id="@+id/rg_second_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <RadioButton
+                android:id="@+id/rb_second_one"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  谈判交车"
+                android:button="@drawable/radio_button_selector"/>
+            <RadioButton
+                android:id="@+id/rb_second_two"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  强行拖回"
+                android:button="@drawable/radio_button_selector"/>
+            <RadioButton
+                android:id="@+id/rb_second_three"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  技巧哄诱"
+                android:button="@drawable/radio_button_selector"/>
+            <RadioButton
+                android:id="@+id/rb_second_four"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  钥匙开回"
+                android:button="@drawable/radio_button_selector"/>
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="14sp"
+                android:text="@string/three_question"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="14sp"
+                android:text="*"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <CheckBox
+                android:id="@+id/cb_third_one"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  肢体冲突"
+                android:button="@drawable/checkbox_selector"/>
+            <CheckBox
+                android:id="@+id/cb_third_two"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  车辆受损"
+                android:button="@drawable/checkbox_selector"/>
+            <CheckBox
+                android:id="@+id/cb_third_three"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  无冲突"
+                android:button="@drawable/checkbox_selector"/>
+            <CheckBox
+                android:visibility="invisible"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  钥匙开回"
+                android:button="@drawable/checkbox_selector"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="14sp"
+                android:text="4.拖车后用车人有何反应"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="14sp"
+                android:text="*"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp">
+            <CheckBox
+                android:id="@+id/cb_fourth_one"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  追车"
+                android:button="@drawable/checkbox_selector"/>
+            <CheckBox
+                android:id="@+id/cb_fourth_two"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  报警"
+                android:button="@drawable/checkbox_selector"/>
+            <CheckBox
+                android:id="@+id/cb_fourth_three"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  情绪激动"
+                android:button="@drawable/checkbox_selector"/>
+            <CheckBox
+                android:id="@+id/cb_fourth_four"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mt9c9c9c"
+                android:textSize="13sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="  未确认"
+                android:button="@drawable/checkbox_selector"/>
         </LinearLayout>
     </LinearLayout>
     <TextView
@@ -71,5 +369,5 @@
         android:textSize="13sp"
         android:textColor="@android:color/white"
         android:background="@drawable/button_press_bg"
-        android:text="@string/trailer_over" />
+        android:text="@string/submit" />
 </RelativeLayout>

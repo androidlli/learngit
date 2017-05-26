@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <external-path name="my_images" path="Android/data/com.cango.palmcartreasure/files/Pictures" />
+    <!--<external-path name="my_download" path="Android/data/com.cango.palmcartreasure/files/Download" />-->
+    <external-path name="my_download" path="Download"/>
+    <!--<files-path name="my_download" path="Download"/>-->
+        <!--<root-path path="Download" name="my_download" />-->
 </paths>

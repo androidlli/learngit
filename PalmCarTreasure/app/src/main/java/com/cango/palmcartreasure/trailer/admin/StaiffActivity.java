@@ -14,8 +14,6 @@ import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
-import java.util.ArrayList;
-
 public class StaiffActivity extends BaseActivity {
 
     private StaiffPresenter staiffPresenter;

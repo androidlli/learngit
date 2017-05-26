@@ -28,7 +28,7 @@ public interface TaskContract {
     interface Presenter extends BasePresenter {
         void openDetailTask(TypeTaskData.DataBean.TaskListBean taskListBean);
 
-        void loadTasks(String type,float lat,float lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
+        void loadTasks(String type,double lat,double lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
 
         void taskQuery(boolean showRefreshLoadingUI,String type,String applyCD,String customerName,int timeFlag,int pageIndex,int pageSize);
     }

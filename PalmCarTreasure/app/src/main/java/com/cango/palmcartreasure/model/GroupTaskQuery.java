@@ -95,6 +95,24 @@ public class GroupTaskQuery {
             private double feerate;
             private int groupid;
             private String groupName;
+            private int redueDays;
+            private double redueAmount;
+
+            public int getRedueDays() {
+                return redueDays;
+            }
+
+            public void setRedueDays(int redueDays) {
+                this.redueDays = redueDays;
+            }
+
+            public double getRedueAmount() {
+                return redueAmount;
+            }
+
+            public void setRedueAmount(double redueAmount) {
+                this.redueAmount = redueAmount;
+            }
 
             public boolean isChecked() {
                 return isChecked;

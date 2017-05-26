@@ -40,7 +40,7 @@
             android:layout_height="213px"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="117px"
-            android:src="@drawable/login_logo" />
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:layout_width="wrap_content"

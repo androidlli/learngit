@@ -3,9 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:paddingLeft="45px"
-    android:paddingRight="60px"
-    android:paddingTop="50px">
+    android:paddingLeft="15dp"
+    android:paddingRight="20dp"
+    android:paddingTop="15dp">
+    <!--android:paddingLeft="45px"-->
+    <!--android:paddingRight="60px"-->
+    <!--android:paddingTop="50px"-->
 
     <TextView
         android:id="@+id/tv_message_item_date"

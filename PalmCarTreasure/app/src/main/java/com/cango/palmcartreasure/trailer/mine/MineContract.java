@@ -16,11 +16,7 @@ public interface MineContract {
 
         void showMineDataError();
 
-<<<<<<< HEAD
         void showMineData(PersonMain.DataBean dataBean);
-=======
-        void showMineData(List<String> mineData);
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
         void showLogoutMessage(boolean isSuccess, String message);
 
@@ -32,8 +28,8 @@ public interface MineContract {
     interface Presenter extends BasePresenter {
         void loadMineData(boolean showLoadingUI);
 
-        void logout(boolean showLoadingUI, float lat, float lon);
+        void logout(boolean showLoadingUI, double lat, double lon);
 
-        void logoutTest(boolean showLoadingUI,float lat,float lon);
+        void logoutTest(boolean showLoadingUI,double lat,double lon);
     }
 }

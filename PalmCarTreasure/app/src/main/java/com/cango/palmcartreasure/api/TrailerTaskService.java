@@ -16,6 +16,7 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -34,15 +35,15 @@ public interface TrailerTaskService {
     String BASE_URL = Api.BASE_URL;
 
     @GET("trailer/newtasklist")
-    Observable<TypeTaskData> getNewTaskList(@Query("userid") int userId, @Query("LAT") float lat, @Query("LON") float lon,
+    Observable<TypeTaskData> getNewTaskList(@Query("userid") int userId, @Query("LAT") double lat, @Query("LON") double lon,
                                             @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
     @GET("trailer/taskinprogresslist")
-    Observable<TypeTaskData> getTaskInprogressList(@Query("userid") int userId, @Query("LAT") float lat, @Query("LON") float lon,
+    Observable<TypeTaskData> getTaskInprogressList(@Query("userid") int userId, @Query("LAT") double lat, @Query("LON") double lon,
                                                    @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
     @GET("trailer/taskdonelist")
-    Observable<TypeTaskData> getTaskDoneList(@Query("userid") int userId, @Query("LAT") float lat, @Query("LON") float lon,
+    Observable<TypeTaskData> getTaskDoneList(@Query("userid") int userId, @Query("LAT") double lat, @Query("LON") double lon,
                                              @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
     //GET /trailer/taskquery?userid={userid}&applyCD={applyCD}&customerName={customerName}&pageIndex={pageIndex}&pageSize={pageSize}&ApiToken={APITOKEN}
@@ -66,8 +67,8 @@ public interface TrailerTaskService {
     @Multipart
     @POST("trailer/godownsubmit")
     Observable<TaskAbandon> godownSubmit(@Part("userid") RequestBody userId, @Part("LAT") RequestBody lat, @Part("LON") RequestBody lon,
-                                         @Part("agencyID") RequestBody agencyID, @Part("caseID") RequestBody caseID,
-                                         @PartMap Map<String,RequestBody> requestBodyMap);
+                                         @Part("agencyID") RequestBody agencyID, @Part("caseID") RequestBody caseID, @Part("realSPID") RequestBody realSPID,
+                                         @Part("answerList") RequestBody answerList,@PartMap Map<String,RequestBody> requestBodyMap);
 
 //    @POST("trailer/godownsubmit")
 //    Observable<TaskAbandon> godownSubmit(@Body RequestBody requestBody);
@@ -95,5 +96,10 @@ public interface TrailerTaskService {
     //GET /trailer/navigation2warehouse?userId={userId}&agencyID={agencyID}&caseID={caseID}&LAT={LAT}&LON={LON}&ApiToken={APITOKEN} 送车入库导航
     @GET("trailer/navigation2warehouse")
     Observable<WareHouse> wareHouse(@Query("userid") int userId, @Query("agencyID") int agencyID, @Query("caseID") int caseID,
-                                    @Query("LAT") float lat, @Query("LON") float lon);
+                                    @Query("LAT") double lat, @Query("LON") double lon,@Query("province") String province);
+
+    //GET /trailer/docdownload?userid={userid}&agencyID={agencyID}&caseID={caseID}&docType={docType}&ApiToken={APITOKEN} 获取下载文件
+    @GET("trailer/docdownload")
+    Call<ResponseBody> docDownLoad(@Query("userid") int userId, @Query("agencyID") int agencyID, @Query("caseID") int caseID,
+                                   @Query("docType") String docType);
 }

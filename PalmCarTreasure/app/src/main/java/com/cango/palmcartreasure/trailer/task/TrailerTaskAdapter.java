@@ -1,6 +1,8 @@
 package com.cango.palmcartreasure.trailer.task;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cango.palmcartreasure.R;
@@ -15,8 +17,10 @@ import java.util.List;
  */
 
 public class TrailerTaskAdapter extends BaseAdapter<TypeTaskData.DataBean.TaskListBean> {
-    public TrailerTaskAdapter(Context context, List<TypeTaskData.DataBean.TaskListBean> datas, boolean isOpenLoadMore) {
+    String mType;
+    public TrailerTaskAdapter(Context context, List<TypeTaskData.DataBean.TaskListBean> datas, boolean isOpenLoadMore,String type) {
         super(context, datas, isOpenLoadMore);
+        mType=type;
     }
 
     @Override
@@ -32,12 +36,22 @@ public class TrailerTaskAdapter extends BaseAdapter<TypeTaskData.DataBean.TaskLi
         TextView tvShortName = holder.getView(R.id.tv_task_item_type);
         TextView tvCustomerName = holder.getView(R.id.tv_task_item_name);
         TextView tvCarPlateNO = holder.getView(R.id.tv_task_item_plate);
+        LinearLayout llOver = holder.getView(R.id.ll_over);
 
         tvApplyCD.setText(data.getApplyCD());
         tvDistance.setText(data.getDistance());
         tvShortName.setText(data.getShortName());
         tvCustomerName.setText(data.getCustomerName());
         tvCarPlateNO.setText(data.getCarPlateNO());
+        if (TrailerTasksFragment.SEARCH.equals(mType)){
+            llOver.setVisibility(View.INVISIBLE);
+        }else {
+            if ("F".equals(data.getIsStart())&&"F".equals(data.getIsCheckPoint())&&"F".equals(data.getIsDone())){
+                llOver.setVisibility(View.INVISIBLE);
+            }else {
+                llOver.setVisibility(View.VISIBLE);
+            }
+        }
 
     }
 }

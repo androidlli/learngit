@@ -54,10 +54,10 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
         tvCrewSize.setText(data.getUserList().size()+"");
         tvLeadName.setText(data.getGroupLeader());
         List<GroupList.DataBean.GroupListBean.UserListBean> userList = data.getUserList();
+        //把组长隐藏掉
         if (userList.size()==1){
             GroupList.DataBean.GroupListBean.UserListBean bean1 = userList.get(0);
-            tvCrew1.setVisibility(View.VISIBLE);
-            tvCrew1.setText(bean1.getUserName());
+            tvCrew1.setVisibility(View.INVISIBLE);
             tvCrew2.setVisibility(View.INVISIBLE);
             tvCrew3.setVisibility(View.INVISIBLE);
             tvCrew4.setVisibility(View.INVISIBLE);
@@ -67,9 +67,8 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
             GroupList.DataBean.GroupListBean.UserListBean bean1 = userList.get(0);
             GroupList.DataBean.GroupListBean.UserListBean bean2 = userList.get(1);
             tvCrew1.setVisibility(View.VISIBLE);
-            tvCrew1.setText(bean1.getUserName());
-            tvCrew2.setVisibility(View.VISIBLE);
-            tvCrew2.setText(bean2.getUserName());
+            tvCrew1.setText(bean2.getUserName());
+            tvCrew2.setVisibility(View.INVISIBLE);
             tvCrew3.setVisibility(View.INVISIBLE);
             tvCrew4.setVisibility(View.INVISIBLE);
             tvCrew5.setVisibility(View.INVISIBLE);
@@ -79,11 +78,10 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
             GroupList.DataBean.GroupListBean.UserListBean bean2 = userList.get(1);
             GroupList.DataBean.GroupListBean.UserListBean bean3 = userList.get(2);
             tvCrew1.setVisibility(View.VISIBLE);
-            tvCrew1.setText(bean1.getUserName());
+            tvCrew1.setText(bean2.getUserName());
             tvCrew2.setVisibility(View.VISIBLE);
-            tvCrew2.setText(bean2.getUserName());
-            tvCrew3.setVisibility(View.VISIBLE);
-            tvCrew3.setText(bean3.getUserName());
+            tvCrew2.setText(bean3.getUserName());
+            tvCrew3.setVisibility(View.INVISIBLE);
             tvCrew4.setVisibility(View.INVISIBLE);
             tvCrew5.setVisibility(View.INVISIBLE);
             tvCrew6.setVisibility(View.INVISIBLE);
@@ -93,13 +91,12 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
             GroupList.DataBean.GroupListBean.UserListBean bean3 = userList.get(2);
             GroupList.DataBean.GroupListBean.UserListBean bean4 = userList.get(3);
             tvCrew1.setVisibility(View.VISIBLE);
-            tvCrew1.setText(bean1.getUserName());
+            tvCrew1.setText(bean2.getUserName());
             tvCrew2.setVisibility(View.VISIBLE);
-            tvCrew2.setText(bean2.getUserName());
+            tvCrew2.setText(bean3.getUserName());
             tvCrew3.setVisibility(View.VISIBLE);
-            tvCrew3.setText(bean3.getUserName());
-            tvCrew4.setVisibility(View.VISIBLE);
-            tvCrew4.setText(bean4.getUserName());
+            tvCrew3.setText(bean4.getUserName());
+            tvCrew4.setVisibility(View.INVISIBLE);
             tvCrew5.setVisibility(View.INVISIBLE);
             tvCrew6.setVisibility(View.INVISIBLE);
         }else if (userList.size()==5){
@@ -109,15 +106,14 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
             GroupList.DataBean.GroupListBean.UserListBean bean4 = userList.get(3);
             GroupList.DataBean.GroupListBean.UserListBean bean5 = userList.get(4);
             tvCrew1.setVisibility(View.VISIBLE);
-            tvCrew1.setText(bean1.getUserName());
+            tvCrew1.setText(bean2.getUserName());
             tvCrew2.setVisibility(View.VISIBLE);
-            tvCrew2.setText(bean2.getUserName());
+            tvCrew2.setText(bean3.getUserName());
             tvCrew3.setVisibility(View.VISIBLE);
-            tvCrew3.setText(bean3.getUserName());
+            tvCrew3.setText(bean4.getUserName());
             tvCrew4.setVisibility(View.VISIBLE);
-            tvCrew4.setText(bean4.getUserName());
-            tvCrew5.setVisibility(View.VISIBLE);
-            tvCrew5.setText(bean5.getUserName());
+            tvCrew4.setText(bean5.getUserName());
+            tvCrew5.setVisibility(View.INVISIBLE);
             tvCrew6.setVisibility(View.INVISIBLE);
         }else {
             tvCrew1.setVisibility(View.INVISIBLE);
@@ -128,15 +124,15 @@ public class StaiffAdapter extends BaseAdapter<GroupList.DataBean.GroupListBean>
             tvCrew6.setVisibility(View.INVISIBLE);
         }
 
-        int nextInt = random.nextInt(4);
-        if (nextInt==0){
-            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_name_bg);
-        }else if (nextInt==1){
-            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_lanse);
-        }else if (nextInt==2){
-            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_zise);
-        }else{
-            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_chengse);
-        }
+//        int nextInt = random.nextInt(4);
+//        if (nextInt==0){
+//            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_name_bg);
+//        }else if (nextInt==1){
+//            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_lanse);
+//        }else if (nextInt==2){
+//            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_zise);
+//        }else{
+//            tvGroupName.setBackgroundResource(R.drawable.admin_task_group_chengse);
+//        }
     }
 }

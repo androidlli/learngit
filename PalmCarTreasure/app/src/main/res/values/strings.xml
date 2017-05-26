@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PalmCarTreasure</string>
+    <string name="app_name">金刚</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -25,14 +25,14 @@
     <string name="task">任务</string>
     <string name="task_detail">任务详情</string>
     <string name="for_task">进行中的任务</string>
-    <string name="new_task">新分配任务</string>
+    <string name="new_task">新分配的任务</string>
     <string name="new_task_count">新分配</string>
     <string name="complete_task">已完成</string>
     <string name="complete">完成</string>
     <string name="unfinished">未完成</string>
     <string name="other_task">其他</string>
 
-    <string name="load_end_tip">已经全部加载完毕。</string>
+    <string name="load_end_tip">已经全部加载完毕</string>
     <string name="load_loading_tip">努力加载中</string>
     <string name="load_failed_tip">点我再试试？</string>
     <string name="start_task">开始任务</string>
@@ -46,14 +46,15 @@
     <string name="start">开始</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
+    <string name="submit">提 交</string>
     <string name="pause">暂停</string>
     <string name="go_on">继续</string>
     <string name="give_up">放弃</string>
 
     <!-- permissions prompt-->
-    <string name="read_phone_state">登录前必须获得读取手机状态的权限</string>
-    <string name="setting_read_phone_state">请到设置中授权读取手机状态权限</string>
-    <string name="location_group_and_storage">使用地图必须授权位置和存储空间的权限</string>
+    <string name="read_phone_state">登录前必须获得读取手机状态和位置的权限</string>
+    <string name="setting_read_phone_state">请到设置中授权读取手机状态和位置的权限</string>
+    <string name="location_group_and_storage">必须授权位置和存储空间的权限</string>
     <string name="setting_group_and_storage">请到设置中授权位置和存储空间的权限</string>
     <string name="all_task_type">所有分类</string>
     <string name="task_number">任务数</string>
@@ -92,7 +93,7 @@
     <string name="notice_now">立即通知</string>
     <string name="query">查询</string>
     <string name="title_activity_admin">AdminActivity</string>
-    <string name="cango_manager">灿谷管理</string>
+    <string name="cango_manager">金刚</string>
     <string name="title_activity_staiff">StaiffActivity</string>
     <string name="staiff_group">员工分组</string>
     <string name="group_leader">组长</string>
@@ -115,6 +116,7 @@
     <string name="download">下载</string>
     <string name="editor">编辑</string>
     <string name="toview">查看</string>
+    <string name="share">分享</string>
     <string name="upload_photo">上传照片</string>
     <string name="check_all">全选</string>
     <string name="new_group">新建分组</string>
@@ -123,5 +125,10 @@
     <string name="please_input_all_message">请填写完整信息！</string>
     <string name="please_input_search_conditions">请输入至少一个搜索条件！</string>
     <string name="phone1">13162315225</string>
-    <string name="no_get_location">暂未能获取位置，请稍后尝试！</string>
+    <string name="no_get_location">未能获取位置，请稍后尝试！</string>
+    <string name="put_sim_and_permissions">插入sim卡或开启相关权限！</string>
+    <string name="start_now">立即体验</string>
+    <string name="first_question">1.车辆从何人手中收回</string>
+    <string name="second_question">2.车辆以何种手段收回</string>
+    <string name="three_question">3.拖车时有何冲突情况</string>
 </resources>

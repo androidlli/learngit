@@ -16,6 +16,6 @@ public interface LoginContract {
         boolean isActive();
     }
     interface Presenter extends BasePresenter{
-        void login(String userName,String password,String imei,float lat,float lon,String deviceToken,String deviceType);
+        void login(String userName,String password,String imei,double lat,double lon,String deviceToken,String deviceType);
     }
 }

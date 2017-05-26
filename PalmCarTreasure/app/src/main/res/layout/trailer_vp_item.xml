@@ -2,6 +2,7 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/arl_contain"
     android:background="@drawable/task_bg"
     android:paddingLeft="50px"
     android:paddingRight="50px"
@@ -52,12 +53,13 @@
         android:paddingBottom="10px"
         android:gravity="center_vertical">
         <ImageView
-            android:layout_width="27px"
-            android:layout_height="19px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/vp_tag_circle_location"/>
         <TextView
             android:id="@+id/tv_distance"
             style="@style/baseTvStyle"
+            android:layout_marginLeft="10px"
             android:textSize="32px"
             android:textColor="@android:color/white"
             />

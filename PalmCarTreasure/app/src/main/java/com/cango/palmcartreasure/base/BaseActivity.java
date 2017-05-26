@@ -6,14 +6,13 @@ import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-<<<<<<< HEAD
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.jaeger.library.StatusBarUtil;
+import com.orhanobut.logger.Logger;
+import com.umeng.message.PushAgent;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
@@ -28,18 +27,14 @@ public abstract class BaseActivity extends AutoLayoutActivity implements BGASwip
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
+        PushAgent.getInstance(this).onAppStart();
         // 「必须在 Application 的 onCreate 方法中执行 BGASwipeBackManager.getInstance().init(this) 来初始化滑动返回」
         // 在 super.onCreate(savedInstanceState) 之前调用该方法
         initSwipeBackFinish();
-<<<<<<< HEAD
         //为了退出账号在baseActivity中把 activity加入list管理
         MtApplication.addActivity(this);
-=======
-
-        //为了退出账号在baseActivity中把 activity加入list管理
-        MtApplication.addActivity(this);
-
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
+        Logger.d(MtApplication.activityList.size());
         super.onCreate(savedInstanceState);
     }
 
@@ -101,6 +96,8 @@ public abstract class BaseActivity extends AutoLayoutActivity implements BGASwip
     @Override
     public void onSwipeBackLayoutExecuted() {
         mSwipeBackHelper.swipeBackward();
+        MtApplication.clearLastActivity();
+        Logger.d(MtApplication.activityList.size());
     }
 
     @Override
@@ -110,6 +107,8 @@ public abstract class BaseActivity extends AutoLayoutActivity implements BGASwip
             return;
         }
         mSwipeBackHelper.backward();
+        MtApplication.clearLastActivity();
+        Logger.d(MtApplication.activityList.size());
     }
 
     /**

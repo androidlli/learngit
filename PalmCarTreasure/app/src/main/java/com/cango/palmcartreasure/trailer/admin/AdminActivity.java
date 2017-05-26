@@ -29,5 +29,8 @@ public class AdminActivity extends BaseActivity {
             transaction.commit();
         }
     }
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

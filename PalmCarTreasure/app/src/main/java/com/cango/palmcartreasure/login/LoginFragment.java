@@ -2,29 +2,20 @@ package com.cango.palmcartreasure.login;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
-import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.autonavi.rtbt.IFrameForRTBT;
 import com.cango.palmcartreasure.MtApplication;
 import com.cango.palmcartreasure.R;
 import com.cango.palmcartreasure.api.Api;
@@ -37,18 +28,16 @@ import com.cango.palmcartreasure.util.CommUtil;
 import com.cango.palmcartreasure.util.PhoneUtils;
 import com.cango.palmcartreasure.util.ToastUtils;
 import com.orhanobut.logger.Logger;
+import com.umeng.message.PushAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -56,7 +45,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  *
  */
-public class LoginFragment extends BaseFragment implements LoginContract.View ,EasyPermissions.PermissionCallbacks{
+public class LoginFragment extends BaseFragment implements LoginContract.View, EasyPermissions.PermissionCallbacks {
 
     private static final int REQUEST_READ_PHONE_STATE_AND_LOCATION = 100;
     @BindView(R.id.toolbar_login)
@@ -72,26 +61,11 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     public void loginOnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login_enter:
-                isDoLogin=true;
+                isDoLogin = true;
                 openPermissions();
                 break;
             case R.id.btn_login_register:
-                mActivity.mSwipeBackHelper.forwardAndFinish(RegisterActivity.class);
-                //test
-//                if (Build.VERSION.SDK_INT >= 25) {
-//                    ShortcutManager shortcutManager = getActivity().getSystemService(ShortcutManager.class);
-//                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-//                    intent.setAction(Intent.ACTION_VIEW);
-//                    ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(getActivity(), "id1")
-//                            .setShortLabel(getString(R.string.shortcut_short_prompt))
-//                            .setLongLabel(getString(R.string.shortcut_long_prompt))
-//                            .setDisabledMessage(getString(R.string.shortcut_display_prompt))
-//                            .setIcon(Icon.createWithResource(getActivity(), R.mipmap.ic_launcher_round))
-//                            .setIntent(intent)
-//                            .build();
-//                    shortcutManager.setDynamicShortcuts(Arrays.asList(shortcutInfo));
-//                    Toast.makeText(getActivity(), "setDynamicShortcuts ", Toast.LENGTH_SHORT).show();
-//                }
+//                mActivity.mSwipeBackHelper.forwardAndFinish(RegisterActivity.class);
                 break;
             default:
                 break;
@@ -102,18 +76,50 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     private LoginActivity mActivity;
     private boolean isDoLogin;
     private AMapLocationClient mLocationClient;
-    private AMapLocationListener mLoactionListener;
-    private float mLat, mLon;
+    private double mLat, mLon;
     private boolean isFromLogout;
+    private AMapLocationListener mLoactionListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (CommUtil.checkIsNull(aMapLocation)) {
+                mLat = 0;
+                mLon = 0;
+            } else {
+                if (aMapLocation.getErrorCode() == 0) {
+                    if (!CommUtil.checkIsNull(aMapLocation.getLatitude())) {
+//                        BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
+                        mLat = aMapLocation.getLatitude();
+                    }
+                    if (!CommUtil.checkIsNull(aMapLocation.getLongitude())) {
+//                        BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
+                        mLon = aMapLocation.getLongitude();
+                    }
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date(aMapLocation.getTime());
+                    String dateString = df.format(date);
+//                    Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
+                } else {
+                    mLat = 0;
+                    mLon = 0;
+                    int errorCode = aMapLocation.getErrorCode();
+                    if (errorCode == 12 || errorCode == 13) {
+                        ToastUtils.showShort(R.string.put_sim_and_permissions);
+                    }
+                    Logger.d("errorCode = " + aMapLocation.getErrorCode() + " errorInfo = " + aMapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
     }
+
     public static LoginFragment newInstance(boolean isFromLogout) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
-        args.putBoolean("isFromLogout",isFromLogout);
+        args.putBoolean("isFromLogout", isFromLogout);
         fragment.setArguments(args);
         return fragment;
     }
@@ -137,71 +143,19 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
 
     @Override
     protected void initData() {
-<<<<<<< HEAD
-        mActivity= (LoginActivity) getActivity();
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
-        if (!CommUtil.checkIsNull(getArguments())){
-            isFromLogout = getArguments().getBoolean("isFromLogout",false);
+        mActivity = (LoginActivity) getActivity();
+        if (!CommUtil.checkIsNull(getArguments())) {
+            isFromLogout = getArguments().getBoolean("isFromLogout", false);
             Logger.d(isFromLogout);
         }
-<<<<<<< HEAD
-        mLocationClient=new AMapLocationClient(mActivity.getApplicationContext());
-        AMapLocationClientOption option = new AMapLocationClientOption();
-        option.setInterval(3000);
-        mLocationClient.setLocationOption(option);
-=======
-        mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
-        mLoactionListener = new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (CommUtil.checkIsNull(aMapLocation)) {
-
-                } else {
-                    if (aMapLocation.getErrorCode() == 0) {
-                        //定位成功
-                        if (!CommUtil.checkIsNull(aMapLocation.getLatitude())){
-                            BigDecimal latBD = new BigDecimal(String.valueOf(aMapLocation.getLatitude()));
-                            mLat = latBD.floatValue();
-                        }
-                        if (!CommUtil.checkIsNull(aMapLocation.getLongitude())){
-                            BigDecimal lonBD = new BigDecimal(String.valueOf(aMapLocation.getLongitude()));
-                            mLon = lonBD.floatValue();
-                        }
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = new Date(aMapLocation.getTime());
-                        String dateString = df.format(date);
-//                        Logger.d(dateString + ": Lat = " + aMapLocation.getLatitude() + "   Lon = " + aMapLocation.getLongitude() + "   address = " + aMapLocation.getAddress());
-                    } else {
-                        Logger.d("errorCode = " + aMapLocation.getErrorCode() + " errorInfo = " + aMapLocation.getErrorInfo());
-                    }
-                }
-            }
-        };
-        mLocationClient.setLocationListener(mLoactionListener);
-        mLocationClient.startLocation();
+        initLocation();
     }
 
     @Override
-<<<<<<< HEAD
     public void onDestroy() {
         super.onDestroy();
-        if (mLocationClient!=null){
-=======
-    public void onResume() {
-        super.onResume();
-        if (isFromLogout){
-            MtApplication.clearExceptLastActivitys();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
         if (mLocationClient != null) {
             mLocationClient.unRegisterLocationListener(mLoactionListener);
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
             mLocationClient.onDestroy();
         }
     }
@@ -209,58 +163,23 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     @Override
     public void onResume() {
         super.onResume();
-        if (isFromLogout){
+        if (isFromLogout) {
             MtApplication.clearExceptLastActivitys();
         }
     }
 
-    private void doLogin(){
-        if (mLat>0&&mLon>0){
-            String imei=PhoneUtils.getIMEI(getActivity());
-            mPresenter.login(etUserName.getText().toString(), etPassword.getText().toString(),
-                    imei,mLat,mLon,imei, Api.DEVICE_TYPE);
-        }else {
-            ToastUtils.showShort("R.string.no_get_location");
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    @AfterPermissionGranted(REQUEST_READ_PHONE_STATE_AND_LOCATION)
-<<<<<<< HEAD
-    private void openPermissions() {
-        String[] perms={Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,};
-        if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            if (isDoLogin){
-                isDoLogin=false;
-                doLogin();
-=======
     private void doLogin() {
-        String[] perms={Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,};
-        if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            if (mLocationClient.isStarted()){
-                AMapLocation lastKnownLocation = mLocationClient.getLastKnownLocation();
-                if (lastKnownLocation!=null){
-                    if (!CommUtil.checkIsNull(lastKnownLocation.getLatitude())){
-                        BigDecimal latBD = new BigDecimal(String.valueOf(lastKnownLocation.getLatitude()));
-                        mLat = latBD.floatValue();
-                    }
-                    if (!CommUtil.checkIsNull(lastKnownLocation.getLongitude())){
-                        BigDecimal lonBD = new BigDecimal(String.valueOf(lastKnownLocation.getLongitude()));
-                        mLon = lonBD.floatValue();
-                    }
-                }
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
-            }else {
-
+        if (mLat > 0 && mLon > 0) {
+            String imei = PhoneUtils.getIMEI(getActivity());
+            String registrationId = null;
+            PushAgent mPushAgent = PushAgent.getInstance(mActivity.getApplicationContext());
+            if (mPushAgent!=null){
+                registrationId = mPushAgent.getRegistrationId();
             }
+            mPresenter.login(etUserName.getText().toString(), etPassword.getText().toString(),
+                    imei, mLat, mLon, registrationId, Api.DEVICE_TYPE);
         } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.read_phone_state), REQUEST_READ_PHONE_STATE_AND_LOCATION, perms);
+            ToastUtils.showShort(R.string.no_get_location);
         }
     }
 
@@ -283,12 +202,12 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     }
 
     @Override
-    public void showLoginSuccess(boolean isSuccess,String message) {
+    public void showLoginSuccess(boolean isSuccess, String message) {
         if (!CommUtil.checkIsNull(message))
             ToastUtils.showShort(message);
-        if (isSuccess){
+        if (isSuccess) {
             openOtherUi();
-        }else {
+        } else {
 
         }
     }
@@ -296,9 +215,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     @Override
     public void openOtherUi() {
         showLoginIndicator(false);
-        if (MtApplication.mSPUtils.getInt(Api.USERROLEID)==Api.ADMIN_CODE){
+        if (MtApplication.mSPUtils.getInt(Api.USERROLEID) == Api.ADMIN_CODE) {
             mActivity.mSwipeBackHelper.forwardAndFinish(AdminActivity.class);
-        }else {
+        } else {
             mActivity.mSwipeBackHelper.forwardAndFinish(TrailerActivity.class);
         }
     }
@@ -309,30 +228,97 @@ public class LoginFragment extends BaseFragment implements LoginContract.View ,E
     }
 
     @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
+    @AfterPermissionGranted(REQUEST_READ_PHONE_STATE_AND_LOCATION)
+    private void openPermissions() {
+        String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,};
+        if (EasyPermissions.hasPermissions(getContext(), perms)) {
+            mLocationClient.startLocation();
+            if (isDoLogin) {
+                isDoLogin = false;
+                doLogin();
+            } else {
+
+            }
+        } else {
+            EasyPermissions.requestPermissions(this, getString(R.string.read_phone_state), REQUEST_READ_PHONE_STATE_AND_LOCATION, perms);
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Logger.d("onPermissionsGranted");
+        mLocationClient.startLocation();
+        if (isDoLogin) {
+            isDoLogin = false;
+            doLogin();
+        } else {
+
+        }
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            if (requestCode==REQUEST_READ_PHONE_STATE_AND_LOCATION) {
-                new AppSettingsDialog.Builder(this)
-                        .setRequestCode(REQUEST_READ_PHONE_STATE_AND_LOCATION)
-                        .setTitle("权限获取失败")
-                        .setRationale(R.string.setting_read_phone_state)
-                        .build().show();
-            }
+        Logger.d("onPermissionsDenied");
+//        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+        if (requestCode == REQUEST_READ_PHONE_STATE_AND_LOCATION) {
+            new AppSettingsDialog.Builder(this)
+                    .setRequestCode(REQUEST_READ_PHONE_STATE_AND_LOCATION)
+                    .setTitle("权限获取失败")
+                    .setRationale(R.string.setting_read_phone_state)
+                    .build().show();
         }
+//        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Logger.d("onActivityResult");
         if (requestCode == REQUEST_READ_PHONE_STATE_AND_LOCATION) {
             // Do something after user returned from app settings screen, like showing a Toast.
             openPermissions();
         }
+    }
+
+    /**
+     * 初始化定位
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private void initLocation() {
+        //初始化client
+        mLocationClient = new AMapLocationClient(mActivity.getApplicationContext());
+        //设置定位参数
+        mLocationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        mLocationClient.setLocationListener(mLoactionListener);
+    }
+
+    /**
+     * 默认的定位参数
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private AMapLocationClientOption getDefaultOption() {
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
+        mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        mOption.setLocationCacheEnable(false); //可选，设置是否使用缓存定位，默认为true
+        return mOption;
     }
 }

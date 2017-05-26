@@ -6,10 +6,7 @@ import com.cango.palmcartreasure.model.GroupTaskCount;
 import com.cango.palmcartreasure.model.GroupTaskQuery;
 import com.cango.palmcartreasure.model.TaskAbandonRequest;
 import com.cango.palmcartreasure.model.TaskManageList;
-<<<<<<< HEAD
 import com.cango.palmcartreasure.model.TypeTaskData;
-=======
->>>>>>> 3426a54d57be1c35f5f9803960ceab4e1f563794
 
 import java.util.List;
 
@@ -60,9 +57,9 @@ public interface AdminTasksContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadAdminTasks(String type, float lat, float lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
+        void loadAdminTasks(String type, double lat, double lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
 
-        void loadGroupTasks(int[] groupIds, float lat, float lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
+        void loadGroupTasks(int[] groupIds, double lat, double lon, boolean showRefreshLoadingUI, int pageCount, int pageSize);
 
         //抽回任务
         void groupTaskDraw(boolean showRefreshLoadingUI, List<GroupTaskQuery.DataBean.TaskListBean> taskListBeanList);
