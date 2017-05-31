@@ -689,10 +689,11 @@ public class TaskDetailFragment extends BaseFragment implements TaskDetailContra
                                             mLoadView.smoothToHide();
                                             int code = o.getCode();
                                             if (code == 0) {
+                                                ToastUtils.showShort("操作成功");
                                                 mTaskListBean.setIsStart("F");
                                                 mTaskListBean.setIsCheckPoint("T");
                                             } else {
-
+                                                ToastUtils.showShort("操作失败");
                                             }
                                         }
                                     }
@@ -701,6 +702,7 @@ public class TaskDetailFragment extends BaseFragment implements TaskDetailContra
                                     protected void _onError() {
                                         if (isAdded()) {
                                             mLoadView.smoothToHide();
+                                            ToastUtils.showShort("操作失败");
                                         }
                                     }
                                 });

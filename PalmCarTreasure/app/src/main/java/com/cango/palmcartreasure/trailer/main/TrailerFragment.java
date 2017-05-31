@@ -127,7 +127,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                     if (currentBean.getIsStart().equals("T"))
                         showCalendarDialog();
                     else {
-                        ToastUtils.showLong("不能开始任务了！");
+                        ToastUtils.showShort("不能开始任务了！");
                     }
                 }
                 break;
@@ -147,7 +147,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                     if (currentBean.getIsCheckPoint().equals("T"))
                         openCamera();
                     else {
-                        ToastUtils.showLong("请先开始任务！");
+                        ToastUtils.showShort("请先开始任务！");
                     }
                 }
                 break;
@@ -159,7 +159,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                         sendCarLibraryIntent.putExtra(TrailerMapFragment.TASKLISTBEAN, currentBean);
                         mActivity.mSwipeBackHelper.forward(sendCarLibraryIntent);
                     } else {
-                        ToastUtils.showLong("请先拖车打点！");
+                        ToastUtils.showShort("请先拖车打点！");
                     }
                 }
                 break;
@@ -368,6 +368,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
     }
 
     private void addData() {
+        Logger.d(mLat+mLon);
         if (mLat > 0 && mLon > 0) {
             mService.getTaskInprogressList(MtApplication.mSPUtils.getInt(Api.USERID), mLat,
                     mLon, 1, 5)
@@ -410,6 +411,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                         }
                     });
         } else {
+            Logger.d(1111111);
             ToastUtils.showShort(R.string.no_get_location);
         }
     }
@@ -437,7 +439,6 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
             isFromSMS = false;
 
             mLoadView.smoothToShow();
-            isShowPosition = true;
 
             viewList.clear();
             taskListBeanList.clear();
@@ -450,7 +451,9 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                 badge2.hide(true);
             }
             mPageAdapter.notifyDataSetChanged();
-            addData();
+
+            isShowPosition = true;
+            openPermissions();
         }
     }
 
@@ -669,7 +672,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                             //拖车大点是否成功，如果成功的话，从新刷新vp
                             int code = o.getCode();
                             if (!CommUtil.checkIsNull(o.getMsg())) {
-                                ToastUtils.showLong(o.getMsg());
+                                ToastUtils.showShort(o.getMsg());
                             }
                             if (code == 0) {
 
@@ -745,6 +748,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                                             mLoadView.smoothToHide();
                                             int code = o.getCode();
                                             if (code == 0) {
+                                                ToastUtils.showShort("操作成功");
                                                 //刷新viewpager
 //                                                mFragments.clear();
                                                 viewList.clear();
@@ -760,7 +764,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                                                 mPageAdapter.notifyDataSetChanged();
                                                 addData();
                                             } else {
-
+                                                ToastUtils.showShort("操作失败");
                                             }
                                         }
                                     }
@@ -769,6 +773,7 @@ public class TrailerFragment extends BaseFragment implements EasyPermissions.Per
                                     protected void _onError() {
                                         if (isAdded()) {
                                             mLoadView.smoothToHide();
+                                            ToastUtils.showShort("操作失败");
                                         }
                                     }
                                 });

@@ -148,6 +148,9 @@ public class MtApplication extends Application {
                     activityList.get(i).finish();
                 }
             }
+            AppCompatActivity activity = activityList.get(activityList.size() - 1);
+            activityList.clear();
+            activityList.add(activity);
         }
     }
 

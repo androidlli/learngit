@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.cango.palmcartreasure.R;
+import com.cango.palmcartreasure.util.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -74,8 +75,12 @@ public class CalendarDialogFragment extends DialogFragment implements OnDateSele
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDialog().dismiss();
-                mListener.onCalendarClick(mSelectDay.getDate());
+                if (mSelectDay!=null){
+                    getDialog().dismiss();
+                    mListener.onCalendarClick(mSelectDay.getDate());
+                }else {
+                    ToastUtils.showShort("请选择结束日期");
+                }
             }
         });
         return view;

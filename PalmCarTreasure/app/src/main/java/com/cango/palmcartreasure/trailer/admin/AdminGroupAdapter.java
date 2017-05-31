@@ -1,6 +1,7 @@
 package com.cango.palmcartreasure.trailer.admin;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class AdminGroupAdapter extends BaseAdapter<GroupTaskQuery.DataBean.TaskL
         TextView tvCustomerName = holder.getView(R.id.tv_task_item_name);
         TextView tvCarPlateNO = holder.getView(R.id.tv_task_item_plate);
         TextView tvFeerate = holder.getView(R.id.tv_feerate);
+        TextView tvPrompt = holder.getView(R.id.tv_prompt);
         TextView tvRedueDays=holder.getView(R.id.tv_redueDays);
         TextView tvAgencyAmount = holder.getView(R.id.tv_agencyAmount);
 
@@ -60,7 +62,16 @@ public class AdminGroupAdapter extends BaseAdapter<GroupTaskQuery.DataBean.TaskL
         tvShortName.setText(data.getShortName());
         tvCustomerName.setText(data.getCustomerName());
         tvCarPlateNO.setText(data.getCarPlateNO());
+
+        double feerate = data.getFeerate();
         tvFeerate.setText(data.getFeerate()+"");
+        if (feerate==0){
+            tvFeerate.setVisibility(View.INVISIBLE);
+            tvPrompt.setVisibility(View.INVISIBLE);
+        }else {
+            tvFeerate.setVisibility(View.VISIBLE);
+            tvPrompt.setVisibility(View.VISIBLE);
+        }
 
         if (data.getRedueDays()==0){
             tvRedueDays.setText("");
